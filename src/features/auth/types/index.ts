@@ -6,7 +6,7 @@ export type { ApiResponse } from "../../../types/api";
  * POST /api/auth/login
  * 用户通过用户名和密码进行登录验证，成功后返回访问令牌及相关信息
  */
-export interface LoginParams {
+export interface LoginRequest {
   username: string; // 用户名，必填字段，长度3-20个字符
   password: string; // 密码，必填字段，长度6-100个字符
 }
@@ -17,7 +17,7 @@ export interface LoginParams {
  * POST /api/auth/register
  * 新用户通过用户名和密码进行注册，创建新账户
  */
-export interface RegisterParams {
+export interface RegisterRequest {
   username: string; // 用户名，必填字段，长度3-20个字符
   password: string; // 密码，必填字段，长度6-30个字符
 }
@@ -42,7 +42,7 @@ export interface UserInfo {
  * - 用户基本信息
  * - 登录时间戳
  */
-export interface LoginResult {
+export interface LoginResponse {
   accessToken: string; // 访问令牌，用于后续请求的身份验证(JWT Token)
   tokenType: string; // 令牌类型，通常为 "Bearer"
   expiresIn: number; // 令牌剩余有效期，单位：秒
@@ -62,7 +62,7 @@ export interface LoginResult {
  *
  * 用户注册成功后返回的基本信息
  */
-export interface RegisterResult {
+export interface RegisterResponse {
   id: number; // 用户ID，系统分配的唯一标识符
   username: string; // 用户名
   role: string; // 用户角色，新注册用户默认为 MEMBER(普通成员)

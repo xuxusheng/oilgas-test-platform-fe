@@ -60,6 +60,12 @@ src/
 
 ### 核心模式
 
+**命名规范：**
+- **API 接口类型：**
+  - 请求参数接口命名为 `xxxRequest` (例如: `LoginRequest`)
+  - 响应数据接口命名为 `xxxResponse` (例如: `LoginResponse`)
+  - 避免使用 `xxxParams` 或 `xxxResult`，以保持与 HTTP 协议语义一致
+
 **认证流程：**
 - 使用 Zustand 存储配合中间件实现 Token 持久化
 - Axios 拦截器自动添加认证头信息
