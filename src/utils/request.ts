@@ -1,9 +1,9 @@
-import axios from 'axios';
-import { message } from 'antd';
-import { useAuthStore } from '../store/useAuthStore';
+import axios from "axios";
+import { message } from "antd";
+import { useAuthStore } from "../store/useAuthStore";
 
 const request = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || "/api",
   timeout: 10000,
 });
 
@@ -24,13 +24,14 @@ request.interceptors.response.use(
   (response) => {
     const res = response.data;
     if (res.code !== 200) {
-      message.error(res.message || 'Request Error');
-      return Promise.reject(new Error(res.message || 'Request Error'));
+      message.error(res.message || "Request Error");
+      return Promise.reject(new Error(res.message || "Request Error"));
     }
-    return res;
+    return response;
   },
   (error) => {
-    const msg = error.response?.data?.message || error.message || 'Request Error';
+    const msg =
+      error.response?.data?.message || error.message || "Request Error";
     message.error(msg);
 
     if (error.response?.status === 401) {

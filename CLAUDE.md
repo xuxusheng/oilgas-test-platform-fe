@@ -38,9 +38,13 @@ src/
 ├── assets/           # 静态资源（图片等）
 ├── components/       # 可复用组件（目前为空）
 ├── features/         # 功能模块
-│   └── auth/         # 认证功能
-│       ├── api/      # 认证 API 接口
-│       ├── types/    # 认证 TypeScript 类型
+│   ├── auth/         # 认证功能
+│   │   ├── api/      # 认证 API 接口
+│   │   └── types/    # 认证 TypeScript 类型
+│   └── user/         # 用户管理功能
+│       ├── api/      # 用户管理 API 接口
+│       ├── types/    # 用户管理 TypeScript 类型
+│       └── index.ts  # 用户功能统一导出
 ├── layouts/          # 布局组件 (BasicLayout)
 ├── pages/            # 页面组件
 │   ├── Dashboard/    # 仪表盘页面
@@ -98,6 +102,33 @@ src/
 **ESLint：**
 - 平面配置 + TypeScript + React hooks + React refresh
 - 忽略 `dist` 目录
+
+## 功能模块说明
+
+### 用户管理模块 (`src/features/user/`)
+
+基于 OpenAPI 文档实现的完整用户管理功能，包括：
+
+**API 接口：**
+- `GET /api/users` - 获取所有用户列表
+- `GET /api/users/page` - 分页查询用户列表（支持用户名模糊查询和角色筛选）
+- `GET /api/users/{id}` - 根据ID查询用户详情
+- `POST /api/users` - 创建新用户
+- `PUT /api/users/{id}` - 更新用户信息
+- `DELETE /api/users/{id}` - 删除用户（软删除）
+- `POST /api/users/{id}/restore` - 恢复已删除用户
+
+**TypeScript 类型：**
+- `UserResponse` - 用户响应接口（不包含敏感信息）
+- `CreateUserRequest` - 创建用户请求
+- `UpdateUserRequest` - 更新用户请求
+- `UserPageRequest` - 分页查询参数
+- `UserRole` - 用户角色类型（ADMIN/ MEMBER）
+
+**React Query 集成：**
+- 提供完整的 hooks API (`useAllUsers`, `useUserPage`, `useCreateUser` 等)
+- 自动缓存管理和失效处理
+- 错误处理和重试机制
 
 ## 重要说明
 

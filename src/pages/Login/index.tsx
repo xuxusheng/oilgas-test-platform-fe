@@ -17,11 +17,11 @@ const Login = () => {
   const onFinish = async (values: any) => {
     const res = await login(values);
     message.success("登录成功");
-    setToken(res.data.accessToken);
+    setToken(res.data.data.accessToken);
     setUserInfo({
-      id: res.data.userId,
-      username: res.data.username,
-      role: res.data.role,
+      id: res.data.data.userId,
+      username: res.data.data.username,
+      role: res.data.data.role,
     });
     navigate(from, { replace: true });
   };
