@@ -33,17 +33,6 @@ export const useRegister = () => {
   });
 };
 
-/** 用户登出 */
-export const logout = () => {
-  return request.post<any, ApiResponse<null>>('/auth/logout');
-};
-
-/** 用户登出 Hook */
-export const useLogout = () => {
-  return useMutation({
-    mutationFn: logout,
-  });
-};
 
 /** 获取当前用户信息 */
 export const getUserInfo = () => {

@@ -22,7 +22,12 @@ request.interceptors.request.use(
 
 request.interceptors.response.use(
   (response) => {
-    return response.data;
+    const res = response.data;
+    if (res.code !== 200) {
+      message.error(res.message || 'Request Error');
+      return Promise.reject(new Error(res.message || 'Request Error'));
+    }
+    return res;
   },
   (error) => {
     const msg = error.response?.data?.message || error.message || 'Request Error';

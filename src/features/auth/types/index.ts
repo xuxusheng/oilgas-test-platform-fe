@@ -50,11 +50,7 @@ export interface LoginResponse {
   userId: number; // 用户ID
   username: string; // 用户名
   role: string; // 用户角色，可选值：ADMIN(管理员) 或 MEMBER(普通成员)
-  loginTime: {
-    // 登录时间
-    seconds: number; // 秒数部分
-    nanos: number; // 纳秒数部分
-  };
+  loginTime: string; // 登录时间
 }
 
 /**

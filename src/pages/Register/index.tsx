@@ -9,13 +9,9 @@ const Register = () => {
 
   const onFinish = (values: any) => {
     registerMutate(values, {
-      onSuccess: (res) => {
-        if (res.code === 0) {
-          message.success('Registration successful! Please login.');
-          navigate('/login');
-        } else {
-          message.error(res.message || 'Registration failed');
-        }
+      onSuccess: () => {
+        message.success('Registration successful! Please login.');
+        navigate('/login');
       },
       onError: (error: any) => {
         console.error(error);

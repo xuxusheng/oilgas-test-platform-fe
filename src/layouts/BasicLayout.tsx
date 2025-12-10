@@ -1,31 +1,13 @@
 import { ProLayout } from '@ant-design/pro-components';
 import { Dropdown } from 'antd';
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
-import { useEffect } from 'react';
-import { useLogout } from '../features/auth/api/auth';
 
 export default function BasicLayout() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { userInfo, token, logout: storeLogout } = useAuthStore();
-  const { mutate: logoutMutate } = useLogout();
-
-  useEffect(() => {
-    if (!token) {
-      navigate('/login');
-    }
-  }, [token, navigate]);
-
-  const handleLogout = () => {
-    logoutMutate(undefined, {
-      onSettled: () => {
-        storeLogout();
-        navigate('/login');
-      }
-    });
-  };
+  const { userInfo, logout } = useAuthStore();
 
   return (
     <ProLayout
@@ -75,9 +57,12 @@ export default function BasicLayout() {
                 items: [
                   {
                     key: 'logout',
-                    icon: <LogoutOutlined />,
+                    icon: <UserOutlined />,
                     label: 'Logout',
-                    onClick: handleLogout,
+                    onClick: () => {
+                      logout();
+                      navigate('/login');
+                    },
                   },
                 ],
               }}

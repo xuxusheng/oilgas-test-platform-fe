@@ -1,39 +1,29 @@
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, message, Typography } from 'antd';
-import { useNavigate, Link } from 'react-router-dom';
-import { useLogin } from '../../features/auth/api/auth';
-import { useAuthStore } from '../../store/useAuthStore';
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Form, Input, message, Typography } from "antd";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useLogin } from "../../features/auth/api/auth";
+import { useAuthStore } from "../../store/useAuthStore";
 
 const { Title, Text } = Typography;
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { setToken, setUserInfo } = useAuthStore();
-  const { mutate: loginMutate, isPending } = useLogin();
+  const { mutateAsync: login, isPending } = useLogin();
 
-  const onFinish = (values: any) => {
-    loginMutate(values, {
-      onSuccess: (res) => {
-        if (res.code === 0) {
-          message.success('登录成功');
-          setToken(res.data.accessToken);
-          setUserInfo({
-            id: res.data.userId,
-            username: res.data.username,
-            role: res.data.role,
-          });
-          navigate('/dashboard');
-        } else {
-          // Handle business error if code is not 0
-          message.error(res.message || '登录失败');
-        }
-      },
-      onError: (error: any) => {
-        // The request interceptor might have already shown an error, 
-        // but we can log it or show a generic message if needed.
-        console.error('Login failed:', error);
-      }
+  const from = location.state?.from?.pathname || "/dashboard";
+
+  const onFinish = async (values: any) => {
+    const res = await login(values);
+    message.success("登录成功");
+    setToken(res.data.accessToken);
+    setUserInfo({
+      id: res.data.userId,
+      username: res.data.username,
+      role: res.data.role,
     });
+    navigate(from, { replace: true });
   };
 
   return (
@@ -58,7 +48,9 @@ const Login = () => {
       <div className="flex-1 flex justify-center items-center p-4 sm:p-12">
         <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
           <div className="text-center mb-8">
-            <Title level={2} style={{ marginBottom: 0, color: '#1f2937' }}>Welcome Back</Title>
+            <Title level={2} style={{ marginBottom: 0, color: "#1f2937" }}>
+              Welcome Back
+            </Title>
             <Text type="secondary">Please enter your details to sign in</Text>
           </div>
 
@@ -72,22 +64,26 @@ const Login = () => {
           >
             <Form.Item
               name="username"
-              rules={[{ required: true, message: 'Please input your username!' }]}
+              rules={[
+                { required: true, message: "Please input your username!" },
+              ]}
             >
-              <Input 
-                prefix={<UserOutlined className="text-gray-400" />} 
-                placeholder="Username" 
+              <Input
+                prefix={<UserOutlined className="text-gray-400" />}
+                placeholder="Username"
                 className="rounded-md"
               />
             </Form.Item>
 
             <Form.Item
               name="password"
-              rules={[{ required: true, message: 'Please input your password!' }]}
+              rules={[
+                { required: true, message: "Please input your password!" },
+              ]}
             >
-              <Input.Password 
-                prefix={<LockOutlined className="text-gray-400" />} 
-                placeholder="Password" 
+              <Input.Password
+                prefix={<LockOutlined className="text-gray-400" />}
+                placeholder="Password"
                 className="rounded-md"
               />
             </Form.Item>
@@ -96,16 +92,19 @@ const Login = () => {
               <Form.Item name="remember" valuePropName="checked" noStyle>
                 <Checkbox>Remember me</Checkbox>
               </Form.Item>
-              <a className="text-blue-600 hover:text-blue-800 text-sm font-medium" href="#">
+              <a
+                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                href="#"
+              >
                 Forgot password?
               </a>
             </div>
 
             <Form.Item>
-              <Button 
-                type="primary" 
-                htmlType="submit" 
-                block 
+              <Button
+                type="primary"
+                htmlType="submit"
+                block
                 loading={isPending}
                 className="h-12 text-lg font-medium bg-blue-600 hover:bg-blue-700 border-none rounded-md"
               >
@@ -114,7 +113,13 @@ const Login = () => {
             </Form.Item>
 
             <div className="text-center mt-6 text-gray-500">
-              Don't have an account? <Link to="/register" className="text-blue-600 hover:text-blue-800 font-medium">Register now</Link>
+              Don't have an account?{" "}
+              <Link
+                to="/register"
+                className="text-blue-600 hover:text-blue-800 font-medium"
+              >
+                Register now
+              </Link>
             </div>
           </Form>
         </div>
