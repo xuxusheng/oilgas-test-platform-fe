@@ -11,17 +11,17 @@ export interface MenuItem {
 export const menuConfig: MenuItem[] = [
   {
     path: '/dashboard',
-    name: 'Dashboard',
+    name: '仪表盘',
     icon: <DashboardOutlined />,
   },
   {
     path: '/settings',
-    name: 'System Settings',
+    name: '系统设置',
     icon: <SettingOutlined />,
     children: [
       {
         path: '/settings/users',
-        name: 'User Management',
+        name: '用户管理',
         icon: <UserOutlined />,
       },
     ],

@@ -12,7 +12,7 @@ export default function BasicLayout() {
 
   return (
     <ProLayout
-      title="Oil & Gas Platform"
+      title="测试平台"
       logo="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
       layout="mix"
       splitMenus={false}
@@ -33,7 +33,7 @@ export default function BasicLayout() {
       avatarProps={{
         src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
         size: 'small',
-        title: userInfo?.username || 'User',
+        title: userInfo?.username || '用户',
         render: (_, dom) => {
           return (
             <Dropdown
@@ -42,7 +42,7 @@ export default function BasicLayout() {
                   {
                     key: 'logout',
                     icon: <UserOutlined />,
-                    label: 'Logout',
+                    label: '退出登录',
                     onClick: () => {
                       logout();
                       navigate('/login');

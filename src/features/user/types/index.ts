@@ -20,8 +20,10 @@ export interface UserResponse {
   id: number;           // 用户ID，系统分配的唯一标识符
   username: string;     // 用户名
   role: UserRole;       // 用户角色，可选值：ADMIN(管理员) 或 MEMBER(普通成员)
-  createTime?: string;  // 创建时间（可选字段）
-  updateTime?: string;  // 更新时间（可选字段）
+  createdAt?: string;   // 创建时间（可选字段）
+  updatedAt?: string;   // 更新时间（可选字段）
+  createdBy?: number;   // 创建者用户ID（可选字段）
+  updatedBy?: number;   // 最后更新者用户ID（可选字段）
 }
 
 /**

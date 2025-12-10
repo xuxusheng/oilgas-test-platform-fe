@@ -1,156 +1,289 @@
-import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { PageContainer, ProTable } from '@ant-design/pro-components';
-import { Button, Tag, Space, message } from 'antd';
-import { useRef } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
-
-type UserItem = {
-  id: number;
-  username: string;
-  email: string;
-  role: 'admin' | 'user';
-  status: 'active' | 'disabled';
-  created_at: string;
-};
-
-const columns: ProColumns<UserItem>[] = [
-  {
-    title: 'ID',
-    dataIndex: 'id',
-    valueType: 'indexBorder',
-    width: 48,
-  },
-  {
-    title: 'Username',
-    dataIndex: 'username',
-    copyable: true,
-    ellipsis: true,
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: 'Username is required',
-        },
-      ],
-    },
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-    copyable: true,
-    ellipsis: true,
-  },
-  {
-    title: 'Role',
-    dataIndex: 'role',
-    valueType: 'select',
-    valueEnum: {
-      admin: { text: 'Admin', status: 'Success' },
-      user: { text: 'User', status: 'Default' },
-    },
-  },
-  {
-    title: 'Status',
-    dataIndex: 'status',
-    valueType: 'select',
-    valueEnum: {
-      active: { text: 'Active', status: 'Success' },
-      disabled: { text: 'Disabled', status: 'Error' },
-    },
-  },
-  {
-    title: 'Created At',
-    dataIndex: 'created_at',
-    valueType: 'dateTime',
-    sorter: true,
-    hideInSearch: true,
-  },
-  {
-    title: 'Action',
-    valueType: 'option',
-    key: 'option',
-    render: (_, record, __, action) => [
-      <a
-        key="editable"
-        onClick={() => {
-          action?.startEditable?.(record.id);
-        }}
-      >
-        Edit
-      </a>,
-      <a
-        key="delete"
-        onClick={() => {
-          message.success('Deleted successfully');
-        }}
-      >
-        Delete
-      </a>,
-    ],
-  },
-];
+import type { ActionType, ProColumns } from '@ant-design/pro-components';
+import {
+  ModalForm,
+  PageContainer,
+  ProFormSelect,
+  ProFormText,
+  ProTable,
+} from '@ant-design/pro-components';
+import { Button, message, Popconfirm } from 'antd';
+import { useRef, useState } from 'react';
+import {
+  getUserPage,
+  useCreateUser,
+  useDeleteUser,
+  useUpdateUser,
+} from '../../features/user/api/user';
+import { UserRoleConstants } from '../../features/user/types';
+import type {
+  CreateUserRequest,
+  UpdateUserRequest,
+  UserResponse,
+} from '../../features/user/types';
 
 export default function UserList() {
-  const actionRef = useRef<ActionType>(null);
+  const actionRef = useRef<ActionType>();
+  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
+  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
+  const [currentRow, setCurrentRow] = useState<UserResponse>();
+
+  const createUserMutation = useCreateUser();
+  const updateUserMutation = useUpdateUser();
+  const deleteUserMutation = useDeleteUser();
+
+  const columns: ProColumns<UserResponse>[] = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      valueType: 'indexBorder',
+      width: 48,
+      search: false,
+    },
+    {
+      title: '用户名',
+      dataIndex: 'username',
+      copyable: true,
+      ellipsis: true,
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '请输入用户名',
+          },
+        ],
+      },
+    },
+    {
+      title: '角色',
+      dataIndex: 'role',
+      valueType: 'select',
+      valueEnum: {
+        [UserRoleConstants.ADMIN]: { text: '管理员', status: 'Success' },
+        [UserRoleConstants.MEMBER]: { text: '普通成员', status: 'Default' },
+      },
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      valueType: 'dateTime',
+      sorter: true,
+      search: false,
+    },
+    {
+      title: '操作',
+      valueType: 'option',
+      key: 'option',
+      render: (_, record) => [
+        <a
+          key="editable"
+          onClick={() => {
+            setCurrentRow(record);
+            setUpdateModalVisible(true);
+          }}
+        >
+          编辑
+        </a>,
+        <Popconfirm
+          key="delete"
+          title="确定要删除此用户吗？"
+          onConfirm={async () => {
+            try {
+              await deleteUserMutation.mutateAsync(record.id);
+              message.success('删除成功');
+              actionRef.current?.reload();
+            } catch (error) {
+              // Error handling is done in request interceptor usually, but good to have here too if needed
+            }
+          }}
+        >
+          <a style={{ color: 'red' }}>删除</a>
+        </Popconfirm>,
+      ],
+    },
+  ];
+
   return (
     <PageContainer>
-      <ProTable<UserItem>
-        columns={columns}
+      <ProTable<UserResponse>
+        headerTitle="用户列表"
         actionRef={actionRef}
-        cardBordered
-        request={async (_, sort, filter) => {
-          console.log(sort, filter);
-          // Mock data request
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-          return {
-            data: [
-              {
-                id: 1,
-                username: 'admin',
-                email: 'admin@example.com',
-                role: 'admin',
-                status: 'active',
-                created_at: '2023-01-01T10:00:00Z',
-              },
-              {
-                id: 2,
-                username: 'user1',
-                email: 'user1@example.com',
-                role: 'user',
-                status: 'active',
-                created_at: '2023-01-02T11:00:00Z',
-              },
-              {
-                id: 3,
-                username: 'user2',
-                email: 'user2@example.com',
-                role: 'user',
-                status: 'disabled',
-                created_at: '2023-01-03T12:00:00Z',
-              },
-            ],
-            success: true,
-            total: 3,
-          };
-        }}
-        editable={{
-          type: 'multiple',
-        }}
         rowKey="id"
         search={{
           labelWidth: 'auto',
         }}
-        pagination={{
-          pageSize: 10,
-        }}
-        dateFormatter="string"
-        headerTitle="User List"
         toolBarRender={() => [
-          <Button key="button" icon={<PlusOutlined />} type="primary">
-            New User
+          <Button
+            type="primary"
+            key="primary"
+            onClick={() => {
+              setCreateModalVisible(true);
+            }}
+          >
+            <PlusOutlined /> 新建用户
           </Button>,
         ]}
+        request={async (params, sort, filter) => {
+          const { current, pageSize, ...rest } = params;
+
+          // Handle sorting
+          let sortField: string | undefined;
+          let sortOrder: 'asc' | 'desc' | undefined;
+
+          const sortKeys = Object.keys(sort);
+          if (sortKeys.length > 0) {
+            sortField = sortKeys[0];
+            const order = sort[sortField];
+            if (order === 'ascend') sortOrder = 'asc';
+            else if (order === 'descend') sortOrder = 'desc';
+          }
+
+          try {
+            const res = await getUserPage({
+              page: current,
+              size: pageSize,
+              username: rest.username,
+              role: rest.role as any,
+              sortField,
+              sortOrder,
+            });
+            return {
+              data: res.data.data.content,
+              success: true,
+              total: res.data.data.total,
+            };
+          } catch (error) {
+            return {
+              data: [],
+              success: false,
+              total: 0,
+            };
+          }
+        }}
+        columns={columns}
       />
+
+      <ModalForm<CreateUserRequest>
+        title="新建用户"
+        width="400px"
+        open={createModalVisible}
+        onOpenChange={setCreateModalVisible}
+        onFinish={async (value) => {
+          await createUserMutation.mutateAsync(value);
+          message.success('创建成功');
+          setCreateModalVisible(false);
+          actionRef.current?.reload();
+          return true;
+        }}
+      >
+        <ProFormText
+          rules={[
+            {
+              required: true,
+              message: '请输入用户名',
+            },
+            {
+              min: 3,
+              message: '用户名至少3个字符',
+            },
+          ]}
+          name="username"
+          label="用户名"
+        />
+        <ProFormText.Password
+          rules={[
+            {
+              required: true,
+              message: '请输入密码',
+            },
+            {
+              min: 6,
+              message: '密码至少6个字符',
+            },
+          ]}
+          name="password"
+          label="密码"
+        />
+        <ProFormSelect
+          rules={[
+            {
+              required: true,
+              message: '请选择角色',
+            },
+          ]}
+          name="role"
+          label="角色"
+          options={[
+            { label: '管理员', value: UserRoleConstants.ADMIN },
+            { label: '普通成员', value: UserRoleConstants.MEMBER },
+          ]}
+          initialValue={UserRoleConstants.MEMBER}
+        />
+      </ModalForm>
+
+      <ModalForm<UpdateUserRequest>
+        title="编辑用户"
+        width="400px"
+        open={updateModalVisible}
+        onOpenChange={setUpdateModalVisible}
+        initialValues={currentRow}
+        modalProps={{
+          destroyOnClose: true,
+        }}
+        onFinish={async (value) => {
+          if (currentRow) {
+            await updateUserMutation.mutateAsync({
+              id: currentRow.id,
+              data: value,
+            });
+            message.success('更新成功');
+            setUpdateModalVisible(false);
+            setCurrentRow(undefined);
+            actionRef.current?.reload();
+          }
+          return true;
+        }}
+      >
+        <ProFormText
+          rules={[
+            {
+              required: true,
+              message: '请输入用户名',
+            },
+            {
+              min: 3,
+              message: '用户名至少3个字符',
+            },
+          ]}
+          name="username"
+          label="用户名"
+        />
+        <ProFormText.Password
+          name="password"
+          label="密码"
+          placeholder="留空则不修改"
+          rules={[
+            {
+              min: 6,
+              message: '密码至少6个字符',
+            },
+          ]}
+        />
+        <ProFormSelect
+          rules={[
+            {
+              required: true,
+              message: '请选择角色',
+            },
+          ]}
+          name="role"
+          label="角色"
+          options={[
+            { label: '管理员', value: UserRoleConstants.ADMIN },
+            { label: '普通成员', value: UserRoleConstants.MEMBER },
+          ]}
+        />
+      </ModalForm>
     </PageContainer>
   );
 }

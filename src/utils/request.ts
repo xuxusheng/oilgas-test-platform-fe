@@ -3,7 +3,7 @@ import { message } from "antd";
 import { useAuthStore } from "../store/useAuthStore";
 
 const request = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "",
   timeout: 10000,
 });
 
