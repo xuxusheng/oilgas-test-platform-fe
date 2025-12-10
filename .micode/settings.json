@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "API 文档": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "apifox-mcp-server@latest",
+        "--project=7518189"
+      ],
+      "env": {
+        "APIFOX_ACCESS_TOKEN": "APS-PZvzDcYhhOdygSf6NtTDfKt0e15O5vOq"
+      }
+    }
+  },
+  "$version": 2
+}

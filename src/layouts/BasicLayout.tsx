@@ -2,12 +2,30 @@ import { ProLayout } from '@ant-design/pro-components';
 import { Dropdown } from 'antd';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate, Outlet } from 'react-router-dom';
-import { useAppStore } from '../store/useAppStore';
+import { useAuthStore } from '../store/useAuthStore';
+import { useEffect } from 'react';
+import { useLogout } from '../features/auth/api/auth';
 
 export default function BasicLayout() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { theme } = useAppStore();
+  const { userInfo, token, logout: storeLogout } = useAuthStore();
+  const { mutate: logoutMutate } = useLogout();
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    }
+  }, [token, navigate]);
+
+  const handleLogout = () => {
+    logoutMutate(undefined, {
+      onSettled: () => {
+        storeLogout();
+        navigate('/login');
+      }
+    });
+  };
 
   return (
     <ProLayout
@@ -49,8 +67,8 @@ export default function BasicLayout() {
       avatarProps={{
         src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
         size: 'small',
-        title: 'Admin',
-        render: (props, dom) => {
+        title: userInfo?.username || 'User',
+        render: (_, dom) => {
           return (
             <Dropdown
               menu={{
@@ -59,6 +77,7 @@ export default function BasicLayout() {
                     key: 'logout',
                     icon: <LogoutOutlined />,
                     label: 'Logout',
+                    onClick: handleLogout,
                   },
                 ],
               }}

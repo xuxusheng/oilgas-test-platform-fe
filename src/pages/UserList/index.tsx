@@ -1,4 +1,5 @@
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import type { ActionType, ProColumns } from '@ant-design/pro-components';
+import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { Button, Tag, Space } from 'antd';
 import { useRef } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
@@ -107,7 +108,7 @@ const columns: ProColumns<GithubIssueItem>[] = [
     title: 'Action',
     valueType: 'option',
     key: 'option',
-    render: (text, record, _, action) => [
+    render: (_, record, __, action) => [
       <a
         key="editable"
         onClick={() => {
@@ -124,14 +125,14 @@ const columns: ProColumns<GithubIssueItem>[] = [
 ];
 
 export default function UserList() {
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   return (
     <PageContainer>
       <ProTable<GithubIssueItem>
         columns={columns}
         actionRef={actionRef}
         cardBordered
-        request={async (params = {}, sort, filter) => {
+        request={async (_, sort, filter) => {
           console.log(sort, filter);
           // Mock data request
           await new Promise((resolve) => setTimeout(resolve, 1000));

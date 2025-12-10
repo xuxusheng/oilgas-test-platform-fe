@@ -2,8 +2,18 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import BasicLayout from '../layouts/BasicLayout';
 import Dashboard from '../pages/Dashboard';
 import UserList from '../pages/UserList';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
 
 const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/register',
+    element: <Register />,
+  },
   {
     path: '/',
     element: <BasicLayout />,
