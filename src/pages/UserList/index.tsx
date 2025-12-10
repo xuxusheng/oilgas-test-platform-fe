@@ -1,108 +1,69 @@
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
-import { Button, Tag, Space } from 'antd';
+import { Button, Tag, Space, message } from 'antd';
 import { useRef } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 
-type GithubIssueItem = {
-  url: string;
+type UserItem = {
   id: number;
-  number: number;
-  title: string;
-  labels: {
-    name: string;
-    color: string;
-  }[];
-  state: string;
-  comments: number;
+  username: string;
+  email: string;
+  role: 'admin' | 'user';
+  status: 'active' | 'disabled';
   created_at: string;
-  updated_at: string;
-  closed_at?: string;
 };
 
-const columns: ProColumns<GithubIssueItem>[] = [
+const columns: ProColumns<UserItem>[] = [
   {
-    title: 'Index',
-    dataIndex: 'index',
+    title: 'ID',
+    dataIndex: 'id',
     valueType: 'indexBorder',
     width: 48,
   },
   {
-    title: 'Title',
-    dataIndex: 'title',
+    title: 'Username',
+    dataIndex: 'username',
     copyable: true,
     ellipsis: true,
-    tip: 'Title is too long will be ellipsis',
     formItemProps: {
       rules: [
         {
           required: true,
-          message: 'This is required',
+          message: 'Username is required',
         },
       ],
     },
   },
   {
-    title: 'Status',
-    dataIndex: 'state',
-    filters: true,
-    onFilter: true,
+    title: 'Email',
+    dataIndex: 'email',
+    copyable: true,
+    ellipsis: true,
+  },
+  {
+    title: 'Role',
+    dataIndex: 'role',
     valueType: 'select',
     valueEnum: {
-      all: { text: 'All', status: 'Default' },
-      open: {
-        text: 'Open',
-        status: 'Error',
-      },
-      closed: {
-        text: 'Closed',
-        status: 'Success',
-        disabled: true,
-      },
-      processing: {
-        text: 'Processing',
-        status: 'Processing',
-      },
+      admin: { text: 'Admin', status: 'Success' },
+      user: { text: 'User', status: 'Default' },
     },
   },
   {
-    title: 'Labels',
-    dataIndex: 'labels',
-    search: false,
-    renderFormItem: (_, { defaultRender }) => {
-      return defaultRender(_);
+    title: 'Status',
+    dataIndex: 'status',
+    valueType: 'select',
+    valueEnum: {
+      active: { text: 'Active', status: 'Success' },
+      disabled: { text: 'Disabled', status: 'Error' },
     },
-    render: (_, record) => (
-      <Space>
-        {record.labels.map(({ name, color }) => (
-          <Tag color={color} key={name}>
-            {name}
-          </Tag>
-        ))}
-      </Space>
-    ),
   },
   {
-    title: 'Created Time',
-    key: 'showTime',
+    title: 'Created At',
     dataIndex: 'created_at',
-    valueType: 'date',
+    valueType: 'dateTime',
     sorter: true,
     hideInSearch: true,
-  },
-  {
-    title: 'Created Time',
-    dataIndex: 'created_at',
-    valueType: 'dateRange',
-    hideInTable: true,
-    search: {
-      transform: (value) => {
-        return {
-          startTime: value[0],
-          endTime: value[1],
-        };
-      },
-    },
   },
   {
     title: 'Action',
@@ -117,8 +78,13 @@ const columns: ProColumns<GithubIssueItem>[] = [
       >
         Edit
       </a>,
-      <a href={record.url} target="_blank" rel="noopener noreferrer" key="view">
-        View
+      <a
+        key="delete"
+        onClick={() => {
+          message.success('Deleted successfully');
+        }}
+      >
+        Delete
       </a>,
     ],
   },
@@ -128,7 +94,7 @@ export default function UserList() {
   const actionRef = useRef<ActionType>(null);
   return (
     <PageContainer>
-      <ProTable<GithubIssueItem>
+      <ProTable<UserItem>
         columns={columns}
         actionRef={actionRef}
         cardBordered
@@ -140,71 +106,48 @@ export default function UserList() {
             data: [
               {
                 id: 1,
-                number: 1,
-                title: 'Fix bug in login',
-                labels: [{ name: 'bug', color: 'red' }],
-                state: 'open',
-                comments: 1,
-                created_at: '2023-01-01T00:00:00Z',
-                updated_at: '2023-01-01T00:00:00Z',
-                url: 'https://github.com',
+                username: 'admin',
+                email: 'admin@example.com',
+                role: 'admin',
+                status: 'active',
+                created_at: '2023-01-01T10:00:00Z',
               },
               {
                 id: 2,
-                number: 2,
-                title: 'Add new feature',
-                labels: [{ name: 'feature', color: 'blue' }],
-                state: 'closed',
-                comments: 2,
-                created_at: '2023-01-02T00:00:00Z',
-                updated_at: '2023-01-02T00:00:00Z',
-                url: 'https://github.com',
+                username: 'user1',
+                email: 'user1@example.com',
+                role: 'user',
+                status: 'active',
+                created_at: '2023-01-02T11:00:00Z',
+              },
+              {
+                id: 3,
+                username: 'user2',
+                email: 'user2@example.com',
+                role: 'user',
+                status: 'disabled',
+                created_at: '2023-01-03T12:00:00Z',
               },
             ],
             success: true,
-            total: 2,
+            total: 3,
           };
         }}
         editable={{
           type: 'multiple',
         }}
-        columnsState={{
-          persistenceKey: 'pro-table-singe-demos',
-          persistenceType: 'localStorage',
-          onChange(value) {
-            console.log('value: ', value);
-          },
-        }}
         rowKey="id"
         search={{
           labelWidth: 'auto',
         }}
-        options={{
-          setting: {
-            listsHeight: 400,
-          },
-        }}
-        form={{
-          // 由于配置了 transform，提交的参与与定义的不同这里需要转化一下
-          syncToUrl: (values, type) => {
-            if (type === 'get') {
-              return {
-                ...values,
-                created_at: [values.startTime, values.endTime],
-              };
-            }
-            return values;
-          },
-        }}
         pagination={{
-          pageSize: 5,
-          onChange: (page) => console.log(page),
+          pageSize: 10,
         }}
         dateFormatter="string"
-        headerTitle="Advanced Table"
+        headerTitle="User List"
         toolBarRender={() => [
           <Button key="button" icon={<PlusOutlined />} type="primary">
-            New
+            New User
           </Button>,
         ]}
       />

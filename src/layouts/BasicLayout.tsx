@@ -1,8 +1,9 @@
 import { ProLayout } from '@ant-design/pro-components';
 import { Dropdown } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { useLocation, useNavigate, Outlet } from 'react-router-dom';
+import { useLocation, useNavigate, Outlet, Link } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
+import { menuConfig } from '../router/menus';
 
 export default function BasicLayout() {
   const location = useLocation();
@@ -22,29 +23,12 @@ export default function BasicLayout() {
         pathname: location.pathname,
       }}
       menu={{
-        request: async () => {
-          return [
-            {
-              path: '/dashboard',
-              name: 'Dashboard',
-              icon: <UserOutlined />,
-            },
-            {
-              path: '/users',
-              name: 'User Management',
-              icon: <UserOutlined />,
-            },
-          ];
-        },
+        request: async () => menuConfig,
       }}
       menuItemRender={(item, dom) => (
-        <div
-          onClick={() => {
-            navigate(item.path || '/');
-          }}
-        >
+        <Link to={item.path || '/'}>
           {dom}
-        </div>
+        </Link>
       )}
       avatarProps={{
         src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
