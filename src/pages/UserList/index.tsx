@@ -65,7 +65,6 @@ export default function UserList() {
       title: '创建时间',
       dataIndex: 'createdAt',
       valueType: 'dateTime',
-      sorter: true,
       search: false,
     },
     {
