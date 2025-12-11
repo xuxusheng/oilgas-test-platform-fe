@@ -11,7 +11,7 @@ import type {
 
 /** 用户登录 */
 export const login = (data: LoginRequest) => {
-  return request.post<ApiResponse<LoginResponse>>('/auth/login', data);
+  return request.post<ApiResponse<LoginResponse>>('/api/auth/login', data);
 };
 
 /** 用户登录 Hook */
@@ -23,7 +23,7 @@ export const useLogin = () => {
 
 /** 用户注册 */
 export const register = (data: RegisterRequest) => {
-  return request.post<ApiResponse<RegisterResponse>>('/auth/register', data);
+  return request.post<ApiResponse<RegisterResponse>>('/api/auth/register', data);
 };
 
 /** 用户注册 Hook */
@@ -36,7 +36,7 @@ export const useRegister = () => {
 
 /** 获取当前用户信息 */
 export const getUserInfo = () => {
-  return request.get<ApiResponse<UserInfo>>('/auth/me');
+  return request.get<ApiResponse<UserInfo>>('/api/auth/me');
 };
 
 /** 获取当前用户信息 Hook */

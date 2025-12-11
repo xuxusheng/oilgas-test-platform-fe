@@ -23,7 +23,7 @@ import type {
 } from '../../features/user/types';
 
 export default function UserList() {
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
   const [currentRow, setCurrentRow] = useState<UserResponse>();
@@ -36,14 +36,12 @@ export default function UserList() {
     {
       title: 'ID',
       dataIndex: 'id',
-      valueType: 'indexBorder',
       width: 48,
       search: false,
     },
     {
       title: '用户名',
       dataIndex: 'username',
-      copyable: true,
       ellipsis: true,
       formItemProps: {
         rules: [
@@ -65,7 +63,7 @@ export default function UserList() {
     },
     {
       title: '创建时间',
-      dataIndex: 'createTime',
+      dataIndex: 'createdAt',
       valueType: 'dateTime',
       sorter: true,
       search: false,
@@ -74,6 +72,8 @@ export default function UserList() {
       title: '操作',
       valueType: 'option',
       key: 'option',
+      width: 120,
+      fixed: 'right',
       render: (_, record) => [
         <a
           key="editable"
@@ -123,7 +123,7 @@ export default function UserList() {
             <PlusOutlined /> 新建用户
           </Button>,
         ]}
-        request={async (params, sort, filter) => {
+        request={async (params, sort, _filter) => {
           const { current, pageSize, ...rest } = params;
 
           // Handle sorting
@@ -168,6 +168,10 @@ export default function UserList() {
         width="400px"
         open={createModalVisible}
         onOpenChange={setCreateModalVisible}
+        autoComplete="off"
+        modalProps={{
+          destroyOnClose: true,
+        }}
         onFinish={async (value) => {
           await createUserMutation.mutateAsync(value);
           message.success('创建成功');
@@ -189,6 +193,9 @@ export default function UserList() {
           ]}
           name="username"
           label="用户名"
+          fieldProps={{
+            autoComplete: 'off',
+          }}
         />
         <ProFormText.Password
           rules={[
@@ -203,6 +210,9 @@ export default function UserList() {
           ]}
           name="password"
           label="密码"
+          fieldProps={{
+            autoComplete: 'new-password',
+          }}
         />
         <ProFormSelect
           rules={[

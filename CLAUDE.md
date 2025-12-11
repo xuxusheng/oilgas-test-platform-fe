@@ -142,3 +142,13 @@ src/
 
 应用需要以下环境变量：
 - `VITE_API_BASE_URL` - 可选的 API 基础 URL（默认使用 `/api` 代理）
+
+## 最佳实践与常见问题
+
+**Ant Design Pro 组件使用：**
+- **useRef 初始化：** 使用 `useRef<ActionType>(null)` 而不是 `useRef<ActionType>()`，以避免 TypeScript 报错 "Expected 1 arguments, but got 0"。
+- **表格操作列：** 建议为操作列设置固定宽度和右侧固定，例如：`width: 120, fixed: 'right'`，以防止在列数较多时操作列被挤压或不可见。
+- **表单自动填充：** 为防止浏览器（特别是 Chrome）自动填充新建表单：
+  - 在 `ModalForm` 或 `ProForm` 上设置 `autoComplete="off"`
+  - 对于密码字段，在 `fieldProps` 中设置 `autoComplete: 'new-password'`
+  - 对于用户名字段，在 `fieldProps` 中设置 `autoComplete: 'off'`
