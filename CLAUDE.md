@@ -255,3 +255,6 @@ src/
   - 在 `ModalForm` 或 `ProForm` 上设置 `autoComplete="off"`
   - 对于密码字段，在 `fieldProps` 中设置 `autoComplete: 'new-password'`
   - 对于用户名字段，在 `fieldProps` 中设置 `autoComplete: 'off'`
+
+**文案一致性：**
+- **操作反馈：** 保持按钮动作动词与操作反馈文案的一致性。例如：按钮文案为“新建”时，成功提示应为“新建成功”，而不是“创建成功”。
