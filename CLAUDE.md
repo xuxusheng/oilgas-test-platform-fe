@@ -40,11 +40,23 @@ src/
 ├── features/         # 功能模块
 │   ├── auth/         # 认证功能
 │   │   ├── api/      # 认证 API 接口
-│   │   └── types/    # 认证 TypeScript 类型
-│   └── user/         # 用户管理功能
-│       ├── api/      # 用户管理 API 接口
-│       ├── types/    # 用户管理 TypeScript 类型
-│       └── index.ts  # 用户功能统一导出
+│   │   ├── types/    # 认证 TypeScript 类型
+│   │   └── index.ts  # 认证功能统一导出
+│   ├── user/         # 用户管理功能
+│   │   ├── api/      # 用户管理 API 接口
+│   │   ├── types/    # 用户管理 TypeScript 类型
+│   │   └── index.ts  # 用户功能统一导出
+│   ├── project/      # 项目管理功能
+│   │   ├── api/      # 项目管理 API 接口
+│   │   ├── types/    # 项目管理 TypeScript 类型
+│   │   └── index.ts  # 项目功能统一导出
+│   ├── inspection-device/  # 检测设备管理功能
+│   │   ├── api/      # 设备管理 API 接口
+│   │   ├── types/    # 设备管理 TypeScript 类型
+│   │   └── index.ts  # 设备功能统一导出
+│   ├── constants.ts  # 通用常量定义
+│   ├── utils.ts      # 通用工具函数
+│   └── index.ts      # 所有功能模块统一导出
 ├── layouts/          # 布局组件 (BasicLayout)
 ├── pages/            # 页面组件
 │   ├── Dashboard/    # 仪表盘页面
@@ -129,6 +141,97 @@ src/
 - 提供完整的 hooks API (`useAllUsers`, `useUserPage`, `useCreateUser` 等)
 - 自动缓存管理和失效处理
 - 错误处理和重试机制
+
+### 项目管理模块 (`src/features/project/`)
+
+基于 OpenAPI 文档实现的完整项目管理功能，包括：
+
+**API 接口：**
+- `GET /api/projects` - 获取所有项目列表
+- `GET /api/projects/page` - 分页查询项目列表（支持项目编号、名称、负责人模糊查询）
+- `GET /api/projects/{id}` - 根据ID查询项目详情
+- `GET /api/projects/by-project-no/{projectNo}` - 根据项目编号查询项目
+- `GET /api/projects/validate-unique/{projectNo}` - 验证项目编号唯一性
+- `POST /api/projects` - 创建新项目
+- `PUT /api/projects/{id}` - 更新项目信息
+- `DELETE /api/projects/{id}` - 删除项目（软删除）
+- `POST /api/projects/{id}/restore` - 恢复已删除项目
+
+**TypeScript 类型：**
+- `ProjectResponse` - 项目响应接口
+- `CreateProjectRequest` - 创建项目请求
+- `UpdateProjectRequest` - 更新项目请求
+- `ProjectPageRequest` - 分页查询参数
+- `GetProjectByNoRequest` - 按编号查询请求
+- `ValidateProjectNoRequest` - 验证项目编号请求
+
+**React Query 集成：**
+- 提供完整的 hooks API (`useAllProjects`, `useProjectPage`, `useCreateProject` 等)
+- 自动缓存管理和失效处理
+- 错误处理和重试机制
+
+### 检测设备管理模块 (`src/features/inspection-device/`)
+
+基于 OpenAPI 文档实现的完整检测设备管理功能，包括：
+
+**API 接口：**
+- `GET /api/inspection-devices` - 获取所有检测设备列表
+- `GET /api/inspection-devices/page` - 分页查询设备列表（支持设备编号、出厂编号、IP地址模糊查询，状态和项目ID筛选）
+- `GET /api/inspection-devices/{id}` - 根据ID查询设备详情
+- `GET /api/inspection-devices/by-device-no/{deviceNo}` - 根据设备编号查询设备
+- `GET /api/inspection-devices/validate-serial-number/{serialNumber}` - 验证出厂编号唯一性
+- `GET /api/inspection-devices/validate-ip/{ip}` - 验证IP地址唯一性
+- `POST /api/inspection-devices` - 创建检测设备
+- `PUT /api/inspection-devices/{id}` - 更新设备信息
+- `DELETE /api/inspection-devices/{id}` - 删除设备（软删除）
+- `POST /api/inspection-devices/{id}/restore` - 恢复已删除设备
+
+**TypeScript 类型：**
+- `InspectionDeviceResponse` - 设备响应接口
+- `CreateInspectionDeviceRequest` - 创建设备请求
+- `UpdateInspectionDeviceRequest` - 更新设备请求
+- `InspectionDevicePageRequest` - 分页查询参数
+- `DeviceStatus` - 设备状态类型枚举
+- `GetDeviceByNoRequest` - 按编号查询请求
+- `ValidateSerialNumberRequest` - 验证出厂编号请求
+- `ValidateIpRequest` - 验证IP地址请求
+
+**设备状态枚举：**
+- `PENDING_INSPECTION` - 待检
+- `UNDER_INSPECTION` - 检测中
+- `CALIBRATED` - 标定中
+- `FACTORY_QUALIFIED` - 出厂合格
+- `FACTORY_UNQUALIFIED` - 出厂不合格
+- `UNDER_REPAIR` - 维修中
+- `RESERVED_ONE/RESERVED_TWO` - 预留状态
+
+**React Query 集成：**
+- 提供完整的 hooks API (`useAllInspectionDevices`, `useInspectionDevicePage`, `useCreateInspectionDevice` 等)
+- 自动缓存管理和失效处理
+- 错误处理和重试机制
+
+### 通用工具和常量 (`src/features/`)
+
+**通用常量 (`constants.ts`):**
+- `PaginationDefaults` - 分页参数默认值
+- `SortOrder` - 排序顺序常量
+- `ResponseCodes` - 通用响应状态码
+- `DataStatus` - 数据状态常量
+- `DateTimeFormat` - 时间格式常量
+
+**通用工具函数 (`utils.ts`):**
+- `handleApiError` - API 错误处理
+- `handleApiSuccess` - 成功消息处理
+- `extractDataFromResponse` - 响应数据提取
+- `formatPaginationParams` - 分页参数格式化
+- `isValidId` - ID有效性检查
+- `safeStringEquals` - 安全字符串比较
+- `formatFileSize` - 文件大小格式化
+- `delay` - 延迟执行
+- `deepClone` - 深度克隆
+- `isMobile` - 移动设备检测
+- `getCurrentTimestamp` - 获取当前时间戳
+- `formatDateTime` - 日期时间格式化
 
 ## 重要说明
 
