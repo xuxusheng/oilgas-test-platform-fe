@@ -207,7 +207,7 @@ export default function ProjectList() {
         }}
         onFinish={async (value) => {
           await createProjectMutation.mutateAsync(value);
-          message.success('新建成功');
+          message.success('创建成功');
           setCreateModalVisible(false);
           actionRef.current?.reload();
           return true;
