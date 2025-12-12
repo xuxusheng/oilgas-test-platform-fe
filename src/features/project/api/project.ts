@@ -1,5 +1,5 @@
-import request from '../../../utils/request';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import request from '../../../utils/request'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type {
   ApiResponse,
   ProjectResponse,
@@ -9,8 +9,8 @@ import type {
   ProjectPageResponse,
   GetProjectByNoRequest,
   ValidateProjectNoRequest,
-  RestoreProjectRequest
-} from '../types';
+  RestoreProjectRequest,
+} from '../types'
 
 /**
  * 项目管理 API 服务
@@ -18,34 +18,34 @@ import type {
 
 /** 获取所有项目列表 */
 export const getAllProjects = () => {
-  return request.get<ApiResponse<ProjectResponse[]>>('/api/projects');
-};
+  return request.get<ApiResponse<ProjectResponse[]>>('/api/projects')
+}
 
 /** 获取所有项目列表 Hook */
 export const useAllProjects = () => {
   return useQuery({
     queryKey: ['projects', 'all'],
     queryFn: getAllProjects,
-  });
-};
+  })
+}
 
 /** 分页查询项目列表 */
 export const getProjectPage = (params?: ProjectPageRequest) => {
-  return request.get<ApiResponse<ProjectPageResponse>>('/api/projects/page', { params });
-};
+  return request.get<ApiResponse<ProjectPageResponse>>('/api/projects/page', { params })
+}
 
 /** 分页查询项目列表 Hook */
 export const useProjectPage = (params?: ProjectPageRequest) => {
   return useQuery({
     queryKey: ['projects', 'page', params],
     queryFn: () => getProjectPage(params),
-  });
-};
+  })
+}
 
 /** 根据ID查询项目 */
 export const getProjectById = (id: number) => {
-  return request.get<ApiResponse<ProjectResponse>>(`/api/projects/${id}`);
-};
+  return request.get<ApiResponse<ProjectResponse>>(`/api/projects/${id}`)
+}
 
 /** 根据ID查询项目 Hook */
 export const useProjectById = (id: number) => {
@@ -53,13 +53,13 @@ export const useProjectById = (id: number) => {
     queryKey: ['projects', id],
     queryFn: () => getProjectById(id),
     enabled: !!id, // 只有当id存在时才执行查询
-  });
-};
+  })
+}
 
 /** 根据项目编号查询项目 */
 export const getProjectByNo = (data: GetProjectByNoRequest) => {
-  return request.get<ApiResponse<ProjectResponse>>(`/api/projects/by-project-no/${data.projectNo}`);
-};
+  return request.get<ApiResponse<ProjectResponse>>(`/api/projects/by-project-no/${data.projectNo}`)
+}
 
 /** 根据项目编号查询项目 Hook */
 export const useProjectByNo = (projectNo: string) => {
@@ -67,13 +67,13 @@ export const useProjectByNo = (projectNo: string) => {
     queryKey: ['projects', 'by-no', projectNo],
     queryFn: () => getProjectByNo({ projectNo }),
     enabled: !!projectNo, // 只有当projectNo存在时才执行查询
-  });
-};
+  })
+}
 
 /** 验证项目编号唯一性 */
 export const validateProjectNo = (data: ValidateProjectNoRequest) => {
-  return request.get<ApiResponse<boolean>>(`/api/projects/validate-unique/${data.projectNo}`);
-};
+  return request.get<ApiResponse<boolean>>(`/api/projects/validate-unique/${data.projectNo}`)
+}
 
 /** 验证项目编号唯一性 Hook */
 export const useValidateProjectNo = (projectNo: string) => {
@@ -81,77 +81,78 @@ export const useValidateProjectNo = (projectNo: string) => {
     queryKey: ['projects', 'validate-unique', projectNo],
     queryFn: () => validateProjectNo({ projectNo }),
     enabled: !!projectNo, // 只有当projectNo存在时才执行查询
-  });
-};
+  })
+}
 
 /** 创建新项目 */
 export const createProject = (data: CreateProjectRequest) => {
-  return request.post<ApiResponse<ProjectResponse>>('/api/projects', data);
-};
+  return request.post<ApiResponse<ProjectResponse>>('/api/projects', data)
+}
 
 /** 创建新项目 Hook */
 export const useCreateProject = () => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: createProject,
     onSuccess: () => {
       // 创建成功后，使相关的查询缓存失效，重新获取数据
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      queryClient.invalidateQueries({ queryKey: ['projects'] })
     },
-  });
-};
+  })
+}
 
 /** 更新项目信息 */
 export const updateProject = (id: number, data: UpdateProjectRequest) => {
-  return request.put<ApiResponse<ProjectResponse>>(`/api/projects/${id}`, data);
-};
+  return request.put<ApiResponse<ProjectResponse>>(`/api/projects/${id}`, data)
+}
 
 /** 更新项目信息 Hook */
 export const useUpdateProject = () => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: number; data: UpdateProjectRequest }) => updateProject(id, data),
+    mutationFn: ({ id, data }: { id: number; data: UpdateProjectRequest }) =>
+      updateProject(id, data),
     onSuccess: () => {
       // 更新成功后，使相关的查询缓存失效
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      queryClient.invalidateQueries({ queryKey: ['projects'] })
     },
-  });
-};
+  })
+}
 
 /** 删除项目 */
 export const deleteProject = (id: number) => {
-  return request.delete<ApiResponse<void>>(`/api/projects/${id}`);
-};
+  return request.delete<ApiResponse<void>>(`/api/projects/${id}`)
+}
 
 /** 删除项目 Hook */
 export const useDeleteProject = () => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: deleteProject,
     onSuccess: () => {
       // 删除成功后，使相关的查询缓存失效
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      queryClient.invalidateQueries({ queryKey: ['projects'] })
     },
-  });
-};
+  })
+}
 
 /** 恢复已删除的项目 */
 export const restoreProject = (data: RestoreProjectRequest) => {
-  return request.post<ApiResponse<ProjectResponse>>(`/api/projects/${data.id}/restore`, data);
-};
+  return request.post<ApiResponse<ProjectResponse>>(`/api/projects/${data.id}/restore`, data)
+}
 
 /** 恢复已删除的项目 Hook */
 export const useRestoreProject = () => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: restoreProject,
     onSuccess: () => {
       // 恢复成功后，使相关的查询缓存失效
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      queryClient.invalidateQueries({ queryKey: ['projects'] })
     },
-  });
-};
+  })
+}

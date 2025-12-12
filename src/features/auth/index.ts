@@ -6,15 +6,8 @@ export type {
   RegisterRequest,
   UserInfo,
   LoginResponse,
-  RegisterResponse
-} from './types';
+  RegisterResponse,
+} from './types'
 
 // API 服务
-export {
-  login,
-  useLogin,
-  register,
-  useRegister,
-  getUserInfo,
-  useUserInfo
-} from './api/auth';
+export { login, useLogin, register, useRegister, getUserInfo, useUserInfo } from './api/auth'

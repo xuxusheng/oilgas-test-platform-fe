@@ -1,36 +1,32 @@
-import { PlusOutlined } from '@ant-design/icons';
-import type { ActionType, ProColumns } from '@ant-design/pro-components';
+import { PlusOutlined } from '@ant-design/icons'
+import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import {
   ModalForm,
   PageContainer,
   ProFormSelect,
   ProFormText,
   ProTable,
-} from '@ant-design/pro-components';
-import { Button, message, Popconfirm } from 'antd';
-import { useRef, useState } from 'react';
+} from '@ant-design/pro-components'
+import { Button, message, Popconfirm } from 'antd'
+import { useRef, useState } from 'react'
 import {
   getUserPage,
   useCreateUser,
   useDeleteUser,
   useUpdateUser,
-} from '../../features/user/api/user';
-import { UserRoleConstants } from '../../features/user/types';
-import type {
-  CreateUserRequest,
-  UpdateUserRequest,
-  UserResponse,
-} from '../../features/user/types';
+} from '../../features/user/api/user'
+import { UserRoleConstants } from '../../features/user/types'
+import type { CreateUserRequest, UpdateUserRequest, UserResponse } from '../../features/user/types'
 
 export default function UserList() {
-  const actionRef = useRef<ActionType>(null);
-  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
-  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
-  const [currentRow, setCurrentRow] = useState<UserResponse>();
+  const actionRef = useRef<ActionType>(null)
+  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false)
+  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false)
+  const [currentRow, setCurrentRow] = useState<UserResponse>()
 
-  const createUserMutation = useCreateUser();
-  const updateUserMutation = useUpdateUser();
-  const deleteUserMutation = useDeleteUser();
+  const createUserMutation = useCreateUser()
+  const updateUserMutation = useUpdateUser()
+  const deleteUserMutation = useDeleteUser()
 
   const columns: ProColumns<UserResponse>[] = [
     {
@@ -77,8 +73,8 @@ export default function UserList() {
         <a
           key="editable"
           onClick={() => {
-            setCurrentRow(record);
-            setUpdateModalVisible(true);
+            setCurrentRow(record)
+            setUpdateModalVisible(true)
           }}
         >
           编辑
@@ -88,10 +84,10 @@ export default function UserList() {
           title="确定要删除此用户吗？"
           onConfirm={async () => {
             try {
-              await deleteUserMutation.mutateAsync(record.id);
-              message.success('删除成功');
-              actionRef.current?.reload();
-            } catch (error) {
+              await deleteUserMutation.mutateAsync(record.id)
+              message.success('删除成功')
+              actionRef.current?.reload()
+            } catch {
               // Error handling is done in request interceptor usually, but good to have here too if needed
             }
           }}
@@ -100,7 +96,7 @@ export default function UserList() {
         </Popconfirm>,
       ],
     },
-  ];
+  ]
 
   return (
     <PageContainer>
@@ -116,25 +112,25 @@ export default function UserList() {
             type="primary"
             key="primary"
             onClick={() => {
-              setCreateModalVisible(true);
+              setCreateModalVisible(true)
             }}
           >
             <PlusOutlined /> 新建用户
           </Button>,
         ]}
-        request={async (params, sort, _filter) => {
-          const { current, pageSize, ...rest } = params;
+        request={async (params, sort) => {
+          const { current, pageSize, ...rest } = params
 
           // Handle sorting
-          let sortField: string | undefined;
-          let sortOrder: 'asc' | 'desc' | undefined;
+          let sortField: string | undefined
+          let sortOrder: 'asc' | 'desc' | undefined
 
-          const sortKeys = Object.keys(sort);
+          const sortKeys = Object.keys(sort)
           if (sortKeys.length > 0) {
-            sortField = sortKeys[0];
-            const order = sort[sortField];
-            if (order === 'ascend') sortOrder = 'asc';
-            else if (order === 'descend') sortOrder = 'desc';
+            sortField = sortKeys[0]
+            const order = sort[sortField]
+            if (order === 'ascend') sortOrder = 'asc'
+            else if (order === 'descend') sortOrder = 'desc'
           }
 
           try {
@@ -142,21 +138,21 @@ export default function UserList() {
               page: current,
               size: pageSize,
               username: rest.username,
-              role: rest.role as any,
+              role: rest.role as UserRoleConstants,
               sortField,
               sortOrder,
-            });
+            })
             return {
               data: res.data.data.content,
               success: true,
               total: res.data.data.total,
-            };
-          } catch (error) {
+            }
+          } catch {
             return {
               data: [],
               success: false,
               total: 0,
-            };
+            }
           }
         }}
         columns={columns}
@@ -172,11 +168,11 @@ export default function UserList() {
           destroyOnClose: true,
         }}
         onFinish={async (value) => {
-          await createUserMutation.mutateAsync(value);
-          message.success('新建成功');
-          setCreateModalVisible(false);
-          actionRef.current?.reload();
-          return true;
+          await createUserMutation.mutateAsync(value)
+          message.success('新建成功')
+          setCreateModalVisible(false)
+          actionRef.current?.reload()
+          return true
         }}
       >
         <ProFormText
@@ -244,13 +240,13 @@ export default function UserList() {
             await updateUserMutation.mutateAsync({
               id: currentRow.id,
               data: value,
-            });
-            message.success('更新成功');
-            setUpdateModalVisible(false);
-            setCurrentRow(undefined);
-            actionRef.current?.reload();
+            })
+            message.success('更新成功')
+            setUpdateModalVisible(false)
+            setCurrentRow(undefined)
+            actionRef.current?.reload()
           }
-          return true;
+          return true
         }}
       >
         <ProFormText
@@ -294,5 +290,5 @@ export default function UserList() {
         />
       </ModalForm>
     </PageContainer>
-  );
+  )
 }

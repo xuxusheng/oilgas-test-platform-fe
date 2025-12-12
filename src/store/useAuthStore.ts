@@ -1,13 +1,13 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import type { UserInfo } from '../features/auth/types';
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+import type { UserInfo } from '../features/auth/types'
 
 interface AuthState {
-  token: string | null;
-  userInfo: UserInfo | null;
-  setToken: (token: string | null) => void;
-  setUserInfo: (userInfo: UserInfo | null) => void;
-  logout: () => void;
+  token: string | null
+  userInfo: UserInfo | null
+  setToken: (token: string | null) => void
+  setUserInfo: (userInfo: UserInfo | null) => void
+  logout: () => void
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -22,6 +22,6 @@ export const useAuthStore = create<AuthState>()(
     {
       name: 'auth-storage',
       partialize: (state) => ({ token: state.token, userInfo: state.userInfo }),
-    }
-  )
-);
+    },
+  ),
+)

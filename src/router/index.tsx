@@ -1,12 +1,12 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
-import BasicLayout from '../layouts/BasicLayout';
-import Dashboard from '../pages/Dashboard';
-import UserList from '../pages/UserList';
-import ProjectList from '../pages/ProjectList';
-import InspectionDeviceList from '../pages/InspectionDeviceList';
-import Login from '../pages/Login';
-import Register from '../pages/Register';
-import RequireAuth from '../components/RequireAuth';
+import { createBrowserRouter, Navigate } from 'react-router-dom'
+import BasicLayout from '../layouts/BasicLayout'
+import Dashboard from '../pages/Dashboard'
+import UserList from '../pages/UserList'
+import ProjectList from '../pages/ProjectList'
+import InspectionDeviceList from '../pages/InspectionDeviceList'
+import Login from '../pages/Login'
+import Register from '../pages/Register'
+import RequireAuth from '../components/RequireAuth'
 
 const router = createBrowserRouter([
   {
@@ -47,6 +47,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-]);
+])
 
-export default router;
+export default router

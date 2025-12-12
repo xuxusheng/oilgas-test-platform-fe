@@ -1,30 +1,32 @@
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, message, Typography } from "antd";
-import { useNavigate, Link, useLocation } from "react-router-dom";
-import { useLogin } from "../../features/auth/api/auth";
-import { useAuthStore } from "../../store/useAuthStore";
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
+import { Button, Checkbox, Form, Input, message, Typography } from 'antd'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
+import { useLogin } from '../../features/auth/api/auth'
+import { useAuthStore } from '../../store/useAuthStore'
 
-const { Title, Text } = Typography;
+import type { LoginRequest } from '../../features/auth/types'
+
+const { Title, Text } = Typography
 
 const Login = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { setToken, setUserInfo } = useAuthStore();
-  const { mutateAsync: login, isPending } = useLogin();
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { setToken, setUserInfo } = useAuthStore()
+  const { mutateAsync: login, isPending } = useLogin()
 
-  const from = location.state?.from?.pathname || "/dashboard";
+  const from = location.state?.from?.pathname || '/dashboard'
 
-  const onFinish = async (values: any) => {
-    const res = await login(values);
-    message.success("登录成功");
-    setToken(res.data.data.accessToken);
+  const onFinish = async (values: LoginRequest) => {
+    const res = await login(values)
+    message.success('登录成功')
+    setToken(res.data.data.accessToken)
     setUserInfo({
       id: res.data.data.userId,
       username: res.data.data.username,
       role: res.data.data.role,
-    });
-    navigate(from, { replace: true });
-  };
+    })
+    navigate(from, { replace: true })
+  }
 
   return (
     <div className="min-h-screen flex bg-gray-50">
@@ -48,7 +50,7 @@ const Login = () => {
       <div className="flex-1 flex justify-center items-center p-4 sm:p-12">
         <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
           <div className="text-center mb-8">
-            <Title level={2} style={{ marginBottom: 0, color: "#1f2937" }}>
+            <Title level={2} style={{ marginBottom: 0, color: '#1f2937' }}>
               Welcome Back
             </Title>
             <Text type="secondary">Please enter your details to sign in</Text>
@@ -64,9 +66,7 @@ const Login = () => {
           >
             <Form.Item
               name="username"
-              rules={[
-                { required: true, message: "Please input your username!" },
-              ]}
+              rules={[{ required: true, message: 'Please input your username!' }]}
             >
               <Input
                 prefix={<UserOutlined className="text-gray-400" />}
@@ -77,9 +77,7 @@ const Login = () => {
 
             <Form.Item
               name="password"
-              rules={[
-                { required: true, message: "Please input your password!" },
-              ]}
+              rules={[{ required: true, message: 'Please input your password!' }]}
             >
               <Input.Password
                 prefix={<LockOutlined className="text-gray-400" />}
@@ -92,10 +90,7 @@ const Login = () => {
               <Form.Item name="remember" valuePropName="checked" noStyle>
                 <Checkbox>Remember me</Checkbox>
               </Form.Item>
-              <a
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                href="#"
-              >
+              <a className="text-blue-600 hover:text-blue-800 text-sm font-medium" href="#">
                 Forgot password?
               </a>
             </div>
@@ -113,11 +108,8 @@ const Login = () => {
             </Form.Item>
 
             <div className="text-center mt-6 text-gray-500">
-              Don't have an account?{" "}
-              <Link
-                to="/register"
-                className="text-blue-600 hover:text-blue-800 font-medium"
-              >
+              Don't have an account?{' '}
+              <Link to="/register" className="text-blue-600 hover:text-blue-800 font-medium">
                 Register now
               </Link>
             </div>
@@ -125,7 +117,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

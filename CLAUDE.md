@@ -9,10 +9,12 @@
 ## 开发命令
 
 **开发运行：**
+
 - `pnpm dev` - 启动 Vite 开发服务器（包含热重载）
 - `pnpm preview` - 本地预览生产构建
 
 **构建与代码检查：**
+
 - `pnpm build` - 构建 TypeScript 并生成生产包
 - `pnpm lint` - 运行 ESLint 进行代码质量检查
 
@@ -22,6 +24,7 @@ package.json 中当前未配置测试脚本。
 ## 架构与结构
 
 ### 技术栈
+
 - **框架：** React 19.2 + TypeScript
 - **构建工具：** Vite + Rolldown (7.2.5)
 - **样式：** Tailwind CSS 4.1
@@ -33,6 +36,7 @@ package.json 中当前未配置测试脚本。
 - **样式工具：** Tailwind CSS + clsx + tailwind-merge
 
 ### 项目结构
+
 ```
 src/
 ├── assets/           # 静态资源（图片等）
@@ -77,24 +81,28 @@ src/
 ### 核心模式
 
 **命名规范：**
+
 - **API 接口类型：**
   - 请求参数接口命名为 `xxxRequest` (例如: `LoginRequest`)
   - 响应数据接口命名为 `xxxResponse` (例如: `LoginResponse`)
   - 避免使用 `xxxParams` 或 `xxxResult`，以保持与 HTTP 协议语义一致
 
 **认证流程：**
+
 - 使用 Zustand 存储配合中间件实现 Token 持久化
 - Axios 拦截器自动添加认证头信息
 - 401 响应触发自动登出
 - 认证状态以 'auth-storage' 为名持久化到 localStorage
 
 **路由系统：**
+
 - React Router v7 + createBrowserRouter
 - 使用 BasicLayout 作为父组件实现保护路由模式
 - 自动从 `/` 重定向到 `/dashboard`
 - 独立认证路由：`/login` 和 `/register`
 
 **API 集成：**
+
 - 集中式 axios 实例，支持基础 URL 配置
 - 默认 10 秒超时
 - 通过 Ant Design message 组件进行错误提示
@@ -103,15 +111,18 @@ src/
 ### 配置文件
 
 **Vite：**
+
 - TypeScript 编译 + SWC React 插件
 - Tailwind CSS 集成
 - 开发环境 API 代理
 
 **TypeScript：**
+
 - 分离配置：`tsconfig.app.json` + `tsconfig.node.json`
 - 启用严格类型检查
 
 **ESLint：**
+
 - 平面配置 + TypeScript + React hooks + React refresh
 - 忽略 `dist` 目录
 
@@ -122,6 +133,7 @@ src/
 基于 OpenAPI 文档实现的完整用户管理功能，包括：
 
 **API 接口：**
+
 - `GET /api/users` - 获取所有用户列表
 - `GET /api/users/page` - 分页查询用户列表（支持用户名模糊查询和角色筛选）
 - `GET /api/users/{id}` - 根据ID查询用户详情
@@ -131,6 +143,7 @@ src/
 - `POST /api/users/{id}/restore` - 恢复已删除用户
 
 **TypeScript 类型：**
+
 - `UserResponse` - 用户响应接口（不包含敏感信息）
 - `CreateUserRequest` - 创建用户请求
 - `UpdateUserRequest` - 更新用户请求
@@ -138,6 +151,7 @@ src/
 - `UserRole` - 用户角色类型（ADMIN/ MEMBER）
 
 **React Query 集成：**
+
 - 提供完整的 hooks API (`useAllUsers`, `useUserPage`, `useCreateUser` 等)
 - 自动缓存管理和失效处理
 - 错误处理和重试机制
@@ -147,6 +161,7 @@ src/
 基于 OpenAPI 文档实现的完整项目管理功能，包括：
 
 **API 接口：**
+
 - `GET /api/projects` - 获取所有项目列表
 - `GET /api/projects/page` - 分页查询项目列表（支持项目编号、名称、负责人模糊查询）
 - `GET /api/projects/{id}` - 根据ID查询项目详情
@@ -158,6 +173,7 @@ src/
 - `POST /api/projects/{id}/restore` - 恢复已删除项目
 
 **TypeScript 类型：**
+
 - `ProjectResponse` - 项目响应接口
 - `CreateProjectRequest` - 创建项目请求
 - `UpdateProjectRequest` - 更新项目请求
@@ -166,6 +182,7 @@ src/
 - `ValidateProjectNoRequest` - 验证项目编号请求
 
 **React Query 集成：**
+
 - 提供完整的 hooks API (`useAllProjects`, `useProjectPage`, `useCreateProject` 等)
 - 自动缓存管理和失效处理
 - 错误处理和重试机制
@@ -175,6 +192,7 @@ src/
 基于 OpenAPI 文档实现的完整检测设备管理功能，包括：
 
 **API 接口：**
+
 - `GET /api/inspection-devices` - 获取所有检测设备列表
 - `GET /api/inspection-devices/page` - 分页查询设备列表（支持设备编号、出厂编号、IP地址模糊查询，状态和项目ID筛选）
 - `GET /api/inspection-devices/{id}` - 根据ID查询设备详情
@@ -187,6 +205,7 @@ src/
 - `POST /api/inspection-devices/{id}/restore` - 恢复已删除设备
 
 **TypeScript 类型：**
+
 - `InspectionDeviceResponse` - 设备响应接口
 - `CreateInspectionDeviceRequest` - 创建设备请求
 - `UpdateInspectionDeviceRequest` - 更新设备请求
@@ -197,6 +216,7 @@ src/
 - `ValidateIpRequest` - 验证IP地址请求
 
 **设备状态枚举：**
+
 - `PENDING_INSPECTION` - 待检
 - `UNDER_INSPECTION` - 检测中
 - `CALIBRATED` - 标定中
@@ -206,6 +226,7 @@ src/
 - `RESERVED_ONE/RESERVED_TWO` - 预留状态
 
 **React Query 集成：**
+
 - 提供完整的 hooks API (`useAllInspectionDevices`, `useInspectionDevicePage`, `useCreateInspectionDevice` 等)
 - 自动缓存管理和失效处理
 - 错误处理和重试机制
@@ -213,6 +234,7 @@ src/
 ### 通用工具和常量 (`src/features/`)
 
 **通用常量 (`constants.ts`):**
+
 - `PaginationDefaults` - 分页参数默认值
 - `SortOrder` - 排序顺序常量
 - `ResponseCodes` - 通用响应状态码
@@ -220,6 +242,7 @@ src/
 - `DateTimeFormat` - 时间格式常量
 
 **通用工具函数 (`utils.ts`):**
+
 - `handleApiError` - API 错误处理
 - `handleApiSuccess` - 成功消息处理
 - `extractDataFromResponse` - 响应数据提取
@@ -244,11 +267,13 @@ src/
 ## 环境变量
 
 应用需要以下环境变量：
+
 - `VITE_API_BASE_URL` - 可选的 API 基础 URL（默认使用 `/api` 代理）
 
 ## 最佳实践与常见问题
 
 **Ant Design Pro 组件使用：**
+
 - **useRef 初始化：** 使用 `useRef<ActionType>(null)` 而不是 `useRef<ActionType>()`，以避免 TypeScript 报错 "Expected 1 arguments, but got 0"。
 - **表格操作列：** 建议为操作列设置固定宽度和右侧固定，例如：`width: 120, fixed: 'right'`，以防止在列数较多时操作列被挤压或不可见。
 - **表单自动填充：** 为防止浏览器（特别是 Chrome）自动填充新建表单：
@@ -257,4 +282,5 @@ src/
   - 对于用户名字段，在 `fieldProps` 中设置 `autoComplete: 'off'`
 
 **文案一致性：**
+
 - **操作反馈：** 保持按钮动作动词与操作反馈文案的一致性。例如：按钮文案为“新建”时，成功提示应为“新建成功”，而不是“创建成功”。

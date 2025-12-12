@@ -1,38 +1,34 @@
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Card, Form, Input, message } from 'antd';
-import { useNavigate, Link } from 'react-router-dom';
-import { useRegister } from '../../features/auth/api/auth';
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
+import { Button, Card, Form, Input, message } from 'antd'
+import { useNavigate, Link } from 'react-router-dom'
+import { useRegister } from '../../features/auth/api/auth'
+import type { RegisterRequest } from '../../features/auth/types'
 
 const Register = () => {
-  const navigate = useNavigate();
-  const { mutate: registerMutate, isPending } = useRegister();
+  const navigate = useNavigate()
+  const { mutate: registerMutate, isPending } = useRegister()
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: RegisterRequest) => {
     registerMutate(values, {
       onSuccess: () => {
-        message.success('Registration successful! Please login.');
-        navigate('/login');
+        message.success('Registration successful! Please login.')
+        navigate('/login')
       },
-      onError: (error: any) => {
-        console.error(error);
-      }
-    });
-  };
+      onError: (error: Error) => {
+        console.error(error)
+      },
+    })
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <Card title="Register" className="w-96 shadow-lg">
-        <Form
-          name="register"
-          onFinish={onFinish}
-          autoComplete="off"
-          layout="vertical"
-        >
+        <Form name="register" onFinish={onFinish} autoComplete="off" layout="vertical">
           <Form.Item
             name="username"
             rules={[
               { required: true, message: 'Please input your username!' },
-              { min: 3, max: 20, message: 'Username must be between 3 and 20 characters' }
+              { min: 3, max: 20, message: 'Username must be between 3 and 20 characters' },
             ]}
           >
             <Input prefix={<UserOutlined />} placeholder="Username" />
@@ -42,7 +38,7 @@ const Register = () => {
             name="password"
             rules={[
               { required: true, message: 'Please input your password!' },
-              { min: 6, max: 30, message: 'Password must be between 6 and 30 characters' }
+              { min: 6, max: 30, message: 'Password must be between 6 and 30 characters' },
             ]}
           >
             <Input.Password prefix={<LockOutlined />} placeholder="Password" />
@@ -57,9 +53,11 @@ const Register = () => {
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue('password') === value) {
-                    return Promise.resolve();
+                    return Promise.resolve()
                   }
-                  return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                  return Promise.reject(
+                    new Error('The two passwords that you entered do not match!'),
+                  )
                 },
               }),
             ]}
@@ -79,7 +77,7 @@ const Register = () => {
         </Form>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register

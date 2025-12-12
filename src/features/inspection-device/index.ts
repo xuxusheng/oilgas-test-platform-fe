@@ -11,11 +11,11 @@ export type {
   ValidateSerialNumberRequest,
   ValidateIpRequest,
   RestoreInspectionDeviceRequest,
-  DeviceStatus
-} from './types';
+  DeviceStatus,
+} from './types'
 
 // 常量
-export { DeviceStatusConstants } from './types';
+export { DeviceStatusConstants } from './types'
 
 // API 服务
 export {
@@ -38,5 +38,5 @@ export {
   deleteInspectionDevice,
   useDeleteInspectionDevice,
   restoreInspectionDevice,
-  useRestoreInspectionDevice
-} from './api/inspection-device';
+  useRestoreInspectionDevice,
+} from './api/inspection-device'

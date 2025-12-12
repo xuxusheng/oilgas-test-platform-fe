@@ -8,11 +8,11 @@ export type {
   UserPageRequest,
   UserPageResponse,
   RestoreUserRequest,
-  UserRole
-} from './types';
+  UserRole,
+} from './types'
 
 // 常量
-export { UserRoleConstants } from './types';
+export { UserRoleConstants } from './types'
 
 // API 服务
 export {
@@ -29,5 +29,5 @@ export {
   deleteUser,
   useDeleteUser,
   restoreUser,
-  useRestoreUser
-} from './api/user';
+  useRestoreUser,
+} from './api/user'

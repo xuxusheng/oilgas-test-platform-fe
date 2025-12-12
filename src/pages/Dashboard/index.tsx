@@ -1,14 +1,16 @@
-import React from 'react';
-import { Card, Col, Row, Statistic } from 'antd';
-import CountUp from 'react-countup';
-import ReactECharts from 'echarts-for-react';
-import { PageContainer } from '@ant-design/pro-components';
+import React from 'react'
+import { Card, Col, Row, Statistic } from 'antd'
+import CountUp from 'react-countup'
+import ReactECharts from 'echarts-for-react'
+import { PageContainer } from '@ant-design/pro-components'
 
 const Dashboard: React.FC = () => {
   // Fix for "Element type is invalid" error with react-countup in some Vite environments
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const CountUpComponent = (CountUp as any).default || CountUp;
-  const formatter = (value: number | string) => <CountUpComponent end={Number(value)} separator="," />;
+  const CountUpComponent = (CountUp as any).default || CountUp
+  const formatter = (value: number | string) => (
+    <CountUpComponent end={Number(value)} separator="," />
+  )
 
   const getOption = () => {
     return {
@@ -55,8 +57,8 @@ const Dashboard: React.FC = () => {
           data: [150, 232, 201, 154, 190, 330, 410],
         },
       ],
-    };
-  };
+    }
+  }
 
   return (
     <PageContainer>
@@ -68,7 +70,12 @@ const Dashboard: React.FC = () => {
         </Col>
         <Col span={6}>
           <Card bordered={false}>
-            <Statistic title="Account Balance (CNY)" value={112893} precision={2} formatter={formatter} />
+            <Statistic
+              title="Account Balance (CNY)"
+              value={112893}
+              precision={2}
+              formatter={formatter}
+            />
           </Card>
         </Col>
         <Col span={6}>
@@ -87,7 +94,7 @@ const Dashboard: React.FC = () => {
         <ReactECharts option={getOption()} style={{ height: 400 }} />
       </Card>
     </PageContainer>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard

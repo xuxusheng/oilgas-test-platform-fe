@@ -9,8 +9,8 @@
  * - errors: 字段级别的错误详情，用于表单验证等场景
  */
 export interface ApiResponse<T> {
-  code: number;        // 响应状态码，200表示成功，非200表示错误
-  message: string;     // 响应消息描述
-  data: T;             // 响应数据，根据接口不同返回不同类型
-  errors: Record<string, any>; // 字段级别的错误详情
+  code: number // 响应状态码，200表示成功，非200表示错误
+  message: string // 响应消息描述
+  data: T // 响应数据，根据接口不同返回不同类型
+  errors: Record<string, unknown> // 字段级别的错误详情
 }

@@ -1,35 +1,35 @@
-import { PlusOutlined } from '@ant-design/icons';
-import type { ActionType, ProColumns } from '@ant-design/pro-components';
+import { PlusOutlined } from '@ant-design/icons'
+import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import {
   ModalForm,
   PageContainer,
   ProFormText,
   ProFormTextArea,
   ProTable,
-} from '@ant-design/pro-components';
-import { Button, message, Popconfirm } from 'antd';
-import { useRef, useState } from 'react';
+} from '@ant-design/pro-components'
+import { Button, message, Popconfirm } from 'antd'
+import { useRef, useState } from 'react'
 import {
   getProjectPage,
   useCreateProject,
   useDeleteProject,
   useUpdateProject,
-} from '../../features/project/api/project';
+} from '../../features/project/api/project'
 import type {
   CreateProjectRequest,
   ProjectResponse,
   UpdateProjectRequest,
-} from '../../features/project/types';
+} from '../../features/project/types'
 
 export default function ProjectList() {
-  const actionRef = useRef<ActionType>(null);
-  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
-  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
-  const [currentRow, setCurrentRow] = useState<ProjectResponse>();
+  const actionRef = useRef<ActionType>(null)
+  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false)
+  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false)
+  const [currentRow, setCurrentRow] = useState<ProjectResponse>()
 
-  const createProjectMutation = useCreateProject();
-  const updateProjectMutation = useUpdateProject();
-  const deleteProjectMutation = useDeleteProject();
+  const createProjectMutation = useCreateProject()
+  const updateProjectMutation = useUpdateProject()
+  const deleteProjectMutation = useDeleteProject()
 
   const columns: ProColumns<ProjectResponse>[] = [
     {
@@ -110,8 +110,8 @@ export default function ProjectList() {
         <a
           key="editable"
           onClick={() => {
-            setCurrentRow(record);
-            setUpdateModalVisible(true);
+            setCurrentRow(record)
+            setUpdateModalVisible(true)
           }}
         >
           编辑
@@ -121,9 +121,9 @@ export default function ProjectList() {
           title="确定要删除此项目吗？"
           onConfirm={async () => {
             try {
-              await deleteProjectMutation.mutateAsync(record.id);
-              message.success('删除成功');
-              actionRef.current?.reload();
+              await deleteProjectMutation.mutateAsync(record.id)
+              message.success('删除成功')
+              actionRef.current?.reload()
             } catch {
               // Error handling is done in request interceptor usually
             }
@@ -133,7 +133,7 @@ export default function ProjectList() {
         </Popconfirm>,
       ],
     },
-  ];
+  ]
 
   return (
     <PageContainer>
@@ -149,25 +149,25 @@ export default function ProjectList() {
             type="primary"
             key="primary"
             onClick={() => {
-              setCreateModalVisible(true);
+              setCreateModalVisible(true)
             }}
           >
             <PlusOutlined /> 新建项目
           </Button>,
         ]}
         request={async (params, sort) => {
-          const { current, pageSize, ...rest } = params;
+          const { current, pageSize, ...rest } = params
 
           // Handle sorting
-          let sortField: string | undefined;
-          let sortOrder: 'asc' | 'desc' | undefined;
+          let sortField: string | undefined
+          let sortOrder: 'asc' | 'desc' | undefined
 
-          const sortKeys = Object.keys(sort);
+          const sortKeys = Object.keys(sort)
           if (sortKeys.length > 0) {
-            sortField = sortKeys[0];
-            const order = sort[sortField];
-            if (order === 'ascend') sortOrder = 'asc';
-            else if (order === 'descend') sortOrder = 'desc';
+            sortField = sortKeys[0]
+            const order = sort[sortField]
+            if (order === 'ascend') sortOrder = 'asc'
+            else if (order === 'descend') sortOrder = 'desc'
           }
 
           try {
@@ -179,18 +179,18 @@ export default function ProjectList() {
               projectLeader: rest.projectLeader,
               sortField,
               sortOrder,
-            });
+            })
             return {
               data: res.data.data.content,
               success: true,
               total: res.data.data.total,
-            };
+            }
           } catch {
             return {
               data: [],
               success: false,
               total: 0,
-            };
+            }
           }
         }}
         columns={columns}
@@ -206,11 +206,11 @@ export default function ProjectList() {
           destroyOnClose: true,
         }}
         onFinish={async (value) => {
-          await createProjectMutation.mutateAsync(value);
-          message.success('创建成功');
-          setCreateModalVisible(false);
-          actionRef.current?.reload();
-          return true;
+          await createProjectMutation.mutateAsync(value)
+          message.success('创建成功')
+          setCreateModalVisible(false)
+          actionRef.current?.reload()
+          return true
         }}
       >
         <ProFormText
@@ -281,21 +281,16 @@ export default function ProjectList() {
             await updateProjectMutation.mutateAsync({
               id: currentRow.id,
               data: value,
-            });
-            message.success('更新成功');
-            setUpdateModalVisible(false);
-            setCurrentRow(undefined);
-            actionRef.current?.reload();
+            })
+            message.success('更新成功')
+            setUpdateModalVisible(false)
+            setCurrentRow(undefined)
+            actionRef.current?.reload()
           }
-          return true;
+          return true
         }}
       >
-        <ProFormText
-          name="projectNo"
-          label="项目编号"
-          disabled
-          tooltip="项目编号不可修改"
-        />
+        <ProFormText name="projectNo" label="项目编号" disabled tooltip="项目编号不可修改" />
         <ProFormText
           rules={[
             {
@@ -335,5 +330,5 @@ export default function ProjectList() {
         />
       </ModalForm>
     </PageContainer>
-  );
+  )
 }

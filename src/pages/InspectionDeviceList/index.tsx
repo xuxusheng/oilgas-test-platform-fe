@@ -1,5 +1,5 @@
-import { PlusOutlined } from '@ant-design/icons';
-import type { ActionType, ProColumns } from '@ant-design/pro-components';
+import { PlusOutlined } from '@ant-design/icons'
+import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import {
   ModalForm,
   PageContainer,
@@ -8,39 +8,40 @@ import {
   ProFormTextArea,
   ProFormDigit,
   ProTable,
-} from '@ant-design/pro-components';
-import { Button, message, Popconfirm, Tag } from 'antd';
-import { useRef, useState } from 'react';
+} from '@ant-design/pro-components'
+import { Button, message, Popconfirm, Tag } from 'antd'
+import { useRef, useState } from 'react'
 import {
   getInspectionDevicePage,
   useCreateInspectionDevice,
   useDeleteInspectionDevice,
   useUpdateInspectionDevice,
-} from '../../features/inspection-device/api/inspection-device';
-import { useAllProjects } from '../../features/project/api/project';
-import { DeviceStatusConstants } from '../../features/inspection-device/types';
+} from '../../features/inspection-device/api/inspection-device'
+import { useAllProjects } from '../../features/project/api/project'
+import { DeviceStatusConstants } from '../../features/inspection-device/types'
 import type {
   CreateInspectionDeviceRequest,
   InspectionDeviceResponse,
   UpdateInspectionDeviceRequest,
-} from '../../features/inspection-device/types';
+} from '../../features/inspection-device/types'
 
 export default function InspectionDeviceList() {
-  const actionRef = useRef<ActionType>(null);
-  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
-  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
-  const [currentRow, setCurrentRow] = useState<InspectionDeviceResponse>();
+  const actionRef = useRef<ActionType>(null)
+  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false)
+  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false)
+  const [currentRow, setCurrentRow] = useState<InspectionDeviceResponse>()
 
-  const createMutation = useCreateInspectionDevice();
-  const updateMutation = useUpdateInspectionDevice();
-  const deleteMutation = useDeleteInspectionDevice();
-  
-  const { data: projectsData } = useAllProjects();
+  const createMutation = useCreateInspectionDevice()
+  const updateMutation = useUpdateInspectionDevice()
+  const deleteMutation = useDeleteInspectionDevice()
 
-  const projectOptions = projectsData?.data?.data?.map(project => ({
-    label: project.projectName,
-    value: project.id,
-  })) || [];
+  const { data: projectsData } = useAllProjects()
+
+  const projectOptions =
+    projectsData?.data?.data?.map((project) => ({
+      label: project.projectName,
+      value: project.id,
+    })) || []
 
   const statusOptions = [
     { label: '待检', value: DeviceStatusConstants.PENDING_INSPECTION, color: 'default' },
@@ -51,7 +52,7 @@ export default function InspectionDeviceList() {
     { label: '维修中', value: DeviceStatusConstants.UNDER_REPAIR, color: 'error' },
     { label: '预留状态一', value: DeviceStatusConstants.RESERVED_ONE, color: 'default' },
     { label: '预留状态二', value: DeviceStatusConstants.RESERVED_TWO, color: 'default' },
-  ];
+  ]
 
   const columns: ProColumns<InspectionDeviceResponse>[] = [
     {
@@ -163,8 +164,8 @@ export default function InspectionDeviceList() {
         options: statusOptions,
       },
       render: (_, record) => {
-        const status = statusOptions.find(s => s.value === record.status);
-        return status ? <Tag color={status.color}>{status.label}</Tag> : record.status;
+        const status = statusOptions.find((s) => s.value === record.status)
+        return status ? <Tag color={status.color}>{status.label}</Tag> : record.status
       },
     },
     {
@@ -192,8 +193,8 @@ export default function InspectionDeviceList() {
         <a
           key="editable"
           onClick={() => {
-            setCurrentRow(record);
-            setUpdateModalVisible(true);
+            setCurrentRow(record)
+            setUpdateModalVisible(true)
           }}
         >
           编辑
@@ -203,9 +204,9 @@ export default function InspectionDeviceList() {
           title="确定要删除此设备吗？"
           onConfirm={async () => {
             try {
-              await deleteMutation.mutateAsync(record.id);
-              message.success('删除成功');
-              actionRef.current?.reload();
+              await deleteMutation.mutateAsync(record.id)
+              message.success('删除成功')
+              actionRef.current?.reload()
             } catch {
               // Error handling is done in request interceptor usually
             }
@@ -215,7 +216,7 @@ export default function InspectionDeviceList() {
         </Popconfirm>,
       ],
     },
-  ];
+  ]
 
   return (
     <PageContainer>
@@ -231,25 +232,25 @@ export default function InspectionDeviceList() {
             type="primary"
             key="primary"
             onClick={() => {
-              setCreateModalVisible(true);
+              setCreateModalVisible(true)
             }}
           >
             <PlusOutlined /> 新建设备
           </Button>,
         ]}
         request={async (params, sort) => {
-          const { current, pageSize, ...rest } = params;
+          const { current, pageSize, ...rest } = params
 
           // Handle sorting
-          let sortField: string | undefined;
-          let sortOrder: 'asc' | 'desc' | undefined;
+          let sortField: string | undefined
+          let sortOrder: 'asc' | 'desc' | undefined
 
-          const sortKeys = Object.keys(sort);
+          const sortKeys = Object.keys(sort)
           if (sortKeys.length > 0) {
-            sortField = sortKeys[0];
-            const order = sort[sortField];
-            if (order === 'ascend') sortOrder = 'asc';
-            else if (order === 'descend') sortOrder = 'desc';
+            sortField = sortKeys[0]
+            const order = sort[sortField]
+            if (order === 'ascend') sortOrder = 'asc'
+            else if (order === 'descend') sortOrder = 'desc'
           }
 
           try {
@@ -263,18 +264,18 @@ export default function InspectionDeviceList() {
               projectId: rest.projectId,
               sortField,
               sortOrder,
-            });
+            })
             return {
               data: res.data.data.content,
               success: true,
               total: res.data.data.total,
-            };
+            }
           } catch {
             return {
               data: [],
               success: false,
               total: 0,
-            };
+            }
           }
         }}
         columns={columns}
@@ -290,15 +291,15 @@ export default function InspectionDeviceList() {
           destroyOnClose: true,
         }}
         onFinish={async (value) => {
-          await createMutation.mutateAsync(value);
-          message.success('创建成功');
-          setCreateModalVisible(false);
-          actionRef.current?.reload();
-          return true;
+          await createMutation.mutateAsync(value)
+          message.success('创建成功')
+          setCreateModalVisible(false)
+          actionRef.current?.reload()
+          return true
         }}
         initialValues={{
-            port: 102,
-            status: DeviceStatusConstants.PENDING_INSPECTION
+          port: 102,
+          status: DeviceStatusConstants.PENDING_INSPECTION,
         }}
       >
         <ProFormText
@@ -369,10 +370,10 @@ export default function InspectionDeviceList() {
           options={projectOptions}
         />
         <ProFormSelect
-            name="status"
-            label="状态"
-            options={statusOptions}
-            placeholder="请选择状态"
+          name="status"
+          label="状态"
+          options={statusOptions}
+          placeholder="请选择状态"
         />
         <ProFormTextArea
           rules={[
@@ -401,21 +402,16 @@ export default function InspectionDeviceList() {
             await updateMutation.mutateAsync({
               id: currentRow.id,
               data: value,
-            });
-            message.success('更新成功');
-            setUpdateModalVisible(false);
-            setCurrentRow(undefined);
-            actionRef.current?.reload();
+            })
+            message.success('更新成功')
+            setUpdateModalVisible(false)
+            setCurrentRow(undefined)
+            actionRef.current?.reload()
           }
-          return true;
+          return true
         }}
       >
-        <ProFormText
-          name="deviceNo"
-          label="设备编号"
-          disabled
-          tooltip="设备编号不可修改"
-        />
+        <ProFormText name="deviceNo" label="设备编号" disabled tooltip="设备编号不可修改" />
         <ProFormText
           rules={[
             {
@@ -472,10 +468,10 @@ export default function InspectionDeviceList() {
           fieldProps={{ precision: 0 }}
         />
         <ProFormSelect
-            name="status"
-            label="状态"
-            options={statusOptions}
-            placeholder="请选择状态"
+          name="status"
+          label="状态"
+          options={statusOptions}
+          placeholder="请选择状态"
         />
         <ProFormTextArea
           rules={[
@@ -490,5 +486,5 @@ export default function InspectionDeviceList() {
         />
       </ModalForm>
     </PageContainer>
-  );
+  )
 }

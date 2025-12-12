@@ -1,11 +1,18 @@
-import { UserOutlined, DashboardOutlined, SettingOutlined, ProjectOutlined, ToolOutlined, ExperimentOutlined } from '@ant-design/icons';
-import type { ReactNode } from 'react';
+import {
+  UserOutlined,
+  DashboardOutlined,
+  SettingOutlined,
+  ProjectOutlined,
+  ToolOutlined,
+  ExperimentOutlined,
+} from '@ant-design/icons'
+import type { ReactNode } from 'react'
 
 export interface MenuItem {
-  path: string;
-  name: string;
-  icon?: ReactNode;
-  children?: MenuItem[];
+  path: string
+  name: string
+  icon?: ReactNode
+  children?: MenuItem[]
 }
 
 export const menuConfig: MenuItem[] = [
@@ -43,4 +50,4 @@ export const menuConfig: MenuItem[] = [
       },
     ],
   },
-];
+]
