@@ -1,4 +1,4 @@
-import { UserOutlined, DashboardOutlined, SettingOutlined } from '@ant-design/icons';
+import { UserOutlined, DashboardOutlined, SettingOutlined, ProjectOutlined } from '@ant-design/icons';
 import type { ReactNode } from 'react';
 
 export interface MenuItem {
@@ -13,6 +13,11 @@ export const menuConfig: MenuItem[] = [
     path: '/dashboard',
     name: '仪表盘',
     icon: <DashboardOutlined />,
+  },
+  {
+    path: '/projects',
+    name: '项目管理',
+    icon: <ProjectOutlined />,
   },
   {
     path: '/settings',
