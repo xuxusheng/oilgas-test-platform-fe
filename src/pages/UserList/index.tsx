@@ -173,7 +173,7 @@ export default function UserList() {
         }}
         onFinish={async (value) => {
           await createUserMutation.mutateAsync(value);
-          message.success('创建成功');
+          message.success('新建成功');
           setCreateModalVisible(false);
           actionRef.current?.reload();
           return true;
