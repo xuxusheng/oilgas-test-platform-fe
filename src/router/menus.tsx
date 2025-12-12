@@ -15,15 +15,15 @@ export const menuConfig: MenuItem[] = [
     icon: <DashboardOutlined />,
   },
   {
-    path: '/projects',
-    name: '项目管理',
-    icon: <ProjectOutlined />,
-  },
-  {
     path: '/settings',
     name: '系统设置',
     icon: <SettingOutlined />,
     children: [
+      {
+        path: '/settings/projects',
+        name: '项目管理',
+        icon: <ProjectOutlined />,
+      },
       {
         path: '/settings/users',
         name: '用户管理',

@@ -42,7 +42,6 @@ export default function ProjectList() {
     {
       title: '项目编号',
       dataIndex: 'projectNo',
-      copyable: true,
       ellipsis: true,
       formItemProps: {
         rules: [
