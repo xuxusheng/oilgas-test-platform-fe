@@ -11,7 +11,7 @@ import {
   ProFormTextArea,
   ProTable,
 } from '@ant-design/pro-components'
-import { Button, message, Popconfirm, Tag, Tooltip } from 'antd'
+import { Button, Popconfirm, Tag, Tooltip, App } from 'antd'
 import dayjs from 'dayjs'
 import { useRef, useState } from 'react'
 import {
@@ -60,6 +60,7 @@ export default function OilSampleList() {
   const [createModalVisible, setCreateModalVisible] = useState(false)
   const [updateModalVisible, setUpdateModalVisible] = useState(false)
   const [currentRow, setCurrentRow] = useState<OilSampleResponse>()
+  const { message: messageApi } = App.useApp()
 
   const createMutation = useCreateOilSample()
   const updateMutation = useUpdateOilSample()
@@ -223,7 +224,7 @@ export default function OilSampleList() {
           onConfirm={async () => {
             try {
               await deleteMutation.mutateAsync(record.id)
-              message.success('删除成功')
+              messageApi.success('删除成功')
               actionRef.current?.reload()
             } catch {
               // Error handling is done in request interceptor usually
@@ -326,7 +327,7 @@ export default function OilSampleList() {
               }
             }
             await createMutation.mutateAsync(value)
-            message.success('新建成功')
+            messageApi.success('新建成功')
             setCreateModalVisible(false)
             actionRef.current?.reload()
             return true
@@ -468,7 +469,7 @@ export default function OilSampleList() {
               id: currentRow.id,
               data: value,
             })
-            message.success('更新成功')
+            messageApi.success('更新成功')
             setUpdateModalVisible(false)
             setCurrentRow(undefined)
             actionRef.current?.reload()

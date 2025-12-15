@@ -9,7 +9,7 @@ import {
   ProFormDigit,
   ProTable,
 } from '@ant-design/pro-components'
-import { Button, message, Popconfirm, Tag } from 'antd'
+import { Button, Popconfirm, Tag, App } from 'antd'
 import { useRef, useState } from 'react'
 import {
   getInspectionDevicePage,
@@ -30,6 +30,7 @@ export default function InspectionDeviceList() {
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false)
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false)
   const [currentRow, setCurrentRow] = useState<InspectionDeviceResponse>()
+  const { message: messageApi } = App.useApp()
 
   const createMutation = useCreateInspectionDevice()
   const updateMutation = useUpdateInspectionDevice()
@@ -205,7 +206,7 @@ export default function InspectionDeviceList() {
           onConfirm={async () => {
             try {
               await deleteMutation.mutateAsync(record.id)
-              message.success('删除成功')
+              messageApi.success('删除成功')
               actionRef.current?.reload()
             } catch {
               // Error handling is done in request interceptor usually
@@ -292,7 +293,7 @@ export default function InspectionDeviceList() {
         }}
         onFinish={async (value) => {
           await createMutation.mutateAsync(value)
-          message.success('创建成功')
+          messageApi.success('创建成功')
           setCreateModalVisible(false)
           actionRef.current?.reload()
           return true
@@ -403,7 +404,7 @@ export default function InspectionDeviceList() {
               id: currentRow.id,
               data: value,
             })
-            message.success('更新成功')
+            messageApi.success('更新成功')
             setUpdateModalVisible(false)
             setCurrentRow(undefined)
             actionRef.current?.reload()

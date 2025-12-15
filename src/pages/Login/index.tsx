@@ -1,5 +1,5 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Checkbox, Form, Input, message, Typography } from 'antd'
+import { Button, Checkbox, Form, Input, Typography, App } from 'antd'
 import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { useLogin } from '../../features/auth/api/auth'
 import { useAuthStore } from '../../store/useAuthStore'
@@ -13,12 +13,13 @@ const Login = () => {
   const location = useLocation()
   const { setToken, setUserInfo } = useAuthStore()
   const { mutateAsync: login, isPending } = useLogin()
+  const { message: messageApi } = App.useApp()
 
   const from = location.state?.from?.pathname || '/dashboard'
 
   const onFinish = async (values: LoginRequest) => {
     const res = await login(values)
-    message.success('登录成功')
+    messageApi.success('登录成功')
     setToken(res.data.data.accessToken)
     setUserInfo({
       id: res.data.data.userId,

@@ -1,5 +1,5 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Card, Form, Input, message } from 'antd'
+import { Button, Card, Form, Input, App } from 'antd'
 import { useNavigate, Link } from 'react-router-dom'
 import { useRegister } from '../../features/auth/api/auth'
 import type { RegisterRequest } from '../../features/auth/types'
@@ -7,11 +7,12 @@ import type { RegisterRequest } from '../../features/auth/types'
 const Register = () => {
   const navigate = useNavigate()
   const { mutate: registerMutate, isPending } = useRegister()
+  const { message: messageApi } = App.useApp()
 
   const onFinish = (values: RegisterRequest) => {
     registerMutate(values, {
       onSuccess: () => {
-        message.success('Registration successful! Please login.')
+        messageApi.success('Registration successful! Please login.')
         navigate('/login')
       },
       onError: (error: Error) => {

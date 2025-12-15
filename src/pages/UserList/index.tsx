@@ -7,7 +7,7 @@ import {
   ProFormText,
   ProTable,
 } from '@ant-design/pro-components'
-import { Button, message, Popconfirm } from 'antd'
+import { Button, Popconfirm, App } from 'antd'
 import { useRef, useState } from 'react'
 import {
   getUserPage,
@@ -23,6 +23,7 @@ export default function UserList() {
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false)
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false)
   const [currentRow, setCurrentRow] = useState<UserResponse>()
+  const { message: messageApi } = App.useApp()
 
   const createUserMutation = useCreateUser()
   const updateUserMutation = useUpdateUser()
@@ -85,7 +86,7 @@ export default function UserList() {
           onConfirm={async () => {
             try {
               await deleteUserMutation.mutateAsync(record.id)
-              message.success('删除成功')
+              messageApi.success('删除成功')
               actionRef.current?.reload()
             } catch {
               // Error handling is done in request interceptor usually, but good to have here too if needed
@@ -169,7 +170,7 @@ export default function UserList() {
         }}
         onFinish={async (value) => {
           await createUserMutation.mutateAsync(value)
-          message.success('新建成功')
+          messageApi.success('新建成功')
           setCreateModalVisible(false)
           actionRef.current?.reload()
           return true
@@ -241,7 +242,7 @@ export default function UserList() {
               id: currentRow.id,
               data: value,
             })
-            message.success('更新成功')
+            messageApi.success('更新成功')
             setUpdateModalVisible(false)
             setCurrentRow(undefined)
             actionRef.current?.reload()
