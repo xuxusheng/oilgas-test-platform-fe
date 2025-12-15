@@ -313,11 +313,27 @@ export default function OilSampleList() {
           parameters: [],
         }}
         onFinish={async (value) => {
-          await createMutation.mutateAsync(value)
-          message.success('创建成功')
-          setCreateModalVisible(false)
-          actionRef.current?.reload()
-          return true
+          try {
+            // 统一处理日期格式：转为 ISO8601 (保留本地时区)
+            if (value.offlineTestedAt) {
+              if (typeof value.offlineTestedAt === 'string') {
+                // 字符串格式，用 dayjs 转换
+                value.offlineTestedAt = dayjs(value.offlineTestedAt).format()
+              } else if (typeof value.offlineTestedAt.format === 'function') {
+                // dayjs 对象，直接转换
+                value.offlineTestedAt = value.offlineTestedAt.format()
+              }
+            }
+            await createMutation.mutateAsync(value)
+            message.success('新建成功')
+            setCreateModalVisible(false)
+            actionRef.current?.reload()
+            return true
+          } catch (error) {
+            // 错误已在 request 拦截器中处理，这里只需返回 false 防止弹窗关闭
+            console.error('创建油样失败:', error)
+            return false
+          }
         }}
       >
         <ProFormText
@@ -362,7 +378,6 @@ export default function OilSampleList() {
         <ProFormDateTimePicker
           name="offlineTestedAt"
           label="离线测试时间"
-          transform={(value) => (value ? value.toISOString() : undefined)}
         />
         <ProFormText name="offlineTestNo" label="离线测试编号" placeholder="可选" />
 
@@ -437,16 +452,29 @@ export default function OilSampleList() {
             : undefined
         }
         onFinish={async (value) => {
-          if (!currentRow) return true
-          await updateMutation.mutateAsync({
-            id: currentRow.id,
-            data: value,
-          })
-          message.success('更新成功')
-          setUpdateModalVisible(false)
-          setCurrentRow(undefined)
-          actionRef.current?.reload()
-          return true
+          try {
+            if (!currentRow) return true
+            // 统一处理日期格式：转为 ISO8601 (保留本地时区)
+            if (value.offlineTestedAt) {
+              if (typeof value.offlineTestedAt === 'string') {
+                value.offlineTestedAt = dayjs(value.offlineTestedAt).format()
+              } else if (typeof value.offlineTestedAt.format === 'function') {
+                value.offlineTestedAt = value.offlineTestedAt.format()
+              }
+            }
+            await updateMutation.mutateAsync({
+              id: currentRow.id,
+              data: value,
+            })
+            message.success('更新成功')
+            setUpdateModalVisible(false)
+            setCurrentRow(undefined)
+            actionRef.current?.reload()
+            return true
+          } catch (error) {
+            console.error('更新油样失败:', error)
+            return false
+          }
         }}
       >
         <ProFormText
@@ -492,7 +520,6 @@ export default function OilSampleList() {
         <ProFormDateTimePicker
           name="offlineTestedAt"
           label="离线测试时间"
-          transform={(value) => (value ? value.toISOString() : undefined)}
         />
         <ProFormText name="offlineTestNo" label="离线测试编号" placeholder="可选" />
 
