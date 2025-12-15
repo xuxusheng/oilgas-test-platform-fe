@@ -382,7 +382,7 @@ export default function OilSampleList() {
           copyIconProps={false}
           deleteIconProps={{ tooltipText: '删除' }}
           itemRender={(dom) => (
-            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', width: '100%' }}>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'baseline	', width: '100%' }}>
               <div style={{ flex: 1, minWidth: 0 }}>{dom.listDom}</div>
               <div style={{ flex: 'none', marginTop: 4 }}>{dom.action}</div>
             </div>
@@ -512,7 +512,7 @@ export default function OilSampleList() {
           copyIconProps={false}
           deleteIconProps={{ tooltipText: '删除' }}
           itemRender={(dom) => (
-            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', width: '100%' }}>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'baseline', width: '100%' }}>
               <div style={{ flex: 1, minWidth: 0 }}>{dom.listDom}</div>
               <div style={{ flex: 'none', marginTop: 4 }}>{dom.action}</div>
             </div>
