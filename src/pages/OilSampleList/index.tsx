@@ -316,12 +316,13 @@ export default function OilSampleList() {
           try {
             // 统一处理日期格式：转为 ISO8601 (保留本地时区)
             if (value.offlineTestedAt) {
-              if (typeof value.offlineTestedAt === 'string') {
+              const dateValue = value.offlineTestedAt
+              if (typeof dateValue === 'string') {
                 // 字符串格式，用 dayjs 转换
-                value.offlineTestedAt = dayjs(value.offlineTestedAt).format()
-              } else if (typeof value.offlineTestedAt.format === 'function') {
+                value.offlineTestedAt = dayjs(dateValue).format()
+              } else {
                 // dayjs 对象，直接转换
-                value.offlineTestedAt = value.offlineTestedAt.format()
+                value.offlineTestedAt = (dateValue as dayjs.Dayjs).format()
               }
             }
             await createMutation.mutateAsync(value)
@@ -456,10 +457,11 @@ export default function OilSampleList() {
             if (!currentRow) return true
             // 统一处理日期格式：转为 ISO8601 (保留本地时区)
             if (value.offlineTestedAt) {
-              if (typeof value.offlineTestedAt === 'string') {
-                value.offlineTestedAt = dayjs(value.offlineTestedAt).format()
-              } else if (typeof value.offlineTestedAt.format === 'function') {
-                value.offlineTestedAt = value.offlineTestedAt.format()
+              const dateValue = value.offlineTestedAt
+              if (typeof dateValue === 'string') {
+                value.offlineTestedAt = dayjs(dateValue).format()
+              } else {
+                value.offlineTestedAt = (dateValue as dayjs.Dayjs).format()
               }
             }
             await updateMutation.mutateAsync({
