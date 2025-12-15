@@ -16,7 +16,7 @@ import {
   useUpdateUser,
 } from '../../features/user/api/user'
 import { UserRoleConstants } from '../../features/user/types'
-import type { CreateUserRequest, UpdateUserRequest, UserResponse } from '../../features/user/types'
+import type { CreateUserRequest, UpdateUserRequest, UserResponse, UserRole } from '../../features/user/types'
 
 export default function UserList() {
   const actionRef = useRef<ActionType>(null)
@@ -138,7 +138,7 @@ export default function UserList() {
               page: current,
               size: pageSize,
               username: rest.username,
-              role: rest.role as UserRoleConstants,
+              role: rest.role as UserRole,
               sortField,
               sortOrder,
             })

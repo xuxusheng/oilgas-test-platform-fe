@@ -22,6 +22,18 @@ export const menuConfig: MenuItem[] = [
     icon: <DashboardOutlined />,
   },
   {
+    path: '/test-line-management',
+    name: '测试线管理',
+    icon: <ExperimentOutlined />,
+    children: [
+      {
+        path: '/test-line-management/oil-samples',
+        name: '油样管理',
+        icon: <ExperimentOutlined />,
+      },
+    ],
+  },
+  {
     path: '/device-management',
     name: '设备管理',
     icon: <ToolOutlined />,
