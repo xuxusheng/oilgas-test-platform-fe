@@ -165,7 +165,7 @@ export default function UserList() {
         onOpenChange={setCreateModalVisible}
         autoComplete="off"
         modalProps={{
-          destroyOnClose: true,
+          destroyOnHidden: true,
         }}
         onFinish={async (value) => {
           await createUserMutation.mutateAsync(value)
@@ -233,7 +233,7 @@ export default function UserList() {
         onOpenChange={setUpdateModalVisible}
         initialValues={currentRow}
         modalProps={{
-          destroyOnClose: true,
+          destroyOnHidden: true,
         }}
         onFinish={async (value) => {
           if (currentRow) {

@@ -305,7 +305,7 @@ export default function OilSampleList() {
         onOpenChange={setCreateModalVisible}
         autoComplete="off"
         modalProps={{
-          destroyOnClose: true,
+          destroyOnHidden: true,
         }}
         initialValues={{
           status: OilSampleStatusConstants.ENABLED,
@@ -440,7 +440,7 @@ export default function OilSampleList() {
         onOpenChange={setUpdateModalVisible}
         autoComplete="off"
         modalProps={{
-          destroyOnClose: true,
+          destroyOnHidden: true,
         }}
         initialValues={
           currentRow

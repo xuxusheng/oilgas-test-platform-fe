@@ -288,7 +288,7 @@ export default function InspectionDeviceList() {
         onOpenChange={setCreateModalVisible}
         autoComplete="off"
         modalProps={{
-          destroyOnClose: true,
+          destroyOnHidden: true,
         }}
         onFinish={async (value) => {
           await createMutation.mutateAsync(value)
@@ -395,7 +395,7 @@ export default function InspectionDeviceList() {
         onOpenChange={setUpdateModalVisible}
         initialValues={currentRow}
         modalProps={{
-          destroyOnClose: true,
+          destroyOnHidden: true,
         }}
         onFinish={async (value) => {
           if (currentRow) {

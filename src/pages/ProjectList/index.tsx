@@ -203,7 +203,7 @@ export default function ProjectList() {
         onOpenChange={setCreateModalVisible}
         autoComplete="off"
         modalProps={{
-          destroyOnClose: true,
+          destroyOnHidden: true,
         }}
         onFinish={async (value) => {
           await createProjectMutation.mutateAsync(value)
@@ -274,7 +274,7 @@ export default function ProjectList() {
         onOpenChange={setUpdateModalVisible}
         initialValues={currentRow}
         modalProps={{
-          destroyOnClose: true,
+          destroyOnHidden: true,
         }}
         onFinish={async (value) => {
           if (currentRow) {
