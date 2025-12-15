@@ -15,5 +15,8 @@ export * from './project'
 // 检测设备管理功能模块
 export * from './inspection-device'
 
+// 油样管理功能模块
+export * from './oil-sample'
+
 // 类型导出
 export type { ApiResponse } from '../types/api'
