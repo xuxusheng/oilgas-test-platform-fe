@@ -13,6 +13,7 @@ export const ROUTES = {
 
   // 测试线管理
   OIL_SAMPLES: '/test-line-management/oil-samples',
+  TEST_STATIONS: '/test-line-management/test-stations',
 
   // 设备管理
   INSPECTION_DEVICES: '/device-management/inspection-devices',
@@ -29,7 +30,7 @@ export const ROUTES = {
 export const ROUTE_GROUPS = {
   AUTH: [ROUTES.LOGIN, ROUTES.REGISTER],
   DASHBOARD: [ROUTES.DASHBOARD],
-  TEST_LINE: [ROUTES.OIL_SAMPLES],
+  TEST_LINE: [ROUTES.OIL_SAMPLES, ROUTES.TEST_STATIONS],
   DEVICE: [ROUTES.INSPECTION_DEVICES],
   SETTINGS: [ROUTES.PROJECTS, ROUTES.USERS],
 } as const
@@ -54,5 +55,5 @@ export const getPath = (key: keyof typeof ROUTES, params?: Record<string, string
  * 检查路径是否属于某个分组
  */
 export const isPathInGroup = (path: string, group: keyof typeof ROUTE_GROUPS): boolean => {
-  return ROUTE_GROUPS[group].includes(path as any)
+  return ROUTE_GROUPS[group].includes(path as never)
 }

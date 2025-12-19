@@ -5,6 +5,7 @@ import UserList from '../pages/UserList'
 import ProjectList from '../pages/ProjectList'
 import InspectionDeviceList from '../pages/InspectionDeviceList'
 import OilSampleList from '../pages/OilSampleList'
+import TestStationList from '../pages/TestStationList'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 import RequireAuth from '../components/RequireAuth'
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.OIL_SAMPLES,
         element: <OilSampleList />,
+      },
+      {
+        path: ROUTES.TEST_STATIONS,
+        element: <TestStationList />,
       },
     ],
   },

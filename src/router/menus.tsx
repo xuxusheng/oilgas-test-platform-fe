@@ -5,6 +5,7 @@ import {
   ProjectOutlined,
   ToolOutlined,
   ExperimentOutlined,
+  ApartmentOutlined,
 } from '@ant-design/icons'
 import type { ReactNode } from 'react'
 import { ROUTES } from './routes'
@@ -35,6 +36,11 @@ export const menuConfig: MenuItem[] = [
         path: ROUTES.OIL_SAMPLES,
         name: '油样管理',
         icon: <ExperimentOutlined />,
+      },
+      {
+        path: ROUTES.TEST_STATIONS,
+        name: '测试工位',
+        icon: <ApartmentOutlined />,
       },
     ],
   },
