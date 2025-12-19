@@ -8,6 +8,7 @@ export type {
   UserPageRequest,
   UserPageResponse,
   UserRole,
+  ValidateUsernameRequest,
 } from './types'
 
 // 常量
@@ -27,4 +28,6 @@ export {
   useUpdateUser,
   deleteUser,
   useDeleteUser,
+  validateUsername,
+  useValidateUsername,
 } from './api/user'

@@ -76,3 +76,13 @@ export interface UserPageResponse {
   page: number // 当前页码
   size: number // 每页记录数
 }
+
+/**
+ * 验证用户名唯一性请求接口
+ *
+ * GET /api/users/validate-username/{username}
+ */
+export interface ValidateUsernameRequest {
+  /** 用户名 */
+  username: string
+}

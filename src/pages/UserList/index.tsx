@@ -28,13 +28,13 @@ export default function UserList() {
   const { message: messageApi } = App.useApp()
 
   // 使用 React Query 的 hooks
-  const { data, isLoading, error, refetch } = useUserPage(searchParams)
+  const { data, isLoading, error } = useUserPage(searchParams)
   const createUserMutation = useCreateUser()
   const updateUserMutation = useUpdateUser()
   const deleteUserMutation = useDeleteUser()
 
   // 处理表格请求 - 使用 React Query 的数据
-  const handleTableRequest = useCallback(async (params: any) => {
+  const handleTableRequest = useCallback(async (params: Record<string, unknown>) => {
     const { current, pageSize, username, role, ...sortParams } = params
 
     // 处理排序
@@ -75,7 +75,8 @@ export default function UserList() {
       setCreateModalVisible(false)
       actionRef.current?.reload()
       return true
-    } catch {
+    } catch (error) {
+      console.error('新建用户失败:', error)
       return false
     }
   }
@@ -94,7 +95,8 @@ export default function UserList() {
       setCurrentRow(undefined)
       actionRef.current?.reload()
       return true
-    } catch {
+    } catch (error) {
+      console.error('更新用户失败:', error)
       return false
     }
   }
@@ -105,8 +107,8 @@ export default function UserList() {
       await deleteUserMutation.mutateAsync(id)
       messageApi.success('删除成功')
       actionRef.current?.reload()
-    } catch {
-      // 错误已在 interceptor 中处理
+    } catch (error) {
+      console.error('删除用户失败:', error)
     }
   }
 

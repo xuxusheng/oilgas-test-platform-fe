@@ -10,15 +10,16 @@ export type {
   GetOilSampleByNoRequest,
   ValidateSampleNoRequest,
   OilSampleUsage,
-  OilSampleStatus,
+  OilSampleEnabled,
   OilParameterKey,
   ParameterItem,
+  OilSampleStatusChangeRequest,
 } from './types'
 
 // 常量
 export {
   OilSampleUsageConstants,
-  OilSampleStatusConstants,
+  OilSampleEnabledConstants,
   OilParameterKeyConstants,
 } from './types'
 
@@ -40,4 +41,10 @@ export {
   useUpdateOilSample,
   deleteOilSample,
   useDeleteOilSample,
+  enableOilSample,
+  useEnableOilSample,
+  disableOilSample,
+  useDisableOilSample,
+  toggleOilSample,
+  useToggleOilSample,
 } from './api/oil-sample'

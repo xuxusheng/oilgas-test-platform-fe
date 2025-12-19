@@ -20,18 +20,18 @@ export const OilSampleUsageConstants = {
 }
 
 /**
- * 油样状态类型
+ * 油样启用状态类型
  */
-export type OilSampleStatus = 'ENABLED' | 'DISABLED'
+export type OilSampleEnabled = boolean
 
 /**
- * 油样状态常量
+ * 油样启用状态常量
  */
-export const OilSampleStatusConstants = {
+export const OilSampleEnabledConstants = {
   /** 启用 */
-  ENABLED: 'ENABLED' as OilSampleStatus,
+  ENABLED: true as OilSampleEnabled,
   /** 禁用 */
-  DISABLED: 'DISABLED' as OilSampleStatus,
+  DISABLED: false as OilSampleEnabled,
 }
 
 /**
@@ -94,8 +94,8 @@ export interface OilSampleResponse {
   offlineTestedAt?: string
   /** 离线测试编号（可选） */
   offlineTestNo?: string
-  /** 油样状态 */
-  status: OilSampleStatus | string
+  /** 是否启用 */
+  enabled: boolean
   /** 备注（可选） */
   remark?: string
   /** 创建者（可选） */
@@ -129,8 +129,8 @@ export interface CreateOilSampleRequest {
   offlineTestedAt?: string
   /** 离线测试编号（可选） */
   offlineTestNo?: string
-  /** 油样状态 */
-  status: OilSampleStatus | string
+  /** 是否启用 */
+  enabled: boolean
   /** 备注（可选） */
   remark?: string
 }
@@ -156,8 +156,8 @@ export interface UpdateOilSampleRequest {
   offlineTestedAt?: string
   /** 离线测试编号 */
   offlineTestNo?: string
-  /** 油样状态 */
-  status?: OilSampleStatus | string
+  /** 是否启用 */
+  enabled?: boolean
   /** 备注 */
   remark?: string
 }
@@ -183,8 +183,8 @@ export interface OilSamplePageRequest {
   sampleName?: string
   /** 用途筛选 */
   usage?: OilSampleUsage | string
-  /** 状态筛选 */
-  status?: OilSampleStatus | string
+  /** 启用状态筛选 */
+  enabled?: boolean
   /** 油缸编号筛选 */
   cylinderNo?: number
 }
@@ -223,4 +223,16 @@ export interface GetOilSampleByNoRequest {
 export interface ValidateSampleNoRequest {
   /** 油样编号 */
   sampleNo: string
+}
+
+/**
+ * 油样启用/禁用操作请求接口
+ *
+ * PATCH /api/oil-samples/{id}/enable
+ * PATCH /api/oil-samples/{id}/disable
+ * PATCH /api/oil-samples/{id}/toggle
+ */
+export interface OilSampleStatusChangeRequest {
+  /** 油样 ID */
+  id: number
 }

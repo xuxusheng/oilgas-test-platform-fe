@@ -137,3 +137,57 @@ export const useDeleteOilSample = () => {
     },
   })
 }
+
+/** 启用油样 */
+export const enableOilSample = (id: number) => {
+  return request.patch<ApiResponse<OilSampleResponse>>(`/api/oil-samples/${id}/enable`)
+}
+
+/** 启用油样 Hook */
+export const useEnableOilSample = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: enableOilSample,
+    onSuccess: () => {
+      // 启用成功后，使相关的查询缓存失效
+      queryClient.invalidateQueries({ queryKey: ['oil-samples'] })
+    },
+  })
+}
+
+/** 禁用油样 */
+export const disableOilSample = (id: number) => {
+  return request.patch<ApiResponse<OilSampleResponse>>(`/api/oil-samples/${id}/disable`)
+}
+
+/** 禁用油样 Hook */
+export const useDisableOilSample = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: disableOilSample,
+    onSuccess: () => {
+      // 禁用成功后，使相关的查询缓存失效
+      queryClient.invalidateQueries({ queryKey: ['oil-samples'] })
+    },
+  })
+}
+
+/** 切换油样启用状态 */
+export const toggleOilSample = (id: number) => {
+  return request.patch<ApiResponse<OilSampleResponse>>(`/api/oil-samples/${id}/toggle`)
+}
+
+/** 切换油样启用状态 Hook */
+export const useToggleOilSample = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: toggleOilSample,
+    onSuccess: () => {
+      // 切换成功后，使相关的查询缓存失效
+      queryClient.invalidateQueries({ queryKey: ['oil-samples'] })
+    },
+  })
+}

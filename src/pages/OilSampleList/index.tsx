@@ -20,10 +20,12 @@ import {
   useDeleteOilSample,
   useUpdateOilSample,
   validateSampleNo,
+  useEnableOilSample,
+  useDisableOilSample,
 } from '../../features/oil-sample/api/oil-sample'
 import {
   OilParameterKeyConstants,
-  OilSampleStatusConstants,
+  OilSampleEnabledConstants,
   OilSampleUsageConstants,
 } from '../../features/oil-sample/types'
 import type {
@@ -39,9 +41,9 @@ const usageOptions = [
   { label: '交叉灵敏度测试', value: OilSampleUsageConstants.CROSS_SENSITIVITY_TEST },
 ]
 
-const statusOptions = [
-  { label: '启用', value: OilSampleStatusConstants.ENABLED, color: 'success' },
-  { label: '禁用', value: OilSampleStatusConstants.DISABLED, color: 'default' },
+const enabledOptions = [
+  { label: '启用', value: OilSampleEnabledConstants.ENABLED, color: 'success' },
+  { label: '禁用', value: OilSampleEnabledConstants.DISABLED, color: 'default' },
 ]
 
 const parameterKeyOptions = [
@@ -65,6 +67,8 @@ export default function OilSampleList() {
   const createMutation = useCreateOilSample()
   const updateMutation = useUpdateOilSample()
   const deleteMutation = useDeleteOilSample()
+  const enableMutation = useEnableOilSample()
+  const disableMutation = useDisableOilSample()
 
   const columns: ProColumns<OilSampleResponse>[] = [
     {
@@ -174,14 +178,14 @@ export default function OilSampleList() {
     },
     {
       title: '状态',
-      dataIndex: 'status',
+      dataIndex: 'enabled',
       valueType: 'select',
       fieldProps: {
-        options: statusOptions.map(({ label, value }) => ({ label, value })),
+        options: enabledOptions.map(({ label, value }) => ({ label, value })),
       },
       render: (_, record) => {
-        const status = statusOptions.find((s) => s.value === record.status)
-        return status ? <Tag color={status.color}>{status.label}</Tag> : record.status
+        const enabled = enabledOptions.find((s) => s.value === record.enabled)
+        return enabled ? <Tag color={enabled.color}>{enabled.label}</Tag> : (record.enabled ? '启用' : '禁用')
       },
       formItemProps: {
         rules: [{ required: true, message: '请选择状态' }],
@@ -206,7 +210,7 @@ export default function OilSampleList() {
       title: '操作',
       valueType: 'option',
       key: 'option',
-      width: 120,
+      width: 180,
       fixed: 'right',
       render: (_, record) => [
         <a
@@ -218,6 +222,39 @@ export default function OilSampleList() {
         >
           编辑
         </a>,
+        record.enabled ? (
+          <Popconfirm
+            key="disable"
+            title="确定要禁用此油样吗？"
+            onConfirm={async () => {
+              try {
+                await disableMutation.mutateAsync(record.id)
+                messageApi.success('禁用成功')
+                actionRef.current?.reload()
+              } catch (error) {
+                console.error('禁用失败:', error)
+              }
+            }}
+          >
+            <a>禁用</a>
+          </Popconfirm>
+        ) : (
+          <Popconfirm
+            key="enable"
+            title="确定要启用此油样吗？"
+            onConfirm={async () => {
+              try {
+                await enableMutation.mutateAsync(record.id)
+                messageApi.success('启用成功')
+                actionRef.current?.reload()
+              } catch (error) {
+                console.error('启用失败:', error)
+              }
+            }}
+          >
+            <a>启用</a>
+          </Popconfirm>
+        ),
         <Popconfirm
           key="delete"
           title="确定要删除此油样吗？"
@@ -226,8 +263,8 @@ export default function OilSampleList() {
               await deleteMutation.mutateAsync(record.id)
               messageApi.success('删除成功')
               actionRef.current?.reload()
-            } catch {
-              // Error handling is done in request interceptor usually
+            } catch (error) {
+              console.error('删除失败:', error)
             }
           }}
         >
@@ -278,7 +315,7 @@ export default function OilSampleList() {
               sampleNo: rest.sampleNo,
               sampleName: rest.sampleName,
               usage: rest.usage,
-              status: rest.status,
+              enabled: rest.enabled,
               cylinderNo: rest.cylinderNo ? Number(rest.cylinderNo) : undefined,
               sortField,
               sortOrder,
@@ -288,7 +325,8 @@ export default function OilSampleList() {
               success: true,
               total: res.data.data.total,
             }
-          } catch {
+          } catch (error) {
+            console.error('查询油样列表失败:', error)
             return {
               data: [],
               success: false,
@@ -309,7 +347,7 @@ export default function OilSampleList() {
           destroyOnHidden: true,
         }}
         initialValues={{
-          status: OilSampleStatusConstants.ENABLED,
+          enabled: OilSampleEnabledConstants.ENABLED,
           usage: OilSampleUsageConstants.CALIBRATION,
           parameters: [],
         }}
@@ -384,9 +422,9 @@ export default function OilSampleList() {
         <ProFormText name="offlineTestNo" label="离线测试编号" placeholder="可选" />
 
         <ProFormSelect
-          name="status"
+          name="enabled"
           label="状态"
-          options={statusOptions.map(({ label, value }) => ({ label, value }))}
+          options={enabledOptions.map(({ label, value }) => ({ label, value }))}
           rules={[{ required: true, message: '请选择状态' }]}
         />
 
@@ -527,9 +565,9 @@ export default function OilSampleList() {
         <ProFormText name="offlineTestNo" label="离线测试编号" placeholder="可选" />
 
         <ProFormSelect
-          name="status"
+          name="enabled"
           label="状态"
-          options={statusOptions.map(({ label, value }) => ({ label, value }))}
+          options={enabledOptions.map(({ label, value }) => ({ label, value }))}
           rules={[{ required: true, message: '请选择状态' }]}
         />
 

@@ -7,6 +7,7 @@ import type {
   UpdateUserRequest,
   UserPageRequest,
   UserPageResponse,
+  ValidateUsernameRequest,
 } from '../types'
 
 /**
@@ -104,5 +105,19 @@ export const useDeleteUser = () => {
       // 删除成功后，使相关的查询缓存失效
       queryClient.invalidateQueries({ queryKey: ['users'] })
     },
+  })
+}
+
+/** 验证用户名唯一性 */
+export const validateUsername = (data: ValidateUsernameRequest) => {
+  return request.get<ApiResponse<boolean>>(`/api/users/validate-username/${data.username}`)
+}
+
+/** 验证用户名唯一性 Hook */
+export const useValidateUsername = (username: string) => {
+  return useQuery({
+    queryKey: ['users', 'validate-username', username],
+    queryFn: () => validateUsername({ username }),
+    enabled: !!username, // 只有当username存在时才执行查询
   })
 }

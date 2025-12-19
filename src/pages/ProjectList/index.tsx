@@ -125,8 +125,8 @@ export default function ProjectList() {
               await deleteProjectMutation.mutateAsync(record.id)
               messageApi.success('删除成功')
               actionRef.current?.reload()
-            } catch {
-              // Error handling is done in request interceptor usually
+            } catch (error) {
+              console.error('删除失败:', error)
             }
           }}
         >
@@ -186,7 +186,8 @@ export default function ProjectList() {
               success: true,
               total: res.data.data.total,
             }
-          } catch {
+          } catch (error) {
+            console.error('查询项目列表失败:', error)
             return {
               data: [],
               success: false,
