@@ -10,7 +10,6 @@ export type {
   GetDeviceByNoRequest,
   ValidateSerialNumberRequest,
   ValidateIpRequest,
-  RestoreInspectionDeviceRequest,
   DeviceStatus,
 } from './types'
 
@@ -37,6 +36,4 @@ export {
   useUpdateInspectionDevice,
   deleteInspectionDevice,
   useDeleteInspectionDevice,
-  restoreInspectionDevice,
-  useRestoreInspectionDevice,
 } from './api/inspection-device'

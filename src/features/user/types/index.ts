@@ -76,13 +76,3 @@ export interface UserPageResponse {
   page: number // 当前页码
   size: number // 每页记录数
 }
-
-/**
- * 用户恢复请求接口
- *
- * POST /api/users/{id}/restore
- * 用于恢复已软删除的用户
- */
-export interface RestoreUserRequest {
-  id: number // 需要恢复的用户ID
-}

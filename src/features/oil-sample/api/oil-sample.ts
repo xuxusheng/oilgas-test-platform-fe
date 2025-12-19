@@ -9,7 +9,6 @@ import type {
   OilSamplePageResponse,
   GetOilSampleByNoRequest,
   ValidateSampleNoRequest,
-  RestoreOilSampleRequest,
 } from '../types'
 
 /**
@@ -134,24 +133,6 @@ export const useDeleteOilSample = () => {
     mutationFn: deleteOilSample,
     onSuccess: () => {
       // 删除成功后，使相关的查询缓存失效
-      queryClient.invalidateQueries({ queryKey: ['oil-samples'] })
-    },
-  })
-}
-
-/** 恢复已删除的油样 */
-export const restoreOilSample = (data: RestoreOilSampleRequest) => {
-  return request.post<ApiResponse<OilSampleResponse>>(`/api/oil-samples/${data.id}/restore`, data)
-}
-
-/** 恢复已删除的油样 Hook */
-export const useRestoreOilSample = () => {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: restoreOilSample,
-    onSuccess: () => {
-      // 恢复成功后，使相关的查询缓存失效
       queryClient.invalidateQueries({ queryKey: ['oil-samples'] })
     },
   })

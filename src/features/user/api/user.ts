@@ -7,7 +7,6 @@ import type {
   UpdateUserRequest,
   UserPageRequest,
   UserPageResponse,
-  RestoreUserRequest,
 } from '../types'
 
 /**
@@ -103,24 +102,6 @@ export const useDeleteUser = () => {
     mutationFn: deleteUser,
     onSuccess: () => {
       // 删除成功后，使相关的查询缓存失效
-      queryClient.invalidateQueries({ queryKey: ['users'] })
-    },
-  })
-}
-
-/** 恢复已删除的用户 */
-export const restoreUser = (data: RestoreUserRequest) => {
-  return request.post<ApiResponse<UserResponse>>(`/api/users/${data.id}/restore`, data)
-}
-
-/** 恢复已删除的用户 Hook */
-export const useRestoreUser = () => {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: restoreUser,
-    onSuccess: () => {
-      // 恢复成功后，使相关的查询缓存失效
       queryClient.invalidateQueries({ queryKey: ['users'] })
     },
   })

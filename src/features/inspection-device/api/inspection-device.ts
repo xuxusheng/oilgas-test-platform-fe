@@ -10,7 +10,6 @@ import type {
   GetDeviceByNoRequest,
   ValidateSerialNumberRequest,
   ValidateIpRequest,
-  RestoreInspectionDeviceRequest,
 } from '../types'
 
 /**
@@ -155,27 +154,6 @@ export const useDeleteInspectionDevice = () => {
     mutationFn: deleteInspectionDevice,
     onSuccess: () => {
       // 删除成功后，使相关的查询缓存失效
-      queryClient.invalidateQueries({ queryKey: ['inspection-devices'] })
-    },
-  })
-}
-
-/** 恢复已删除的检测设备 */
-export const restoreInspectionDevice = (data: RestoreInspectionDeviceRequest) => {
-  return request.post<ApiResponse<InspectionDeviceResponse>>(
-    `/api/inspection-devices/${data.id}/restore`,
-    data,
-  )
-}
-
-/** 恢复已删除的检测设备 Hook */
-export const useRestoreInspectionDevice = () => {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: restoreInspectionDevice,
-    onSuccess: () => {
-      // 恢复成功后，使相关的查询缓存失效
       queryClient.invalidateQueries({ queryKey: ['inspection-devices'] })
     },
   })

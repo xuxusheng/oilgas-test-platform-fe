@@ -9,7 +9,6 @@ export type {
   OilSamplePageResponse,
   GetOilSampleByNoRequest,
   ValidateSampleNoRequest,
-  RestoreOilSampleRequest,
   OilSampleUsage,
   OilSampleStatus,
   OilParameterKey,
@@ -41,6 +40,4 @@ export {
   useUpdateOilSample,
   deleteOilSample,
   useDeleteOilSample,
-  restoreOilSample,
-  useRestoreOilSample,
 } from './api/oil-sample'

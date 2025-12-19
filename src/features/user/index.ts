@@ -7,7 +7,6 @@ export type {
   UpdateUserRequest,
   UserPageRequest,
   UserPageResponse,
-  RestoreUserRequest,
   UserRole,
 } from './types'
 
@@ -28,6 +27,4 @@ export {
   useUpdateUser,
   deleteUser,
   useDeleteUser,
-  restoreUser,
-  useRestoreUser,
 } from './api/user'

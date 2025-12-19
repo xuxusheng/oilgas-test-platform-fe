@@ -9,7 +9,6 @@ export type {
   ProjectPageResponse,
   GetProjectByNoRequest,
   ValidateProjectNoRequest,
-  RestoreProjectRequest,
 } from './types'
 
 // API 服务
@@ -30,6 +29,4 @@ export {
   useUpdateProject,
   deleteProject,
   useDeleteProject,
-  restoreProject,
-  useRestoreProject,
 } from './api/project'

@@ -140,7 +140,6 @@ src/
 - `POST /api/users` - 创建新用户
 - `PUT /api/users/{id}` - 更新用户信息
 - `DELETE /api/users/{id}` - 删除用户（软删除）
-- `POST /api/users/{id}/restore` - 恢复已删除用户
 
 **TypeScript 类型：**
 
@@ -170,7 +169,6 @@ src/
 - `POST /api/projects` - 创建新项目
 - `PUT /api/projects/{id}` - 更新项目信息
 - `DELETE /api/projects/{id}` - 删除项目（软删除）
-- `POST /api/projects/{id}/restore` - 恢复已删除项目
 
 **TypeScript 类型：**
 
@@ -202,7 +200,6 @@ src/
 - `POST /api/inspection-devices` - 创建检测设备
 - `PUT /api/inspection-devices/{id}` - 更新设备信息
 - `DELETE /api/inspection-devices/{id}` - 删除设备（软删除）
-- `POST /api/inspection-devices/{id}/restore` - 恢复已删除设备
 
 **TypeScript 类型：**
 

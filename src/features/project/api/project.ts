@@ -9,7 +9,6 @@ import type {
   ProjectPageResponse,
   GetProjectByNoRequest,
   ValidateProjectNoRequest,
-  RestoreProjectRequest,
 } from '../types'
 
 /**
@@ -134,24 +133,6 @@ export const useDeleteProject = () => {
     mutationFn: deleteProject,
     onSuccess: () => {
       // 删除成功后，使相关的查询缓存失效
-      queryClient.invalidateQueries({ queryKey: ['projects'] })
-    },
-  })
-}
-
-/** 恢复已删除的项目 */
-export const restoreProject = (data: RestoreProjectRequest) => {
-  return request.post<ApiResponse<ProjectResponse>>(`/api/projects/${data.id}/restore`, data)
-}
-
-/** 恢复已删除的项目 Hook */
-export const useRestoreProject = () => {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: restoreProject,
-    onSuccess: () => {
-      // 恢复成功后，使相关的查询缓存失效
       queryClient.invalidateQueries({ queryKey: ['projects'] })
     },
   })

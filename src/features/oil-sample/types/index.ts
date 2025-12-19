@@ -224,14 +224,3 @@ export interface ValidateSampleNoRequest {
   /** 油样编号 */
   sampleNo: string
 }
-
-/**
- * 油样恢复请求接口
- *
- * POST /api/oil-samples/{id}/restore
- * 用于恢复已软删除的油样
- */
-export interface RestoreOilSampleRequest {
-  /** 需要恢复的油样ID */
-  id: number
-}

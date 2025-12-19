@@ -134,13 +134,3 @@ export interface ValidateSerialNumberRequest {
 export interface ValidateIpRequest {
   ip: string // IP地址
 }
-
-/**
- * 检测设备恢复请求接口
- *
- * POST /api/inspection-devices/{id}/restore
- * 用于恢复已软删除的设备
- */
-export interface RestoreInspectionDeviceRequest {
-  id: number // 需要恢复的设备ID
-}

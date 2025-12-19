@@ -89,13 +89,3 @@ export interface GetProjectByNoRequest {
 export interface ValidateProjectNoRequest {
   projectNo: string // 项目编号
 }
-
-/**
- * 项目恢复请求接口
- *
- * POST /api/projects/{id}/restore
- * 用于恢复已软删除的项目
- */
-export interface RestoreProjectRequest {
-  id: number // 需要恢复的项目ID
-}
