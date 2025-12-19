@@ -17,7 +17,7 @@ import type {
 
 /** 获取所有油样列表 */
 export const getAllOilSamples = () => {
-  return request.get<ApiResponse<OilSampleResponse[]>>('/api/oil-samples')
+  return request.get<ApiResponse<OilSampleResponse[]>>('/oil-samples')
 }
 
 /** 获取所有油样列表 Hook */
@@ -30,7 +30,7 @@ export const useAllOilSamples = () => {
 
 /** 分页查询油样列表 */
 export const getOilSamplePage = (params?: OilSamplePageRequest) => {
-  return request.get<ApiResponse<OilSamplePageResponse>>('/api/oil-samples/page', { params })
+  return request.get<ApiResponse<OilSamplePageResponse>>('/oil-samples/page', { params })
 }
 
 /** 分页查询油样列表 Hook */
@@ -43,7 +43,7 @@ export const useOilSamplePage = (params?: OilSamplePageRequest) => {
 
 /** 根据ID查询油样 */
 export const getOilSampleById = (id: number) => {
-  return request.get<ApiResponse<OilSampleResponse>>(`/api/oil-samples/${id}`)
+  return request.get<ApiResponse<OilSampleResponse>>(`/oil-samples/${id}`)
 }
 
 /** 根据ID查询油样 Hook */
@@ -57,7 +57,7 @@ export const useOilSampleById = (id: number) => {
 
 /** 根据油样编号查询油样 */
 export const getOilSampleByNo = (data: GetOilSampleByNoRequest) => {
-  return request.get<ApiResponse<OilSampleResponse>>(`/api/oil-samples/by-sample-no/${data.sampleNo}`)
+  return request.get<ApiResponse<OilSampleResponse>>(`/oil-samples/by-sample-no/${data.sampleNo}`)
 }
 
 /** 根据油样编号查询油样 Hook */
@@ -71,7 +71,7 @@ export const useOilSampleByNo = (sampleNo: string) => {
 
 /** 验证油样编号唯一性 */
 export const validateSampleNo = (data: ValidateSampleNoRequest) => {
-  return request.get<ApiResponse<boolean>>(`/api/oil-samples/validate-unique/${data.sampleNo}`)
+  return request.get<ApiResponse<boolean>>(`/oil-samples/validate-unique/${data.sampleNo}`)
 }
 
 /** 验证油样编号唯一性 Hook */
@@ -85,7 +85,7 @@ export const useValidateSampleNo = (sampleNo: string) => {
 
 /** 创建新油样 */
 export const createOilSample = (data: CreateOilSampleRequest) => {
-  return request.post<ApiResponse<OilSampleResponse>>('/api/oil-samples', data)
+  return request.post<ApiResponse<OilSampleResponse>>('/oil-samples', data)
 }
 
 /** 创建新油样 Hook */
@@ -103,7 +103,7 @@ export const useCreateOilSample = () => {
 
 /** 更新油样信息 */
 export const updateOilSample = (id: number, data: UpdateOilSampleRequest) => {
-  return request.put<ApiResponse<OilSampleResponse>>(`/api/oil-samples/${id}`, data)
+  return request.put<ApiResponse<OilSampleResponse>>(`/oil-samples/${id}`, data)
 }
 
 /** 更新油样信息 Hook */
@@ -122,7 +122,7 @@ export const useUpdateOilSample = () => {
 
 /** 删除油样 */
 export const deleteOilSample = (id: number) => {
-  return request.delete<ApiResponse<void>>(`/api/oil-samples/${id}`)
+  return request.delete<ApiResponse<void>>(`/oil-samples/${id}`)
 }
 
 /** 删除油样 Hook */
@@ -140,7 +140,7 @@ export const useDeleteOilSample = () => {
 
 /** 启用油样 */
 export const enableOilSample = (id: number) => {
-  return request.patch<ApiResponse<OilSampleResponse>>(`/api/oil-samples/${id}/enable`)
+  return request.patch<ApiResponse<OilSampleResponse>>(`/oil-samples/${id}/enable`)
 }
 
 /** 启用油样 Hook */
@@ -158,7 +158,7 @@ export const useEnableOilSample = () => {
 
 /** 禁用油样 */
 export const disableOilSample = (id: number) => {
-  return request.patch<ApiResponse<OilSampleResponse>>(`/api/oil-samples/${id}/disable`)
+  return request.patch<ApiResponse<OilSampleResponse>>(`/oil-samples/${id}/disable`)
 }
 
 /** 禁用油样 Hook */
@@ -176,7 +176,7 @@ export const useDisableOilSample = () => {
 
 /** 切换油样启用状态 */
 export const toggleOilSample = (id: number) => {
-  return request.patch<ApiResponse<OilSampleResponse>>(`/api/oil-samples/${id}/toggle`)
+  return request.patch<ApiResponse<OilSampleResponse>>(`/oil-samples/${id}/toggle`)
 }
 
 /** 切换油样启用状态 Hook */

@@ -17,7 +17,7 @@ import type {
 
 /** 获取所有项目列表 */
 export const getAllProjects = () => {
-  return request.get<ApiResponse<ProjectResponse[]>>('/api/projects')
+  return request.get<ApiResponse<ProjectResponse[]>>('/projects')
 }
 
 /** 获取所有项目列表 Hook */
@@ -30,7 +30,7 @@ export const useAllProjects = () => {
 
 /** 分页查询项目列表 */
 export const getProjectPage = (params?: ProjectPageRequest) => {
-  return request.get<ApiResponse<ProjectPageResponse>>('/api/projects/page', { params })
+  return request.get<ApiResponse<ProjectPageResponse>>('/projects/page', { params })
 }
 
 /** 分页查询项目列表 Hook */
@@ -43,7 +43,7 @@ export const useProjectPage = (params?: ProjectPageRequest) => {
 
 /** 根据ID查询项目 */
 export const getProjectById = (id: number) => {
-  return request.get<ApiResponse<ProjectResponse>>(`/api/projects/${id}`)
+  return request.get<ApiResponse<ProjectResponse>>(`/projects/${id}`)
 }
 
 /** 根据ID查询项目 Hook */
@@ -57,7 +57,7 @@ export const useProjectById = (id: number) => {
 
 /** 根据项目编号查询项目 */
 export const getProjectByNo = (data: GetProjectByNoRequest) => {
-  return request.get<ApiResponse<ProjectResponse>>(`/api/projects/by-project-no/${data.projectNo}`)
+  return request.get<ApiResponse<ProjectResponse>>(`/projects/by-project-no/${data.projectNo}`)
 }
 
 /** 根据项目编号查询项目 Hook */
@@ -71,7 +71,7 @@ export const useProjectByNo = (projectNo: string) => {
 
 /** 验证项目编号唯一性 */
 export const validateProjectNo = (data: ValidateProjectNoRequest) => {
-  return request.get<ApiResponse<boolean>>(`/api/projects/validate-unique/${data.projectNo}`)
+  return request.get<ApiResponse<boolean>>(`/projects/validate-unique/${data.projectNo}`)
 }
 
 /** 验证项目编号唯一性 Hook */
@@ -85,7 +85,7 @@ export const useValidateProjectNo = (projectNo: string) => {
 
 /** 创建新项目 */
 export const createProject = (data: CreateProjectRequest) => {
-  return request.post<ApiResponse<ProjectResponse>>('/api/projects', data)
+  return request.post<ApiResponse<ProjectResponse>>('/projects', data)
 }
 
 /** 创建新项目 Hook */
@@ -103,7 +103,7 @@ export const useCreateProject = () => {
 
 /** 更新项目信息 */
 export const updateProject = (id: number, data: UpdateProjectRequest) => {
-  return request.put<ApiResponse<ProjectResponse>>(`/api/projects/${id}`, data)
+  return request.put<ApiResponse<ProjectResponse>>(`/projects/${id}`, data)
 }
 
 /** 更新项目信息 Hook */
@@ -122,7 +122,7 @@ export const useUpdateProject = () => {
 
 /** 删除项目 */
 export const deleteProject = (id: number) => {
-  return request.delete<ApiResponse<void>>(`/api/projects/${id}`)
+  return request.delete<ApiResponse<void>>(`/projects/${id}`)
 }
 
 /** 删除项目 Hook */

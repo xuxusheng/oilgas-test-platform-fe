@@ -16,7 +16,7 @@ import type {
 
 /** 获取所有用户列表 */
 export const getAllUsers = () => {
-  return request.get<ApiResponse<UserResponse[]>>('/api/users')
+  return request.get<ApiResponse<UserResponse[]>>('/users')
 }
 
 /** 获取所有用户列表 Hook */
@@ -29,7 +29,7 @@ export const useAllUsers = () => {
 
 /** 分页查询用户列表 */
 export const getUserPage = (params?: UserPageRequest) => {
-  return request.get<ApiResponse<UserPageResponse>>('/api/users/page', { params })
+  return request.get<ApiResponse<UserPageResponse>>('/users/page', { params })
 }
 
 /** 分页查询用户列表 Hook */
@@ -42,7 +42,7 @@ export const useUserPage = (params?: UserPageRequest) => {
 
 /** 根据ID查询用户 */
 export const getUserById = (id: number) => {
-  return request.get<ApiResponse<UserResponse>>(`/api/users/${id}`)
+  return request.get<ApiResponse<UserResponse>>(`/users/${id}`)
 }
 
 /** 根据ID查询用户 Hook */
@@ -56,7 +56,7 @@ export const useUserById = (id: number) => {
 
 /** 创建新用户 */
 export const createUser = (data: CreateUserRequest) => {
-  return request.post<ApiResponse<UserResponse>>('/api/users', data)
+  return request.post<ApiResponse<UserResponse>>('/users', data)
 }
 
 /** 创建新用户 Hook */
@@ -74,7 +74,7 @@ export const useCreateUser = () => {
 
 /** 更新用户信息 */
 export const updateUser = (id: number, data: UpdateUserRequest) => {
-  return request.put<ApiResponse<UserResponse>>(`/api/users/${id}`, data)
+  return request.put<ApiResponse<UserResponse>>(`/users/${id}`, data)
 }
 
 /** 更新用户信息 Hook */
@@ -92,7 +92,7 @@ export const useUpdateUser = () => {
 
 /** 删除用户 */
 export const deleteUser = (id: number) => {
-  return request.delete<ApiResponse<void>>(`/api/users/${id}`)
+  return request.delete<ApiResponse<void>>(`/users/${id}`)
 }
 
 /** 删除用户 Hook */
@@ -110,7 +110,7 @@ export const useDeleteUser = () => {
 
 /** 验证用户名唯一性 */
 export const validateUsername = (data: ValidateUsernameRequest) => {
-  return request.get<ApiResponse<boolean>>(`/api/users/validate-username/${data.username}`)
+  return request.get<ApiResponse<boolean>>(`/users/validate-username/${data.username}`)
 }
 
 /** 验证用户名唯一性 Hook */

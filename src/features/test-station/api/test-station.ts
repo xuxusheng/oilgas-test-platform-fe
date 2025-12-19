@@ -17,7 +17,7 @@ import type {
 
 /** 获取所有测试工位列表 */
 export const getAllTestStations = () => {
-  return request.get<ApiResponse<TestStationResponse[]>>('/api/test-stations')
+  return request.get<ApiResponse<TestStationResponse[]>>('/test-stations')
 }
 
 /** 获取所有测试工位列表 Hook */
@@ -30,7 +30,7 @@ export const useAllTestStations = () => {
 
 /** 分页查询测试工位列表 */
 export const getTestStationPage = (params?: TestStationPageRequest) => {
-  return request.get<ApiResponse<TestStationPageResponse>>('/api/test-stations/page', { params })
+  return request.get<ApiResponse<TestStationPageResponse>>('/test-stations/page', { params })
 }
 
 /** 分页查询测试工位列表 Hook */
@@ -43,7 +43,7 @@ export const useTestStationPage = (params?: TestStationPageRequest) => {
 
 /** 根据ID查询测试工位 */
 export const getTestStationById = (id: number) => {
-  return request.get<ApiResponse<TestStationResponse>>(`/api/test-stations/${id}`)
+  return request.get<ApiResponse<TestStationResponse>>(`/test-stations/${id}`)
 }
 
 /** 根据ID查询测试工位 Hook */
@@ -57,7 +57,7 @@ export const useTestStationById = (id: number) => {
 
 /** 根据工位编号查询测试工位 */
 export const getTestStationByNo = (data: GetTestStationByNoRequest) => {
-  return request.get<ApiResponse<TestStationResponse>>(`/api/test-stations/by-station-no/${data.stationNo}`)
+  return request.get<ApiResponse<TestStationResponse>>(`/test-stations/by-station-no/${data.stationNo}`)
 }
 
 /** 根据工位编号查询测试工位 Hook */
@@ -71,7 +71,7 @@ export const useTestStationByNo = (stationNo: number) => {
 
 /** 验证工位编号唯一性 */
 export const validateStationNo = (data: ValidateStationNoRequest) => {
-  return request.get<ApiResponse<boolean>>(`/api/test-stations/validate-station-no/${data.stationNo}`)
+  return request.get<ApiResponse<boolean>>(`/test-stations/validate-station-no/${data.stationNo}`)
 }
 
 /** 验证工位编号唯一性 Hook */
@@ -85,7 +85,7 @@ export const useValidateStationNo = (stationNo: number) => {
 
 /** 创建新测试工位 */
 export const createTestStation = (data: CreateTestStationRequest) => {
-  return request.post<ApiResponse<TestStationResponse>>('/api/test-stations', data)
+  return request.post<ApiResponse<TestStationResponse>>('/test-stations', data)
 }
 
 /** 创建新测试工位 Hook */
@@ -103,7 +103,7 @@ export const useCreateTestStation = () => {
 
 /** 更新测试工位信息 */
 export const updateTestStation = (id: number, data: UpdateTestStationRequest) => {
-  return request.put<ApiResponse<TestStationResponse>>(`/api/test-stations/${id}`, data)
+  return request.put<ApiResponse<TestStationResponse>>(`/test-stations/${id}`, data)
 }
 
 /** 更新测试工位信息 Hook */
@@ -122,7 +122,7 @@ export const useUpdateTestStation = () => {
 
 /** 删除测试工位 */
 export const deleteTestStation = (id: number) => {
-  return request.delete<ApiResponse<void>>(`/api/test-stations/${id}`)
+  return request.delete<ApiResponse<void>>(`/test-stations/${id}`)
 }
 
 /** 删除测试工位 Hook */
@@ -140,7 +140,7 @@ export const useDeleteTestStation = () => {
 
 /** 启用测试工位 */
 export const enableTestStation = (id: number) => {
-  return request.patch<ApiResponse<TestStationResponse>>(`/api/test-stations/${id}/enable`)
+  return request.patch<ApiResponse<TestStationResponse>>(`/test-stations/${id}/enable`)
 }
 
 /** 启用测试工位 Hook */
@@ -158,7 +158,7 @@ export const useEnableTestStation = () => {
 
 /** 禁用测试工位 */
 export const disableTestStation = (id: number) => {
-  return request.patch<ApiResponse<TestStationResponse>>(`/api/test-stations/${id}/disable`)
+  return request.patch<ApiResponse<TestStationResponse>>(`/test-stations/${id}/disable`)
 }
 
 /** 禁用测试工位 Hook */
@@ -176,7 +176,7 @@ export const useDisableTestStation = () => {
 
 /** 切换测试工位启用状态 */
 export const toggleTestStation = (id: number) => {
-  return request.patch<ApiResponse<TestStationResponse>>(`/api/test-stations/${id}/toggle`)
+  return request.patch<ApiResponse<TestStationResponse>>(`/test-stations/${id}/toggle`)
 }
 
 /** 切换测试工位启用状态 Hook */

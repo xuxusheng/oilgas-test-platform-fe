@@ -18,7 +18,7 @@ import type {
 
 /** 获取所有检测设备列表 */
 export const getAllInspectionDevices = () => {
-  return request.get<ApiResponse<InspectionDeviceResponse[]>>('/api/inspection-devices')
+  return request.get<ApiResponse<InspectionDeviceResponse[]>>('/inspection-devices')
 }
 
 /** 获取所有检测设备列表 Hook */
@@ -31,7 +31,7 @@ export const useAllInspectionDevices = () => {
 
 /** 分页查询检测设备列表 */
 export const getInspectionDevicePage = (params?: InspectionDevicePageRequest) => {
-  return request.get<ApiResponse<InspectionDevicePageResponse>>('/api/inspection-devices/page', {
+  return request.get<ApiResponse<InspectionDevicePageResponse>>('/inspection-devices/page', {
     params,
   })
 }
@@ -46,7 +46,7 @@ export const useInspectionDevicePage = (params?: InspectionDevicePageRequest) =>
 
 /** 根据ID查询检测设备 */
 export const getInspectionDeviceById = (id: number) => {
-  return request.get<ApiResponse<InspectionDeviceResponse>>(`/api/inspection-devices/${id}`)
+  return request.get<ApiResponse<InspectionDeviceResponse>>(`/inspection-devices/${id}`)
 }
 
 /** 根据ID查询检测设备 Hook */
@@ -61,7 +61,7 @@ export const useInspectionDeviceById = (id: number) => {
 /** 根据设备编号查询检测设备 */
 export const getDeviceByNo = (data: GetDeviceByNoRequest) => {
   return request.get<ApiResponse<InspectionDeviceResponse>>(
-    `/api/inspection-devices/by-device-no/${data.deviceNo}`,
+    `/inspection-devices/by-device-no/${data.deviceNo}`,
   )
 }
 
@@ -77,7 +77,7 @@ export const useDeviceByNo = (deviceNo: string) => {
 /** 验证出厂编号唯一性 */
 export const validateSerialNumber = (data: ValidateSerialNumberRequest) => {
   return request.get<ApiResponse<boolean>>(
-    `/api/inspection-devices/validate-serial-number/${data.serialNumber}`,
+    `/inspection-devices/validate-serial-number/${data.serialNumber}`,
   )
 }
 
@@ -92,7 +92,7 @@ export const useValidateSerialNumber = (serialNumber: string) => {
 
 /** 验证IP地址唯一性 */
 export const validateIp = (data: ValidateIpRequest) => {
-  return request.get<ApiResponse<boolean>>(`/api/inspection-devices/validate-ip/${data.ip}`)
+  return request.get<ApiResponse<boolean>>(`/inspection-devices/validate-ip/${data.ip}`)
 }
 
 /** 验证IP地址唯一性 Hook */
@@ -106,7 +106,7 @@ export const useValidateIp = (ip: string) => {
 
 /** 创建新检测设备 */
 export const createInspectionDevice = (data: CreateInspectionDeviceRequest) => {
-  return request.post<ApiResponse<InspectionDeviceResponse>>('/api/inspection-devices', data)
+  return request.post<ApiResponse<InspectionDeviceResponse>>('/inspection-devices', data)
 }
 
 /** 创建新检测设备 Hook */
@@ -124,7 +124,7 @@ export const useCreateInspectionDevice = () => {
 
 /** 更新检测设备信息 */
 export const updateInspectionDevice = (id: number, data: UpdateInspectionDeviceRequest) => {
-  return request.put<ApiResponse<InspectionDeviceResponse>>(`/api/inspection-devices/${id}`, data)
+  return request.put<ApiResponse<InspectionDeviceResponse>>(`/inspection-devices/${id}`, data)
 }
 
 /** 更新检测设备信息 Hook */
@@ -143,7 +143,7 @@ export const useUpdateInspectionDevice = () => {
 
 /** 删除检测设备 */
 export const deleteInspectionDevice = (id: number) => {
-  return request.delete<ApiResponse<void>>(`/api/inspection-devices/${id}`)
+  return request.delete<ApiResponse<void>>(`/inspection-devices/${id}`)
 }
 
 /** 删除检测设备 Hook */

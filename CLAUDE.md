@@ -69,6 +69,10 @@ src/
 │   │   ├── api/      # 油样管理 API 接口
 │   │   ├── types/    # 油样管理 TypeScript 类型
 │   │   └── index.ts  # 油样功能统一导出
+│   ├── test-station/ # 测试工位管理功能
+│   │   ├── api/      # 测试工位 API 接口
+│   │   ├── types/    # 测试工位 TypeScript 类型
+│   │   └── index.ts  # 测试工位功能统一导出
 │   ├── constants.ts  # 通用常量定义
 │   └── index.ts      # 所有功能模块统一导出
 ├── hooks/            # 自定义 Hooks
@@ -81,7 +85,8 @@ src/
 │   ├── UserList/     # 用户管理页面
 │   ├── ProjectList/  # 项目管理页面
 │   ├── InspectionDeviceList/  # 检测设备管理页面
-│   └── OilSampleList/  # 油样管理页面
+│   ├── OilSampleList/  # 油样管理页面
+│   └── TestStationList/  # 测试工位管理页面
 ├── router/           # React Router 配置
 │   ├── router.tsx    # 路由实例配置
 │   ├── routes.ts     # 路由常量定义
@@ -127,12 +132,21 @@ src/
 
 **API 集成：**
 
-- 集中式 axios 实例，使用相对路径 `/api`
+- 集中式 axios 实例，使用相对路径 `/api` 作为 `baseURL`
 - 默认 10 秒超时
 - 通过 Ant Design message 组件进行错误提示
 - Axios 拦截器自动添加认证 Token
 - 401 响应自动触发登出
 - 开发环境代理配置：`/api` -> `http://localhost:8080`
+
+**API URL 规则（重要）：**
+
+- **Axios 配置：** `baseURL: '/api'`（在 `src/utils/request.ts` 中定义）
+- **API 调用：** 所有 API 路径必须以 `/` 开头，**不包含** `/api` 前缀
+- **最终请求路径：** `baseURL` + `API路径` = `/api` + `/users/page` = `/api/users/page`
+- **错误示例：** `request.get('/api/users')` → 最终路径 `/api/api/users` ❌
+- **正确示例：** `request.get('/users')` → 最终路径 `/api/users` ✅
+- **所有模块统一规则：** `auth`, `user`, `project`, `inspection-device`, `oil-sample`, `test-station` 均遵循此规则
 
 ### 配置文件
 
@@ -174,12 +188,12 @@ src/
 
 **API 接口：**
 
-- `GET /api/users` - 获取所有用户列表
-- `GET /api/users/page` - 分页查询用户列表（支持用户名模糊查询和角色筛选）
-- `GET /api/users/{id}` - 根据ID查询用户详情
-- `POST /api/users` - 创建新用户
-- `PUT /api/users/{id}` - 更新用户信息
-- `DELETE /api/users/{id}` - 删除用户（软删除）
+- `GET /users` - 获取所有用户列表
+- `GET /users/page` - 分页查询用户列表（支持用户名模糊查询和角色筛选）
+- `GET /users/{id}` - 根据ID查询用户详情
+- `POST /users` - 创建新用户
+- `PUT /users/{id}` - 更新用户信息
+- `DELETE /users/{id}` - 删除用户（软删除）
 
 **TypeScript 类型：**
 
@@ -201,14 +215,14 @@ src/
 
 **API 接口：**
 
-- `GET /api/projects` - 获取所有项目列表
-- `GET /api/projects/page` - 分页查询项目列表（支持项目编号、名称、负责人模糊查询）
-- `GET /api/projects/{id}` - 根据ID查询项目详情
-- `GET /api/projects/by-project-no/{projectNo}` - 根据项目编号查询项目
-- `GET /api/projects/validate-unique/{projectNo}` - 验证项目编号唯一性
-- `POST /api/projects` - 创建新项目
-- `PUT /api/projects/{id}` - 更新项目信息
-- `DELETE /api/projects/{id}` - 删除项目（软删除）
+- `GET /projects` - 获取所有项目列表
+- `GET /projects/page` - 分页查询项目列表（支持项目编号、名称、负责人模糊查询）
+- `GET /projects/{id}` - 根据ID查询项目详情
+- `GET /projects/by-project-no/{projectNo}` - 根据项目编号查询项目
+- `GET /projects/validate-unique/{projectNo}` - 验证项目编号唯一性
+- `POST /projects` - 创建新项目
+- `PUT /projects/{id}` - 更新项目信息
+- `DELETE /projects/{id}` - 删除项目（软删除）
 
 **TypeScript 类型：**
 
@@ -231,15 +245,15 @@ src/
 
 **API 接口：**
 
-- `GET /api/inspection-devices` - 获取所有检测设备列表
-- `GET /api/inspection-devices/page` - 分页查询设备列表（支持设备编号、出厂编号、IP地址模糊查询，状态和项目ID筛选）
-- `GET /api/inspection-devices/{id}` - 根据ID查询设备详情
-- `GET /api/inspection-devices/by-device-no/{deviceNo}` - 根据设备编号查询设备
-- `GET /api/inspection-devices/validate-serial-number/{serialNumber}` - 验证出厂编号唯一性
-- `GET /api/inspection-devices/validate-ip/{ip}` - 验证IP地址唯一性
-- `POST /api/inspection-devices` - 创建检测设备
-- `PUT /api/inspection-devices/{id}` - 更新设备信息
-- `DELETE /api/inspection-devices/{id}` - 删除设备（软删除）
+- `GET /inspection-devices` - 获取所有检测设备列表
+- `GET /inspection-devices/page` - 分页查询设备列表（支持设备编号、出厂编号、IP地址模糊查询，状态和项目ID筛选）
+- `GET /inspection-devices/{id}` - 根据ID查询设备详情
+- `GET /inspection-devices/by-device-no/{deviceNo}` - 根据设备编号查询设备
+- `GET /inspection-devices/validate-serial-number/{serialNumber}` - 验证出厂编号唯一性
+- `GET /inspection-devices/validate-ip/{ip}` - 验证IP地址唯一性
+- `POST /inspection-devices` - 创建检测设备
+- `PUT /inspection-devices/{id}` - 更新设备信息
+- `DELETE /inspection-devices/{id}` - 删除设备（软删除）
 
 **TypeScript 类型：**
 
@@ -274,14 +288,14 @@ src/
 
 **API 接口：**
 
-- `GET /api/oil-samples` - 获取所有油样列表
-- `GET /api/oil-samples/page` - 分页查询油样列表（支持油样编号模糊查询、用途和状态筛选）
-- `GET /api/oil-samples/{id}` - 根据ID查询油样详情
-- `GET /api/oil-samples/by-sample-no/{sampleNo}` - 根据油样编号查询油样
-- `GET /api/oil-samples/validate-sample-no/{sampleNo}` - 验证油样编号唯一性
-- `POST /api/oil-samples` - 创建新油样
-- `PUT /api/oil-samples/{id}` - 更新油样信息
-- `DELETE /api/oil-samples/{id}` - 删除油样（软删除）
+- `GET /oil-samples` - 获取所有油样列表
+- `GET /oil-samples/page` - 分页查询油样列表（支持油样编号模糊查询、用途和状态筛选）
+- `GET /oil-samples/{id}` - 根据ID查询油样详情
+- `GET /oil-samples/by-sample-no/{sampleNo}` - 根据油样编号查询油样
+- `GET /oil-samples/validate-sample-no/{sampleNo}` - 验证油样编号唯一性
+- `POST /oil-samples` - 创建新油样
+- `PUT /oil-samples/{id}` - 更新油样信息
+- `DELETE /oil-samples/{id}` - 删除油样（软删除）
 
 **TypeScript 类型：**
 
@@ -320,6 +334,49 @@ src/
 **React Query 集成：**
 
 - 提供完整的 hooks API (`useAllOilSamples`, `useOilSamplePage`, `useCreateOilSample` 等)
+- 自动缓存管理和失效处理
+- 错误处理和重试机制
+
+### 测试工位管理模块 (`src/features/test-station/`)
+
+基于 OpenAPI 文档实现的完整测试工位管理功能，包括：
+
+**API 接口：**
+
+- `GET /test-stations` - 获取所有测试工位列表
+- `GET /test-stations/page` - 分页查询测试工位列表（支持工位编号、名称、用途、责任人等筛选）
+- `GET /test-stations/{id}` - 根据ID查询测试工位详情
+- `GET /test-stations/by-station-no/{stationNo}` - 根据工位编号查询测试工位
+- `GET /test-stations/validate-station-no/{stationNo}` - 验证工位编号唯一性
+- `POST /test-stations` - 创建新测试工位
+- `PUT /test-stations/{id}` - 更新测试工位信息
+- `DELETE /test-stations/{id}` - 删除测试工位（软删除）
+- `PATCH /test-stations/{id}/enable` - 启用测试工位
+- `PATCH /test-stations/{id}/disable` - 禁用测试工位
+- `PATCH /test-stations/{id}/toggle` - 切换测试工位启用状态
+
+**TypeScript 类型：**
+
+- `TestStationResponse` - 测试工位响应接口
+- `CreateTestStationRequest` - 创建测试工位请求
+- `UpdateTestStationRequest` - 更新测试工位请求
+- `TestStationPageRequest` - 分页查询参数
+- `TestStationUsage` - 工位用途类型（厂内测试/研发测试）
+- `ValveCommType` - 电磁阀通信类型（串口 Modbus/TCP Modbus）
+
+**工位用途枚举：**
+
+- `INHOUSE_TEST` - 厂内测试
+- `RND_TEST` - 研发测试
+
+**电磁阀通信类型枚举：**
+
+- `SERIAL_MODBUS` - 串口 Modbus
+- `TCP_MODBUS` - TCP Modbus
+
+**React Query 集成：**
+
+- 提供完整的 hooks API (`useAllTestStations`, `useTestStationPage`, `useCreateTestStation` 等)
 - 自动缓存管理和失效处理
 - 错误处理和重试机制
 
@@ -387,9 +444,15 @@ src/
 
 ## 环境变量
 
-应用不需要特定的环境变量，使用相对路径 `/api` 进行 API 请求，由部署环境（如 Nginx）处理代理配置。
+应用不需要特定的环境变量，所有 API 请求通过 Axios 的 `baseURL` 配置和 Vite 代理处理。
 
-开发环境代理已在 Vite 配置中设置：`/api` -> `http://localhost:8080`
+**请求流程：**
+1. API 调用使用相对路径（如 `/users/page`）
+2. Axios `baseURL: '/api'` 自动添加前缀 → `/api/users/page`
+3. 开发环境：Vite 代理将 `/api/*` 转发到 `http://localhost:8080/*`
+4. 生产环境：Nginx 等 Web 服务器配置反向代理 `/api/*` → 后端服务
+
+**开发环境代理配置：** `vite.config.ts` 中设置 `/api` -> `http://localhost:8080`
 
 ## 最佳实践与常见问题
 
