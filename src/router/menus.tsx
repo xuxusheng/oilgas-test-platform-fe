@@ -7,6 +7,7 @@ import {
   ExperimentOutlined,
 } from '@ant-design/icons'
 import type { ReactNode } from 'react'
+import { ROUTES } from './routes'
 
 export interface MenuItem {
   path: string
@@ -15,9 +16,13 @@ export interface MenuItem {
   children?: MenuItem[]
 }
 
+/**
+ * 菜单配置
+ * 使用路由常量，确保与路由定义一致
+ */
 export const menuConfig: MenuItem[] = [
   {
-    path: '/dashboard',
+    path: ROUTES.DASHBOARD,
     name: '仪表盘',
     icon: <DashboardOutlined />,
   },
@@ -27,7 +32,7 @@ export const menuConfig: MenuItem[] = [
     icon: <ExperimentOutlined />,
     children: [
       {
-        path: '/test-line-management/oil-samples',
+        path: ROUTES.OIL_SAMPLES,
         name: '油样管理',
         icon: <ExperimentOutlined />,
       },
@@ -39,7 +44,7 @@ export const menuConfig: MenuItem[] = [
     icon: <ToolOutlined />,
     children: [
       {
-        path: '/device-management/inspection-devices',
+        path: ROUTES.INSPECTION_DEVICES,
         name: '待检设备',
         icon: <ExperimentOutlined />,
       },
@@ -51,12 +56,12 @@ export const menuConfig: MenuItem[] = [
     icon: <SettingOutlined />,
     children: [
       {
-        path: '/settings/projects',
+        path: ROUTES.PROJECTS,
         name: '项目管理',
         icon: <ProjectOutlined />,
       },
       {
-        path: '/settings/users',
+        path: ROUTES.USERS,
         name: '用户管理',
         icon: <UserOutlined />,
       },

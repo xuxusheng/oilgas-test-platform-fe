@@ -2,8 +2,9 @@ import axios from 'axios'
 import { message } from 'antd'
 import { useAuthStore } from '../store/useAuthStore'
 
+// 使用相对路径，由部署环境（nginx等）处理代理
 const request = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '',
+  baseURL: '/api',
   timeout: 10000,
 })
 

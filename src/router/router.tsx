@@ -8,14 +8,19 @@ import OilSampleList from '../pages/OilSampleList'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 import RequireAuth from '../components/RequireAuth'
+import { ROUTES } from './routes'
 
+/**
+ * 应用路由配置
+ * 使用路由常量确保与菜单配置一致
+ */
 const router = createBrowserRouter([
   {
-    path: '/login',
+    path: ROUTES.LOGIN,
     element: <Login />,
   },
   {
-    path: '/register',
+    path: ROUTES.REGISTER,
     element: <Register />,
   },
   {
@@ -28,26 +33,26 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Navigate to="/dashboard" replace />,
+        element: <Navigate to={ROUTES.DASHBOARD} replace />,
       },
       {
-        path: '/dashboard',
+        path: ROUTES.DASHBOARD,
         element: <Dashboard />,
       },
       {
-        path: '/device-management/inspection-devices',
+        path: ROUTES.INSPECTION_DEVICES,
         element: <InspectionDeviceList />,
       },
       {
-        path: '/settings/projects',
+        path: ROUTES.PROJECTS,
         element: <ProjectList />,
       },
       {
-        path: '/settings/users',
+        path: ROUTES.USERS,
         element: <UserList />,
       },
       {
-        path: '/test-line-management/oil-samples',
+        path: ROUTES.OIL_SAMPLES,
         element: <OilSampleList />,
       },
     ],

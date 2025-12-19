@@ -3,7 +3,7 @@ import { Dropdown } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { useLocation, useNavigate, Outlet, Link } from 'react-router-dom'
 import { useAuthStore } from '../store/useAuthStore'
-import { menuConfig } from '../router/menus'
+import { menuConfig } from '../router'
 
 export default function BasicLayout() {
   const location = useLocation()

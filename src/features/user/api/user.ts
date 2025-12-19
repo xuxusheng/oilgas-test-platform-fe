@@ -110,7 +110,7 @@ export const useDeleteUser = () => {
 
 /** 恢复已删除的用户 */
 export const restoreUser = (data: RestoreUserRequest) => {
-  return request.post<ApiResponse<UserResponse>>('/api/users/${data.id}/restore', data)
+  return request.post<ApiResponse<UserResponse>>(`/api/users/${data.id}/restore`, data)
 }
 
 /** 恢复已删除的用户 Hook */

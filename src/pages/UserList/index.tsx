@@ -8,26 +8,107 @@ import {
   ProTable,
 } from '@ant-design/pro-components'
 import { Button, Popconfirm, App } from 'antd'
-import { useRef, useState } from 'react'
+import { useRef, useState, useCallback } from 'react'
 import {
-  getUserPage,
+  useUserPage,
   useCreateUser,
   useDeleteUser,
   useUpdateUser,
 } from '../../features/user/api/user'
 import { UserRoleConstants } from '../../features/user/types'
-import type { CreateUserRequest, UpdateUserRequest, UserResponse, UserRole } from '../../features/user/types'
+import type { CreateUserRequest, UpdateUserRequest, UserResponse, UserRole, UserPageRequest } from '../../features/user/types'
 
 export default function UserList() {
   const actionRef = useRef<ActionType>(null)
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false)
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false)
   const [currentRow, setCurrentRow] = useState<UserResponse>()
+  const [searchParams, setSearchParams] = useState<UserPageRequest>({})
+
   const { message: messageApi } = App.useApp()
 
+  // 使用 React Query 的 hooks
+  const { data, isLoading, error, refetch } = useUserPage(searchParams)
   const createUserMutation = useCreateUser()
   const updateUserMutation = useUpdateUser()
   const deleteUserMutation = useDeleteUser()
+
+  // 处理表格请求 - 使用 React Query 的数据
+  const handleTableRequest = useCallback(async (params: any) => {
+    const { current, pageSize, username, role, ...sortParams } = params
+
+    // 处理排序
+    let sortField: string | undefined
+    let sortOrder: 'asc' | 'desc' | undefined
+
+    const sortKeys = Object.keys(sortParams)
+    if (sortKeys.length > 0) {
+      sortField = sortKeys[0]
+      const order = sortParams[sortField]
+      if (order === 'ascend') sortOrder = 'asc'
+      else if (order === 'descend') sortOrder = 'desc'
+    }
+
+    // 更新搜索参数，触发 React Query 重新查询
+    setSearchParams({
+      page: current,
+      size: pageSize,
+      username: username as string,
+      role: role as UserRole,
+      sortField,
+      sortOrder,
+    })
+
+    // 返回 React Query 的当前数据
+    return {
+      data: data?.data?.content || [],
+      success: !error,
+      total: data?.data?.total || 0,
+    }
+  }, [data, error])
+
+  // 创建用户
+  const handleCreate = async (values: CreateUserRequest) => {
+    try {
+      await createUserMutation.mutateAsync(values)
+      messageApi.success('新建成功')
+      setCreateModalVisible(false)
+      actionRef.current?.reload()
+      return true
+    } catch {
+      return false
+    }
+  }
+
+  // 更新用户
+  const handleUpdate = async (values: UpdateUserRequest) => {
+    if (!currentRow) return false
+
+    try {
+      await updateUserMutation.mutateAsync({
+        id: currentRow.id,
+        data: values,
+      })
+      messageApi.success('更新成功')
+      setUpdateModalVisible(false)
+      setCurrentRow(undefined)
+      actionRef.current?.reload()
+      return true
+    } catch {
+      return false
+    }
+  }
+
+  // 删除用户
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteUserMutation.mutateAsync(id)
+      messageApi.success('删除成功')
+      actionRef.current?.reload()
+    } catch {
+      // 错误已在 interceptor 中处理
+    }
+  }
 
   const columns: ProColumns<UserResponse>[] = [
     {
@@ -83,15 +164,7 @@ export default function UserList() {
         <Popconfirm
           key="delete"
           title="确定要删除此用户吗？"
-          onConfirm={async () => {
-            try {
-              await deleteUserMutation.mutateAsync(record.id)
-              messageApi.success('删除成功')
-              actionRef.current?.reload()
-            } catch {
-              // Error handling is done in request interceptor usually, but good to have here too if needed
-            }
-          }}
+          onConfirm={() => handleDelete(record.id)}
         >
           <a style={{ color: 'red' }}>删除</a>
         </Popconfirm>,
@@ -105,6 +178,7 @@ export default function UserList() {
         headerTitle="用户列表"
         actionRef={actionRef}
         rowKey="id"
+        loading={isLoading}
         search={{
           labelWidth: 'auto',
         }}
@@ -119,44 +193,13 @@ export default function UserList() {
             <PlusOutlined /> 新建用户
           </Button>,
         ]}
-        request={async (params, sort) => {
-          const { current, pageSize, ...rest } = params
-
-          // Handle sorting
-          let sortField: string | undefined
-          let sortOrder: 'asc' | 'desc' | undefined
-
-          const sortKeys = Object.keys(sort)
-          if (sortKeys.length > 0) {
-            sortField = sortKeys[0]
-            const order = sort[sortField]
-            if (order === 'ascend') sortOrder = 'asc'
-            else if (order === 'descend') sortOrder = 'desc'
-          }
-
-          try {
-            const res = await getUserPage({
-              page: current,
-              size: pageSize,
-              username: rest.username,
-              role: rest.role as UserRole,
-              sortField,
-              sortOrder,
-            })
-            return {
-              data: res.data.data.content,
-              success: true,
-              total: res.data.data.total,
-            }
-          } catch {
-            return {
-              data: [],
-              success: false,
-              total: 0,
-            }
-          }
-        }}
+        request={handleTableRequest}
         columns={columns}
+        pagination={{
+          showSizeChanger: true,
+          showQuickJumper: true,
+          showTotal: (total) => `共 ${total} 条`,
+        }}
       />
 
       <ModalForm<CreateUserRequest>
@@ -168,13 +211,7 @@ export default function UserList() {
         modalProps={{
           destroyOnHidden: true,
         }}
-        onFinish={async (value) => {
-          await createUserMutation.mutateAsync(value)
-          messageApi.success('新建成功')
-          setCreateModalVisible(false)
-          actionRef.current?.reload()
-          return true
-        }}
+        onFinish={handleCreate}
       >
         <ProFormText
           rules={[
@@ -236,19 +273,7 @@ export default function UserList() {
         modalProps={{
           destroyOnHidden: true,
         }}
-        onFinish={async (value) => {
-          if (currentRow) {
-            await updateUserMutation.mutateAsync({
-              id: currentRow.id,
-              data: value,
-            })
-            messageApi.success('更新成功')
-            setUpdateModalVisible(false)
-            setCurrentRow(undefined)
-            actionRef.current?.reload()
-          }
-          return true
-        }}
+        onFinish={handleUpdate}
       >
         <ProFormText
           rules={[
@@ -267,13 +292,17 @@ export default function UserList() {
         <ProFormText.Password
           name="password"
           label="密码"
-          placeholder="留空则不修改"
+          placeholder="不修改密码请留空，密码不会显示在界面上"
+          tooltip="密码修改后将立即生效，留空表示保持原密码不变"
           rules={[
             {
               min: 6,
               message: '密码至少6个字符',
             },
           ]}
+          fieldProps={{
+            autoComplete: 'new-password',
+          }}
         />
         <ProFormSelect
           rules={[

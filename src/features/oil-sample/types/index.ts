@@ -1,4 +1,4 @@
-export type { ApiResponse } from '../../../types/api'
+// ApiResponse 类型直接在需要的文件中导入，避免冗余导出
 
 /**
  * 油样用途类型
