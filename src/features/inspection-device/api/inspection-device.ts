@@ -1,7 +1,6 @@
 import request from '../../../utils/request'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type {
-  ApiResponse,
   InspectionDeviceResponse,
   CreateInspectionDeviceRequest,
   UpdateInspectionDeviceRequest,
@@ -11,6 +10,7 @@ import type {
   ValidateSerialNumberRequest,
   ValidateIpRequest,
 } from '../types'
+import type { ApiResponse } from '../../../types/api'
 
 /**
  * 检测设备管理 API 服务

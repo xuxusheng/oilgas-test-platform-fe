@@ -1,7 +1,6 @@
 import request from '../../../utils/request'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type {
-  ApiResponse,
   UserResponse,
   CreateUserRequest,
   UpdateUserRequest,
@@ -9,6 +8,7 @@ import type {
   UserPageResponse,
   ValidateUsernameRequest,
 } from '../types'
+import type { ApiResponse } from '../../../types/api'
 
 /**
  * 用户管理 API 服务

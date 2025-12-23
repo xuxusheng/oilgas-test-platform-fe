@@ -40,7 +40,7 @@ export const ROUTE_GROUPS = {
  * 支持参数替换
  */
 export const getPath = (key: keyof typeof ROUTES, params?: Record<string, string | number>): string => {
-  let path = ROUTES[key]
+  let path: string = ROUTES[key]
 
   if (params) {
     Object.entries(params).forEach(([key, value]) => {

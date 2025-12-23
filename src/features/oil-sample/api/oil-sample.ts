@@ -1,7 +1,6 @@
 import request from '../../../utils/request'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type {
-  ApiResponse,
   OilSampleResponse,
   CreateOilSampleRequest,
   UpdateOilSampleRequest,
@@ -10,6 +9,7 @@ import type {
   GetOilSampleByNoRequest,
   ValidateSampleNoRequest,
 } from '../types'
+import type { ApiResponse } from '../../../types/api'
 
 /**
  * 油样管理 API 服务

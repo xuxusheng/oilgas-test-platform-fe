@@ -18,9 +18,8 @@
 - `pnpm build` - 构建 TypeScript 并生成生产包
 - `pnpm lint` - 运行 ESLint 进行代码质量检查
 
-**测试与格式化：**
+**代码格式化：**
 
-- `pnpm test` - 运行 Vitest 单元测试
 - `pnpm format` - 使用 Prettier 格式化所有代码
 
 ## 架构与结构
@@ -36,7 +35,6 @@
 - **数据请求：** Axios + React Query
 - **图表：** ECharts + react 封装
 - **样式工具：** Tailwind CSS + clsx + tailwind-merge
-- **测试：** Vitest + Testing Library
 - **代码格式化：** Prettier
 
 ### 项目结构
@@ -103,6 +101,7 @@ src/
 ├── App.tsx           # 根组件
 ├── App.css           # 全局样式
 └── index.css         # Tailwind CSS 入口
+
 ```
 
 ### 核心模式
@@ -173,12 +172,6 @@ src/
 - 代码格式化工具
 - 统一代码风格
 - 集成到 ESLint
-
-**Vitest：**
-
-- 单元测试框架
-- 集成 Testing Library
-- 支持 React 组件测试
 
 ## 功能模块说明
 
@@ -438,7 +431,6 @@ src/
 - Tailwind CSS v4 通过新的 `@tailwindcss/vite` 插件配置
 - Zustand 持久化状态管理 token 和用户信息
 - 整个应用使用 Ant Design v6 组件
-- 已配置 Vitest + Testing Library 测试环境
 - 路由系统支持分组管理和参数化路径
 - 统一的 API 错误处理和消息提示
 

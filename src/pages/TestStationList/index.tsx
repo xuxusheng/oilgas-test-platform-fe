@@ -55,7 +55,7 @@ export default function TestStationList() {
   const disableMutation = useDisableTestStation()
 
   // 工位编号验证器 - 用于创建和编辑表单
-  const createStationNoValidator = (currentStationNo?: number) => async (_: any, value: number) => {
+  const createStationNoValidator = (currentStationNo?: number) => async (_rule: unknown, value?: number) => {
     if (!value) return Promise.resolve()
     if (currentStationNo && value === currentStationNo) return Promise.resolve()
     const res = await validateStationNo({ stationNo: value })
@@ -592,4 +592,3 @@ export default function TestStationList() {
     </PageContainer>
   )
 }
-

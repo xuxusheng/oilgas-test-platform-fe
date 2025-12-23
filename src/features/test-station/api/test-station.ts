@@ -1,7 +1,6 @@
 import request from '../../../utils/request'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type {
-  ApiResponse,
   TestStationResponse,
   CreateTestStationRequest,
   UpdateTestStationRequest,
@@ -10,6 +9,7 @@ import type {
   GetTestStationByNoRequest,
   ValidateStationNoRequest,
 } from '../types'
+import type { ApiResponse } from '../../../types/api'
 
 /**
  * 测试工位管理 API 服务
@@ -191,4 +191,3 @@ export const useToggleTestStation = () => {
     },
   })
 }
-

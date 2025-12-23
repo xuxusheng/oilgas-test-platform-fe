@@ -1,7 +1,6 @@
 import request from '../../../utils/request'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type {
-  ApiResponse,
   ProjectResponse,
   CreateProjectRequest,
   UpdateProjectRequest,
@@ -10,6 +9,7 @@ import type {
   GetProjectByNoRequest,
   ValidateProjectNoRequest,
 } from '../types'
+import type { ApiResponse } from '../../../types/api'
 
 /**
  * 项目管理 API 服务

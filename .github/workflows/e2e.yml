@@ -1,0 +1,57 @@
+name: E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Base URL for the app under test (leave empty to use local webServer)'
+        required: false
+        default: ''
+      username:
+        description: 'Login username'
+        required: false
+        default: 'admin'
+      all_browsers:
+        description: 'Run on Chromium/Firefox/WebKit'
+        required: false
+        default: '0'
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      E2E_PASSWORD: ${{ secrets.E2E_PASSWORD }}
+      E2E_USERNAME: ${{ inputs.username }}
+      E2E_ALL_BROWSERS: ${{ inputs.all_browsers }}
+      E2E_BASE_URL: ${{ inputs.base_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Run E2E
+        run: pnpm test:e2e
+
+      - name: Upload Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-artifacts
+          path: |
+            test-results/playwright/
+            test-results/.auth/
+

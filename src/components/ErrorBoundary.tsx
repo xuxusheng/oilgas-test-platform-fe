@@ -1,6 +1,6 @@
 import React from 'react'
 
-interface Props {
+export interface ErrorBoundaryProps {
   children: React.ReactNode
   fallback?: React.ReactNode
 }
@@ -14,8 +14,8 @@ interface State {
  * 错误边界组件
  * 捕获子组件树中的 JavaScript 错误，防止整个应用崩溃
  */
-export class ErrorBoundary extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
+  constructor(props: ErrorBoundaryProps) {
     super(props)
     this.state = { hasError: false }
   }

@@ -1,13 +1,13 @@
 import request from '../../../utils/request'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import type {
-  ApiResponse,
   LoginRequest,
   LoginResponse,
   RegisterRequest,
   RegisterResponse,
   UserInfo,
 } from '../types'
+import type { ApiResponse } from '../../../types/api'
 
 /** 用户登录 */
 export const login = (data: LoginRequest) => {

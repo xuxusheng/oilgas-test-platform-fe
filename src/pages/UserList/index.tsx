@@ -51,19 +51,19 @@ export default function UserList() {
 
     // 更新搜索参数，触发 React Query 重新查询
     setSearchParams({
-      page: current,
-      size: pageSize,
-      username: username as string,
-      role: role as UserRole,
+      page: typeof current === 'number' ? current : undefined,
+      size: typeof pageSize === 'number' ? pageSize : undefined,
+      username: typeof username === 'string' ? username : undefined,
+      role: typeof role === 'string' ? (role as UserRole) : undefined,
       sortField,
       sortOrder,
     })
 
     // 返回 React Query 的当前数据
     return {
-      data: data?.data?.content || [],
+      data: data?.data.data.content || [],
       success: !error,
-      total: data?.data?.total || 0,
+      total: data?.data.data.total || 0,
     }
   }, [data, error])
 
