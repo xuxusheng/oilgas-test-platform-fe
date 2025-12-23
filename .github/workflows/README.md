@@ -36,31 +36,35 @@
 
 ## 触发条件
 
-| 分支 | 事件 | 作用 |
-|------|------|------|
-| `develop` | `push` | 开发环境镜像构建推送 |
-| `main` | `push` | 生产环境镜像构建推送 |
-| 任何分支 | `pull_request` | PR 检查（不推送镜像） |
+| 分支      | 事件           | 作用                  |
+| --------- | -------------- | --------------------- |
+| `develop` | `push`         | 开发环境镜像构建推送  |
+| `main`    | `push`         | 生产环境镜像构建推送  |
+| 任何分支  | `pull_request` | PR 检查（不推送镜像） |
 
 ## 环境变量配置
 
 在 GitHub 仓库的 Settings → Secrets and variables → Actions 中配置：
 
 ### Variables（仓库变量）
+
 - `DOCKER_IMAGE` - Docker 镜像仓库地址（如：`registry.example.com/oilgas-test-platform`）
 - `DOCKER_USERNAME` - Docker 仓库用户名
 
 ### Secrets（机密变量）
+
 - `DOCKER_PASSWORD` - Docker 仓库密码/Token
 
 ## 镜像标签策略
 
 ### 开发环境镜像标签
+
 - `dev-<branch-name>` - 分支名标签（如：`dev-develop`）
 - `dev-<short-sha>` - 短提交哈希标签（如：`dev-a1b2c3d`）
 - `dev-latest` - 最新开发版本（仅默认分支）
 
 ### 生产环境镜像标签
+
 - `prod-<branch-name>` - 分支名标签（如：`prod-main`）
 - `prod-<short-sha>` - 短提交哈希标签（如：`prod-a1b2c3d`）
 - `prod-latest` - 最新生产版本（仅默认分支）
@@ -88,6 +92,7 @@ develop 分支        main 分支
 ## 并发控制
 
 工作流使用 `concurrency` 配置防止多个构建同时进行：
+
 - 同一分支的多次推送会取消之前的构建
 - 确保只有最新的代码被构建
 
@@ -96,6 +101,7 @@ develop 分支        main 分支
 ### 环境变量配置
 
 在生产环境中，需要设置以下环境变量：
+
 - `API_URL` - 后端 API 地址（如：`http://api-service:8080`）
 
 ### Docker 运行
@@ -113,6 +119,7 @@ docker run -p 8080:8080 -e API_URL=http://localhost:8080 oilgas-test-platform:la
 镜像推送成功后，需要手动部署：
 
 1. **开发环境部署**
+
    ```bash
    # 拉取最新镜像
    docker pull registry.example.com/oilgas-test-platform:dev-latest
@@ -129,6 +136,7 @@ docker run -p 8080:8080 -e API_URL=http://localhost:8080 oilgas-test-platform:la
    ```
 
 2. **生产环境部署**
+
    ```bash
    # 拉取指定版本镜像
    docker pull registry.example.com/oilgas-test-platform:prod-v1.0.0
@@ -181,10 +189,12 @@ docker run -p 8080:8080 -e API_URL=http://localhost:8080 oilgas-test-platform:la
 ## 监控和日志
 
 ### GitHub Actions 日志
+
 - 访问 GitHub 仓库的 Actions 标签页
 - 查看每个工作流的详细日志
 - 下载构建产物进行调试
 
 ### 构建产物
+
 - 成功构建后可下载 `dist` 目录
 - 用于本地测试或手动部署

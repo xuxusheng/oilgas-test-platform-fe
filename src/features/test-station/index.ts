@@ -17,10 +17,7 @@ export type {
 } from './types'
 
 // 常量
-export {
-  TestStationUsageConstants,
-  ValveCommTypeConstants,
-} from './types'
+export { TestStationUsageConstants, ValveCommTypeConstants } from './types'
 
 // API 服务
 export {
@@ -47,4 +44,3 @@ export {
   toggleTestStation,
   useToggleTestStation,
 } from './api/test-station'
-

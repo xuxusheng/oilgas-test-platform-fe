@@ -139,11 +139,13 @@ export default function TestStationList() {
         if (!record.valveControlParams || record.valveControlParams.length === 0) {
           return (
             <Tooltip title="点击编辑可配置电磁阀控制参数">
-              <Tag color="default" style={{ cursor: 'help' }}>未配置</Tag>
+              <Tag color="default" style={{ cursor: 'help' }}>
+                未配置
+              </Tag>
             </Tooltip>
           )
         }
-        const paramLines = record.valveControlParams.map(p => (
+        const paramLines = record.valveControlParams.map((p) => (
           <div key={p.key} style={{ marginBottom: 2 }}>
             <strong>{p.key}:</strong> {p.value}
           </div>
@@ -152,7 +154,9 @@ export default function TestStationList() {
           <Tooltip
             title={<div style={{ whiteSpace: 'pre-wrap', maxWidth: 300 }}>{paramLines}</div>}
           >
-            <span style={{ cursor: 'help', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+            <span
+              style={{ cursor: 'help', textDecoration: 'underline', textUnderlineOffset: '2px' }}
+            >
               {record.valveControlParams.length} 个参数
             </span>
           </Tooltip>
@@ -169,20 +173,25 @@ export default function TestStationList() {
         if (!record.oilValveMapping || record.oilValveMapping.length === 0) {
           return (
             <Tooltip title="点击编辑可配置油-阀对应关系">
-              <Tag color="default" style={{ cursor: 'help' }}>未配置</Tag>
+              <Tag color="default" style={{ cursor: 'help' }}>
+                未配置
+              </Tag>
             </Tooltip>
           )
         }
-        const mappingLines = record.oilValveMapping.map(p => (
+        const mappingLines = record.oilValveMapping.map((p) => (
           <div key={p.key} style={{ marginBottom: 2 }}>
-            油<span style={{ color: '#1890ff' }}>{p.key}</span> → 阀<span style={{ color: '#52c41a' }}>{p.value}</span>
+            油<span style={{ color: '#1890ff' }}>{p.key}</span> → 阀
+            <span style={{ color: '#52c41a' }}>{p.value}</span>
           </div>
         ))
         return (
           <Tooltip
             title={<div style={{ whiteSpace: 'pre-wrap', maxWidth: 300 }}>{mappingLines}</div>}
           >
-            <span style={{ cursor: 'help', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+            <span
+              style={{ cursor: 'help', textDecoration: 'underline', textUnderlineOffset: '2px' }}
+            >
               {record.oilValveMapping.length} 组映射
             </span>
           </Tooltip>

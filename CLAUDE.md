@@ -439,6 +439,7 @@ src/
 应用不需要特定的环境变量，所有 API 请求通过 Axios 的 `baseURL` 配置和 Vite 代理处理。
 
 **请求流程：**
+
 1. API 调用使用相对路径（如 `/users/page`）
 2. Axios `baseURL: '/api'` 自动添加前缀 → `/api/users/page`
 3. 开发环境：Vite 代理将 `/api/*` 转发到 `http://localhost:8080/*`

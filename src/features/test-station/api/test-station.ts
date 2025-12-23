@@ -57,7 +57,9 @@ export const useTestStationById = (id: number) => {
 
 /** 根据工位编号查询测试工位 */
 export const getTestStationByNo = (data: GetTestStationByNoRequest) => {
-  return request.get<ApiResponse<TestStationResponse>>(`/test-stations/by-station-no/${data.stationNo}`)
+  return request.get<ApiResponse<TestStationResponse>>(
+    `/test-stations/by-station-no/${data.stationNo}`,
+  )
 }
 
 /** 根据工位编号查询测试工位 Hook */

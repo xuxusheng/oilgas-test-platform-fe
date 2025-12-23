@@ -39,7 +39,10 @@ export const ROUTE_GROUPS = {
  * 获取路由路径的辅助函数
  * 支持参数替换
  */
-export const getPath = (key: keyof typeof ROUTES, params?: Record<string, string | number>): string => {
+export const getPath = (
+  key: keyof typeof ROUTES,
+  params?: Record<string, string | number>,
+): string => {
   let path: string = ROUTES[key]
 
   if (params) {

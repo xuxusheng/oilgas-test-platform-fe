@@ -211,4 +211,3 @@ export interface TestStationStatusChangeRequest {
   /** 工位 ID */
   id: number
 }
-

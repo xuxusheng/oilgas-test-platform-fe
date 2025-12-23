@@ -30,7 +30,6 @@ docker run -d \
   oilgas-frontend:latest
 ```
 
-
 ### 3. 环境变量配置
 
 **必需环境变量：**
@@ -71,19 +70,19 @@ spec:
         app: frontend
     spec:
       containers:
-      - name: frontend
-        image: oilgas-frontend:latest
-        ports:
-        - containerPort: 8080
-        env:
-        - name: API_URL
-          value: "http://backend-service:8080"
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 8080
-          initialDelaySeconds: 10
-          periodSeconds: 5
+        - name: frontend
+          image: oilgas-frontend:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: API_URL
+              value: 'http://backend-service:8080'
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
 ```
 
 ### CI/CD 集成
@@ -95,7 +94,7 @@ name: Deploy Frontend
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build-and-deploy:
@@ -150,21 +149,24 @@ chmod +x ci/entrypoint.sh
 ## 最佳实践
 
 1. **镜像标签**：使用语义化版本号或 Git SHA
+
    ```bash
    docker build -t oilgas-frontend:v1.2.3 .
    docker build -t oilgas-frontend:${GIT_SHA} .
    ```
 
 2. **健康检查**：生产环境启用健康检查
+
    ```yaml
    healthcheck:
-     test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/"]
+     test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:8080/']
      interval: 30s
      timeout: 10s
      retries: 3
    ```
 
 3. **资源限制**：生产环境设置资源限制
+
    ```yaml
    deploy:
      resources:
