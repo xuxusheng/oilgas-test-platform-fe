@@ -121,7 +121,7 @@ jobs:
             # 开发环境使用分支名和短 SHA
             type=ref,event=branch,prefix=dev-
             type=sha,prefix=dev-,format=short
-            type=raw,value=dev-latest,enable={{is_branch 'develop'}}
+            type=raw,value=dev-latest,enable=${{ github.ref == 'refs/heads/develop' }}
           labels: |
             org.opencontainers.image.title=${{ github.event.repository.name }}
             org.opencontainers.image.description=油气测试平台前端应用
@@ -182,7 +182,7 @@ jobs:
             # 生产环境使用版本号和短 SHA
             type=ref,event=branch,prefix=prod-
             type=sha,prefix=prod-,format=short
-            type=raw,value=prod-latest,enable={{is_branch 'main'}}
+            type=raw,value=prod-latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
           labels: |
