@@ -69,6 +69,7 @@ vitest.config.ts
 !tsconfig.json
 !tailwind.config.js
 !postcss.config.js
+!eslint.config.js
 
 # Scripts
 scripts/
