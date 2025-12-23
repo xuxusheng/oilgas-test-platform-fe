@@ -21,12 +21,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  # 仓库名称
-  PROJECT_NAME: oilgas-test-platform-fe-v2
-  # 镜像地址（从变量中获取）
-  IMAGE_NAME: ${{ vars.DOCKER_IMAGE }}
-
 jobs:
 # ==================== 区域 1: 通用检查任务 ====================
   # 代码质量检查
