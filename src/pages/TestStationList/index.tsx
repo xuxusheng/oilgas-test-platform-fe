@@ -55,26 +55,29 @@ export default function TestStationList() {
   const disableMutation = useDisableTestStation()
 
   // 工位编号验证器 - 用于创建和编辑表单
-  const createStationNoValidator = (currentStationNo?: number) => async (_rule: unknown, value?: number) => {
-    if (!value) return Promise.resolve()
-    if (currentStationNo && value === currentStationNo) return Promise.resolve()
-    const res = await validateStationNo({ stationNo: value })
-    if (res.data.data) return Promise.resolve()
-    return Promise.reject(new Error('工位编号已存在'))
-  }
+  const createStationNoValidator =
+    (currentStationNo?: number) => async (_rule: unknown, value?: number) => {
+      if (!value) return Promise.resolve()
+      if (currentStationNo && value === currentStationNo) return Promise.resolve()
+      const res = await validateStationNo({ stationNo: value })
+      if (res.data.data) return Promise.resolve()
+      return Promise.reject(new Error('工位编号已存在'))
+    }
 
   const columns: ProColumns<TestStationResponse>[] = [
     {
       title: 'ID',
       dataIndex: 'id',
-      width: 56,
+      width: 60,
       search: false,
       hideInForm: true,
+      fixed: 'left',
     },
     {
       title: '工位编号',
       dataIndex: 'stationNo',
       valueType: 'digit',
+      width: 100,
       formItemProps: {
         rules: [
           { required: true, message: '请输入工位编号' },
@@ -86,6 +89,7 @@ export default function TestStationList() {
       title: '工位名称',
       dataIndex: 'stationName',
       ellipsis: true,
+      width: 150,
       formItemProps: {
         rules: [
           { required: true, message: '请输入工位名称' },
@@ -97,6 +101,7 @@ export default function TestStationList() {
       title: '用途',
       dataIndex: 'usage',
       valueType: 'select',
+      width: 100,
       fieldProps: {
         options: usageOptions,
       },
@@ -112,6 +117,7 @@ export default function TestStationList() {
       title: '电磁阀通信类型',
       dataIndex: 'valveCommType',
       valueType: 'select',
+      width: 130,
       fieldProps: {
         options: valveCommTypeOptions,
       },
@@ -127,6 +133,7 @@ export default function TestStationList() {
       title: '责任人',
       dataIndex: 'responsiblePerson',
       ellipsis: true,
+      width: 120,
       formItemProps: {
         rules: [
           { required: true, message: '请输入责任人' },
@@ -138,6 +145,7 @@ export default function TestStationList() {
       title: '状态',
       dataIndex: 'enabled',
       valueType: 'select',
+      width: 80,
       fieldProps: {
         options: [
           { label: '启用', value: true },
@@ -145,11 +153,7 @@ export default function TestStationList() {
         ],
       },
       render: (_, record) => {
-        return record.enabled ? (
-          <Tag color="success">启用</Tag>
-        ) : (
-          <Tag color="default">禁用</Tag>
-        )
+        return record.enabled ? <Tag color="success">启用</Tag> : <Tag color="default">禁用</Tag>
       },
       formItemProps: {
         rules: [{ required: true, message: '请选择状态' }],
@@ -159,6 +163,7 @@ export default function TestStationList() {
       title: '创建时间',
       dataIndex: 'createdAt',
       valueType: 'dateTime',
+      width: 180,
       search: false,
       editable: false,
       hideInForm: true,
@@ -167,7 +172,7 @@ export default function TestStationList() {
       title: '操作',
       valueType: 'option',
       key: 'option',
-      width: 180,
+      width: 120,
       fixed: 'right',
       render: (_, record) => [
         <a
@@ -251,6 +256,7 @@ export default function TestStationList() {
             <PlusOutlined /> 新建工位
           </Button>,
         ]}
+        scroll={{ x: 'max-content' }}
         request={async (params, sort) => {
           const { current, pageSize, ...rest } = params
 

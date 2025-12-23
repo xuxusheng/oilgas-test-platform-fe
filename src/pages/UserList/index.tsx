@@ -16,7 +16,13 @@ import {
   useUpdateUser,
 } from '../../features/user/api/user'
 import { UserRoleConstants } from '../../features/user/types'
-import type { CreateUserRequest, UpdateUserRequest, UserResponse, UserRole, UserPageRequest } from '../../features/user/types'
+import type {
+  CreateUserRequest,
+  UpdateUserRequest,
+  UserResponse,
+  UserRole,
+  UserPageRequest,
+} from '../../features/user/types'
 
 export default function UserList() {
   const actionRef = useRef<ActionType>(null)
@@ -34,38 +40,41 @@ export default function UserList() {
   const deleteUserMutation = useDeleteUser()
 
   // 处理表格请求 - 使用 React Query 的数据
-  const handleTableRequest = useCallback(async (params: Record<string, unknown>) => {
-    const { current, pageSize, username, role, ...sortParams } = params
+  const handleTableRequest = useCallback(
+    async (params: Record<string, unknown>) => {
+      const { current, pageSize, username, role, ...sortParams } = params
 
-    // 处理排序
-    let sortField: string | undefined
-    let sortOrder: 'asc' | 'desc' | undefined
+      // 处理排序
+      let sortField: string | undefined
+      let sortOrder: 'asc' | 'desc' | undefined
 
-    const sortKeys = Object.keys(sortParams)
-    if (sortKeys.length > 0) {
-      sortField = sortKeys[0]
-      const order = sortParams[sortField]
-      if (order === 'ascend') sortOrder = 'asc'
-      else if (order === 'descend') sortOrder = 'desc'
-    }
+      const sortKeys = Object.keys(sortParams)
+      if (sortKeys.length > 0) {
+        sortField = sortKeys[0]
+        const order = sortParams[sortField]
+        if (order === 'ascend') sortOrder = 'asc'
+        else if (order === 'descend') sortOrder = 'desc'
+      }
 
-    // 更新搜索参数，触发 React Query 重新查询
-    setSearchParams({
-      page: typeof current === 'number' ? current : undefined,
-      size: typeof pageSize === 'number' ? pageSize : undefined,
-      username: typeof username === 'string' ? username : undefined,
-      role: typeof role === 'string' ? (role as UserRole) : undefined,
-      sortField,
-      sortOrder,
-    })
+      // 更新搜索参数，触发 React Query 重新查询
+      setSearchParams({
+        page: typeof current === 'number' ? current : undefined,
+        size: typeof pageSize === 'number' ? pageSize : undefined,
+        username: typeof username === 'string' ? username : undefined,
+        role: typeof role === 'string' ? (role as UserRole) : undefined,
+        sortField,
+        sortOrder,
+      })
 
-    // 返回 React Query 的当前数据
-    return {
-      data: data?.data.data.content || [],
-      success: !error,
-      total: data?.data.data.total || 0,
-    }
-  }, [data, error])
+      // 返回 React Query 的当前数据
+      return {
+        data: data?.data.data.content || [],
+        success: !error,
+        total: data?.data.data.total || 0,
+      }
+    },
+    [data, error],
+  )
 
   // 创建用户
   const handleCreate = async (values: CreateUserRequest) => {
@@ -151,7 +160,7 @@ export default function UserList() {
       title: '操作',
       valueType: 'option',
       key: 'option',
-      width: 120,
+      width: 82,
       fixed: 'right',
       render: (_, record) => [
         <a

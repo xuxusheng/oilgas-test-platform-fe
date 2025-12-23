@@ -59,14 +59,16 @@ export default function InspectionDeviceList() {
     {
       title: 'ID',
       dataIndex: 'id',
-      width: 48,
+      width: 60,
       search: false,
       hideInForm: true,
+      fixed: 'left',
     },
     {
       title: '设备编号',
       dataIndex: 'deviceNo',
       ellipsis: true,
+      width: 120,
       search: true,
       hideInForm: true,
     },
@@ -74,6 +76,7 @@ export default function InspectionDeviceList() {
       title: '出厂编号',
       dataIndex: 'serialNumber',
       ellipsis: true,
+      width: 150,
       formItemProps: {
         rules: [
           {
@@ -91,6 +94,7 @@ export default function InspectionDeviceList() {
       title: '装置型号',
       dataIndex: 'deviceModel',
       ellipsis: true,
+      width: 120,
       search: false,
       formItemProps: {
         rules: [
@@ -105,6 +109,7 @@ export default function InspectionDeviceList() {
       title: 'IP地址',
       dataIndex: 'ip',
       ellipsis: true,
+      width: 130,
       formItemProps: {
         rules: [
           {
@@ -138,6 +143,7 @@ export default function InspectionDeviceList() {
       title: '所属项目',
       dataIndex: 'projectId',
       valueType: 'select',
+      width: 150,
       fieldProps: {
         options: projectOptions,
       },
@@ -153,7 +159,7 @@ export default function InspectionDeviceList() {
     {
       title: '项目内部序号',
       dataIndex: 'projectInternalNo',
-      width: 100,
+      width: 120,
       search: false,
       hideInForm: true,
     },
@@ -161,6 +167,7 @@ export default function InspectionDeviceList() {
       title: '状态',
       dataIndex: 'status',
       valueType: 'select',
+      width: 100,
       fieldProps: {
         options: statusOptions,
       },
@@ -173,6 +180,7 @@ export default function InspectionDeviceList() {
       title: '备注',
       dataIndex: 'remark',
       ellipsis: true,
+      width: 150,
       search: false,
       hideInTable: true,
     },
@@ -180,6 +188,7 @@ export default function InspectionDeviceList() {
       title: '创建时间',
       dataIndex: 'createdAt',
       valueType: 'dateTime',
+      width: 180,
       search: false,
       editable: false,
       hideInForm: true,
@@ -188,7 +197,7 @@ export default function InspectionDeviceList() {
       title: '操作',
       valueType: 'option',
       key: 'option',
-      width: 120,
+      width: 84,
       fixed: 'right',
       render: (_, record) => [
         <a
@@ -239,6 +248,7 @@ export default function InspectionDeviceList() {
             <PlusOutlined /> 新建设备
           </Button>,
         ]}
+        scroll={{ x: 'max-content' }}
         request={async (params, sort) => {
           const { current, pageSize, ...rest } = params
 

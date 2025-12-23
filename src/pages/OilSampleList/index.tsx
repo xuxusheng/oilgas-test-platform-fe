@@ -74,14 +74,16 @@ export default function OilSampleList() {
     {
       title: 'ID',
       dataIndex: 'id',
-      width: 56,
+      width: 60,
       search: false,
       hideInForm: true,
+      fixed: 'left',
     },
     {
       title: '油样编号',
       dataIndex: 'sampleNo',
       ellipsis: true,
+      width: 120,
       formItemProps: {
         rules: [
           { required: true, message: '请输入油样编号' },
@@ -93,6 +95,7 @@ export default function OilSampleList() {
       title: '油样名称',
       dataIndex: 'sampleName',
       ellipsis: true,
+      width: 150,
       formItemProps: {
         rules: [
           { required: true, message: '请输入油样名称' },
@@ -104,6 +107,7 @@ export default function OilSampleList() {
       title: '用途',
       dataIndex: 'usage',
       valueType: 'select',
+      width: 120,
       fieldProps: {
         options: usageOptions,
       },
@@ -118,6 +122,7 @@ export default function OilSampleList() {
     {
       title: '参数',
       dataIndex: 'parameters',
+      width: 150,
       search: false,
       hideInForm: true,
       render: (_, record) => {
@@ -166,6 +171,7 @@ export default function OilSampleList() {
       title: '离线测试时间',
       dataIndex: 'offlineTestedAt',
       valueType: 'dateTime',
+      width: 180,
       search: false,
       hideInForm: true,
     },
@@ -173,6 +179,7 @@ export default function OilSampleList() {
       title: '离线测试编号',
       dataIndex: 'offlineTestNo',
       ellipsis: true,
+      width: 120,
       search: false,
       hideInForm: true,
     },
@@ -180,12 +187,19 @@ export default function OilSampleList() {
       title: '状态',
       dataIndex: 'enabled',
       valueType: 'select',
+      width: 80,
       fieldProps: {
         options: enabledOptions.map(({ label, value }) => ({ label, value })),
       },
       render: (_, record) => {
         const enabled = enabledOptions.find((s) => s.value === record.enabled)
-        return enabled ? <Tag color={enabled.color}>{enabled.label}</Tag> : (record.enabled ? '启用' : '禁用')
+        return enabled ? (
+          <Tag color={enabled.color}>{enabled.label}</Tag>
+        ) : record.enabled ? (
+          '启用'
+        ) : (
+          '禁用'
+        )
       },
       formItemProps: {
         rules: [{ required: true, message: '请选择状态' }],
@@ -195,6 +209,7 @@ export default function OilSampleList() {
       title: '备注',
       dataIndex: 'remark',
       ellipsis: true,
+      width: 150,
       search: false,
       hideInTable: true,
     },
@@ -202,6 +217,7 @@ export default function OilSampleList() {
       title: '创建时间',
       dataIndex: 'createdAt',
       valueType: 'dateTime',
+      width: 180,
       search: false,
       editable: false,
       hideInForm: true,
@@ -210,7 +226,7 @@ export default function OilSampleList() {
       title: '操作',
       valueType: 'option',
       key: 'option',
-      width: 180,
+      width: 120,
       fixed: 'right',
       render: (_, record) => [
         <a
@@ -294,6 +310,7 @@ export default function OilSampleList() {
             <PlusOutlined /> 新建油样
           </Button>,
         ]}
+        scroll={{ x: 'max-content' }}
         request={async (params, sort) => {
           const { current, pageSize, ...rest } = params
 
@@ -415,10 +432,7 @@ export default function OilSampleList() {
           fieldProps={{ precision: 0 }}
           rules={[{ required: true, message: '请输入油缸编号' }]}
         />
-        <ProFormDateTimePicker
-          name="offlineTestedAt"
-          label="离线测试时间"
-        />
+        <ProFormDateTimePicker name="offlineTestedAt" label="离线测试时间" />
         <ProFormText name="offlineTestNo" label="离线测试编号" placeholder="可选" />
 
         <ProFormSelect
@@ -558,10 +572,7 @@ export default function OilSampleList() {
           fieldProps={{ precision: 0 }}
           rules={[{ required: true, message: '请输入油缸编号' }]}
         />
-        <ProFormDateTimePicker
-          name="offlineTestedAt"
-          label="离线测试时间"
-        />
+        <ProFormDateTimePicker name="offlineTestedAt" label="离线测试时间" />
         <ProFormText name="offlineTestNo" label="离线测试编号" placeholder="可选" />
 
         <ProFormSelect
