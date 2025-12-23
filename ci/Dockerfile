@@ -43,15 +43,10 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # 设置工作目录
 WORKDIR /usr/share/nginx/html
 
-# 创建非 root 用户并设置权限
-RUN addgroup -g 1001 -S nginx && \
-    adduser -S nginx -u 1001 && \
-    chown -R nginx:nginx /usr/share/nginx/html && \
-    chown -R nginx:nginx /var/cache/nginx && \
-    chown -R nginx:nginx /var/log/nginx && \
-    chown -R nginx:nginx /etc/nginx/conf.d
+# nginx:alpine 镜像已包含 nginx 用户，直接设置权限即可
+RUN chown -R nginx:nginx /usr/share/nginx/html
 
-# 切换到非 root 用户
+# 切换到非 root 用户 (nginx:alpine 已包含 nginx 用户)
 USER nginx
 
 # 暴露端口
