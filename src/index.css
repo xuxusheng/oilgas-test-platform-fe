@@ -1,1 +1,92 @@
 @import 'tailwindcss';
+
+/* 滚动条样式优化 */
+/* Webkit 浏览器 (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* 滚动条轨道 */
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+/* 滚动条滑块悬停状态 */
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* 滚动条滑块活动状态 */
+::-webkit-scrollbar-thumb:active {
+  background: #6b7280;
+}
+
+/* Firefox 浏览器 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}
+
+/* 特定区域的滚动条样式 - 更细更精致 */
+.pro-table-scroll,
+.ant-table-scroll,
+.ant-pro-table-list-container,
+.ant-modal-body,
+.ant-layout-sider,
+.ant-menu {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.pro-table-scroll::-webkit-scrollbar,
+.ant-table-scroll::-webkit-scrollbar,
+.ant-pro-table-list-container::-webkit-scrollbar,
+.ant-modal-body::-webkit-scrollbar,
+.ant-layout-sider::-webkit-scrollbar,
+.ant-menu::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.pro-table-scroll::-webkit-scrollbar-thumb,
+.ant-table-scroll::-webkit-scrollbar-thumb,
+.ant-pro-table-list-container::-webkit-scrollbar-thumb,
+.ant-modal-body::-webkit-scrollbar-thumb,
+.ant-layout-sider::-webkit-scrollbar-thumb,
+.ant-menu::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.pro-table-scroll::-webkit-scrollbar-thumb:hover,
+.ant-table-scroll::-webkit-scrollbar-thumb:hover,
+.ant-pro-table-list-container::-webkit-scrollbar-thumb:hover,
+.ant-modal-body::-webkit-scrollbar-thumb:hover,
+.ant-layout-sider::-webkit-scrollbar-thumb:hover,
+.ant-menu::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* 暗色模式支持（如果未来需要） */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-thumb {
+    background: #4b5563;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+  }
+
+  * {
+    scrollbar-color: #4b5563 transparent;
+  }
+}
