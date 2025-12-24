@@ -1,0 +1,19 @@
+services:
+  frontend:
+    image: registry.cn-hangzhou.aliyuncs.com/xusheng/oilgas-test-platform-fe:dev-eea4a13
+    container_name: oilgas-test-platform-fe
+    restart: unless-stopped
+    ports:
+      - '3000:8080' # Dockerfile 中暴露的是 8080 端口
+    environment:
+      # 必须设置后端 API 地址（根据实际部署情况修改）
+      # 示例：http://localhost:8080 或 http://backend:8080
+      - API_URL=http://host.docker.internal:8080
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8080/']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    security_opt:
+      - no-new-privileges:true

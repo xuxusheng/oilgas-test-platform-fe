@@ -43,17 +43,8 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # 设置工作目录
 WORKDIR /usr/share/nginx/html
 
-# nginx:alpine 镜像已包含 nginx 用户，直接设置权限即可
-RUN chown -R nginx:nginx /usr/share/nginx/html
-
-# 切换到非 root 用户 (nginx:alpine 已包含 nginx 用户)
-USER nginx
-
 # 暴露端口
 EXPOSE 8080
-
-# 设置环境变量（用于说明）
-ENV API_URL=""
 
 # 使用 entrypoint 启动
 ENTRYPOINT ["/docker-entrypoint.sh"]
