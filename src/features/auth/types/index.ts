@@ -63,3 +63,43 @@ export interface RegisterResponse {
   username: string // 用户名
   role: string // 用户角色，新注册用户默认为 MEMBER(普通成员)
 }
+
+/**
+ * 系统状态响应接口
+ *
+ * GET /api/auth/system-status
+ * 检测系统状态，无需认证
+ */
+export interface SystemStatusResponse {
+  /** 是否首次部署（false表示系统已初始化） */
+  firstDeployment: boolean
+  /** 用户数量 */
+  userCount: number
+  /** 系统状态描述信息 */
+  message: string
+}
+
+/**
+ * 初始化管理员请求接口
+ *
+ * POST /api/auth/init-admin
+ * 仅在首次部署时可用，无需认证
+ * 用户名固定为 "admin"，无需传递
+ */
+export interface FirstAdminCreateRequest {
+  /** 管理员密码（6-30字符） */
+  password: string
+  /** 确认密码 */
+  confirmPassword: string
+}
+
+/**
+ * 用户响应接口（用于init-admin返回）
+ *
+ * 包含创建的管理员用户基本信息
+ */
+export interface UserResponse {
+  id: number // 用户ID，系统分配的唯一标识符
+  username: string // 用户名
+  role: string // 用户角色，管理员为 ADMIN
+}

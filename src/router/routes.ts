@@ -7,6 +7,7 @@ export const ROUTES = {
   // 认证路由
   LOGIN: '/login',
   REGISTER: '/register',
+  INIT_ADMIN: '/init-admin',
 
   // 仪表盘
   DASHBOARD: '/dashboard',
@@ -28,7 +29,7 @@ export const ROUTES = {
  * 便于按功能模块管理路由
  */
 export const ROUTE_GROUPS = {
-  AUTH: [ROUTES.LOGIN, ROUTES.REGISTER],
+  AUTH: [ROUTES.LOGIN, ROUTES.REGISTER, ROUTES.INIT_ADMIN],
   DASHBOARD: [ROUTES.DASHBOARD],
   TEST_LINE: [ROUTES.OIL_SAMPLES, ROUTES.TEST_STATIONS],
   DEVICE: [ROUTES.INSPECTION_DEVICES],

@@ -10,7 +10,7 @@ import {
 import { Button, Popconfirm, App } from 'antd'
 import { useRef, useState, useCallback } from 'react'
 import {
-  useUserPage,
+  getUserPage,
   useCreateUser,
   useDeleteUser,
   useUpdateUser,
@@ -21,7 +21,6 @@ import type {
   UpdateUserRequest,
   UserResponse,
   UserRole,
-  UserPageRequest,
 } from '../../features/user/types'
 
 export default function UserList() {
@@ -29,51 +28,55 @@ export default function UserList() {
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false)
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false)
   const [currentRow, setCurrentRow] = useState<UserResponse>()
-  const [searchParams, setSearchParams] = useState<UserPageRequest>({})
 
   const { message: messageApi } = App.useApp()
 
-  // 使用 React Query 的 hooks
-  const { data, isLoading, error } = useUserPage(searchParams)
   const createUserMutation = useCreateUser()
   const updateUserMutation = useUpdateUser()
   const deleteUserMutation = useDeleteUser()
 
-  // 处理表格请求 - 使用 React Query 的数据
+  // 处理表格请求
   const handleTableRequest = useCallback(
-    async (params: Record<string, unknown>) => {
-      const { current, pageSize, username, role, ...sortParams } = params
+    async (params: Record<string, unknown>, sort: Record<string, unknown>) => {
+      const { current, pageSize, username, role } = params
 
-      // 处理排序
       let sortField: string | undefined
       let sortOrder: 'asc' | 'desc' | undefined
 
-      const sortKeys = Object.keys(sortParams)
-      if (sortKeys.length > 0) {
-        sortField = sortKeys[0]
-        const order = sortParams[sortField]
+      const sortEntries = Object.entries(sort || {}).filter(([, v]) => v)
+      if (sortEntries.length > 0) {
+        const [field, order] = sortEntries[0]
+        sortField = field
         if (order === 'ascend') sortOrder = 'asc'
         else if (order === 'descend') sortOrder = 'desc'
       }
 
-      // 更新搜索参数，触发 React Query 重新查询
-      setSearchParams({
+      const requestParams = {
         page: typeof current === 'number' ? current : undefined,
         size: typeof pageSize === 'number' ? pageSize : undefined,
         username: typeof username === 'string' ? username : undefined,
         role: typeof role === 'string' ? (role as UserRole) : undefined,
         sortField,
         sortOrder,
-      })
+      }
 
-      // 返回 React Query 的当前数据
-      return {
-        data: data?.data.data.content || [],
-        success: !error,
-        total: data?.data.data.total || 0,
+      try {
+        const response = await getUserPage(requestParams)
+
+        return {
+          data: response.data.data.content || [],
+          success: true,
+          total: response.data.data.total || 0,
+        }
+      } catch {
+        return {
+          data: [],
+          success: false,
+          total: 0,
+        }
       }
     },
-    [data, error],
+    [],
   )
 
   // 创建用户
@@ -189,7 +192,6 @@ export default function UserList() {
         headerTitle="用户列表"
         actionRef={actionRef}
         rowKey="id"
-        loading={isLoading}
         search={{
           labelWidth: 'auto',
         }}

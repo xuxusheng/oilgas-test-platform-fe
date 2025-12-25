@@ -1,8 +1,9 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Checkbox, Form, Input, Typography, App } from 'antd'
+import { Button, Checkbox, Form, Input, Typography, App, Alert } from 'antd'
 import { useNavigate, Link, useLocation } from 'react-router-dom'
-import { useLogin } from '../../features/auth/api/auth'
+import { useLogin, useSystemStatus } from '../../features/auth/api/auth'
 import { useAuthStore } from '../../store/useAuthStore'
+import { useEffect } from 'react'
 
 import type { LoginRequest } from '../../features/auth/types'
 
@@ -15,7 +16,17 @@ const Login = () => {
   const { mutateAsync: login, isPending } = useLogin()
   const { message: messageApi } = App.useApp()
 
+  // 检测系统状态
+  const { data: systemStatus, error: statusError } = useSystemStatus()
+
   const from = location.state?.from?.pathname || '/dashboard'
+
+  // 系统状态检测效果
+  useEffect(() => {
+    if (statusError) {
+      messageApi.warning('系统状态检测失败，部分功能可能受限')
+    }
+  }, [statusError, messageApi])
 
   const onFinish = async (values: LoginRequest) => {
     const res = await login(values)
@@ -35,10 +46,8 @@ const Login = () => {
       <div className="hidden lg:flex lg:w-1/2 bg-blue-600 justify-center items-center relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-800 opacity-90"></div>
         <div className="relative z-10 text-white px-12 text-center">
-          <h1 className="text-5xl font-bold mb-6">Oil & Gas Platform</h1>
-          <p className="text-xl text-blue-100">
-            Professional testing and management solution for the energy sector.
-          </p>
+          <h1 className="text-5xl font-bold mb-6">油气测试平台</h1>
+          <p className="text-xl text-blue-100">为能源行业提供专业的测试与管理解决方案</p>
           <div className="mt-12">
             {/* Abstract decorative circles */}
             <div className="w-64 h-64 bg-white/10 rounded-full absolute -top-20 -left-20 blur-3xl"></div>
@@ -50,12 +59,40 @@ const Login = () => {
       {/* Right side - Login Form */}
       <div className="flex-1 flex justify-center items-center p-4 sm:p-12">
         <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
-          <div className="text-center mb-8">
+          <div className="text-center mb-6">
             <Title level={2} style={{ marginBottom: 0, color: '#1f2937' }}>
-              Welcome Back
+              欢迎回来
             </Title>
-            <Text type="secondary">Please enter your details to sign in</Text>
+            <Text type="secondary">请输入您的账户信息登录</Text>
           </div>
+
+          {/* 系统状态提示 */}
+          {systemStatus && systemStatus.data.data.firstDeployment && (
+            <Alert
+              message="系统未初始化"
+              description="系统首次部署，请先创建管理员账户。"
+              type="warning"
+              showIcon
+              className="mb-4"
+              action={
+                <Link to="/init-admin">
+                  <Button size="small" type="primary">
+                    去初始化
+                  </Button>
+                </Link>
+              }
+            />
+          )}
+
+          {statusError && (
+            <Alert
+              message="系统状态检测失败"
+              description="部分功能可能受限，请检查网络连接。"
+              type="warning"
+              showIcon
+              className="mb-4"
+            />
+          )}
 
           <Form
             name="login"
@@ -65,34 +102,30 @@ const Login = () => {
             size="large"
             initialValues={{ remember: true }}
           >
-            <Form.Item
-              name="username"
-              rules={[{ required: true, message: 'Please input your username!' }]}
-            >
+            <Form.Item name="username" rules={[{ required: true, message: '请输入用户名！' }]}>
               <Input
                 prefix={<UserOutlined className="text-gray-400" />}
-                placeholder="Username"
+                placeholder="用户名"
                 className="rounded-md"
+                autoComplete="off"
               />
             </Form.Item>
 
-            <Form.Item
-              name="password"
-              rules={[{ required: true, message: 'Please input your password!' }]}
-            >
+            <Form.Item name="password" rules={[{ required: true, message: '请输入密码！' }]}>
               <Input.Password
                 prefix={<LockOutlined className="text-gray-400" />}
-                placeholder="Password"
+                placeholder="密码"
                 className="rounded-md"
+                autoComplete="new-password"
               />
             </Form.Item>
 
             <div className="flex justify-between items-center mb-6">
               <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox>Remember me</Checkbox>
+                <Checkbox>记住我</Checkbox>
               </Form.Item>
               <a className="text-blue-600 hover:text-blue-800 text-sm font-medium" href="#">
-                Forgot password?
+                忘记密码？
               </a>
             </div>
 
@@ -104,14 +137,14 @@ const Login = () => {
                 loading={isPending}
                 className="h-12 text-lg font-medium bg-blue-600 hover:bg-blue-700 border-none rounded-md"
               >
-                Sign in
+                登录
               </Button>
             </Form.Item>
 
             <div className="text-center mt-6 text-gray-500">
-              Don't have an account?{' '}
+              没有账户？{' '}
               <Link to="/register" className="text-blue-600 hover:text-blue-800 font-medium">
-                Register now
+                立即注册
               </Link>
             </div>
           </Form>

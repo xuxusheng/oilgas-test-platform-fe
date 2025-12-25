@@ -3,8 +3,39 @@
 // 通用常量和工具函数
 export * from './constants'
 
-// 认证功能模块
-export * from './auth'
+// 认证功能模块 - 明确导出避免冲突
+export {
+  login,
+  useLogin,
+  register,
+  useRegister,
+  getUserInfo,
+  useUserInfo,
+  getSystemStatus,
+  useSystemStatus,
+  initAdmin,
+  useInitAdmin,
+  handleAuthError,
+  handleSystemStatusError,
+  handleInitAdminError,
+  validatePasswordStrength,
+  formatSystemStatus,
+  isFirstDeployment,
+  getFriendlyErrorMessage,
+  showAuthErrorMessage,
+  showAuthSuccessMessage,
+} from './auth'
+
+// 认证相关类型
+export type {
+  LoginRequest,
+  RegisterRequest,
+  UserInfo,
+  LoginResponse,
+  RegisterResponse,
+  SystemStatusResponse,
+  FirstAdminCreateRequest,
+} from './auth'
 
 // 用户管理功能模块
 export * from './user'
