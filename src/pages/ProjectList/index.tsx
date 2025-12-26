@@ -9,6 +9,7 @@ import {
 } from '@ant-design/pro-components'
 import { Button, Popconfirm, App } from 'antd'
 import { useRef, useState } from 'react'
+import { makeBreadcrumb } from '../../utils/breadcrumb'
 import {
   getProjectPage,
   useCreateProject,
@@ -137,7 +138,12 @@ export default function ProjectList() {
   ]
 
   return (
-    <PageContainer>
+    <PageContainer
+      breadcrumb={makeBreadcrumb([
+        { href: '/settings', title: '系统设置' },
+        { href: '/test-line/projects', title: '项目管理' },
+      ])}
+    >
       <ProTable<ProjectResponse>
         headerTitle="项目列表"
         actionRef={actionRef}

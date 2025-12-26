@@ -11,6 +11,7 @@ import {
 } from '@ant-design/pro-components'
 import { Button, Popconfirm, Tag, App } from 'antd'
 import { useRef, useState } from 'react'
+import { makeBreadcrumb } from '../../utils/breadcrumb'
 import {
   getInspectionDevicePage,
   useCreateInspectionDevice,
@@ -229,7 +230,12 @@ export default function InspectionDeviceList() {
   ]
 
   return (
-    <PageContainer>
+    <PageContainer
+      breadcrumb={makeBreadcrumb([
+        { href: '/device-management', title: '设备管理' },
+        { href: '/test-line/devices', title: '待检设备' },
+      ])}
+    >
       <ProTable<InspectionDeviceResponse>
         headerTitle="待检设备列表"
         actionRef={actionRef}

@@ -12,6 +12,7 @@ import {
 } from '@ant-design/pro-components'
 import { Button, Popconfirm, Tag, App, Tooltip } from 'antd'
 import { useRef, useState } from 'react'
+import { makeBreadcrumb } from '../../utils/breadcrumb'
 import {
   getTestStationPage,
   useCreateTestStation,
@@ -306,7 +307,12 @@ export default function TestStationList() {
   ]
 
   return (
-    <PageContainer>
+    <PageContainer
+      breadcrumb={makeBreadcrumb([
+        { href: '/test-line', title: '测试线管理' },
+        { href: '/test-line/stations', title: '测试工位' },
+      ])}
+    >
       <ProTable<TestStationResponse>
         headerTitle="测试工位列表"
         actionRef={actionRef}

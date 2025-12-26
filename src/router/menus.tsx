@@ -28,7 +28,7 @@ export const menuConfig: MenuItem[] = [
     icon: <DashboardOutlined />,
   },
   {
-    path: '/test-line-management',
+    path: '/test-line',
     name: '测试线管理',
     icon: <ExperimentOutlined />,
     children: [

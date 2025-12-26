@@ -14,6 +14,7 @@ import {
 import { Button, Popconfirm, Tag, Tooltip, App } from 'antd'
 import dayjs from 'dayjs'
 import { useRef, useState } from 'react'
+import { makeBreadcrumb } from '../../utils/breadcrumb'
 import {
   getOilSamplePage,
   useCreateOilSample,
@@ -291,7 +292,12 @@ export default function OilSampleList() {
   ]
 
   return (
-    <PageContainer>
+    <PageContainer
+      breadcrumb={makeBreadcrumb([
+        { href: '/test-line', title: '测试线管理' },
+        { href: '/sample/oil-samples', title: '油样管理' },
+      ])}
+    >
       <ProTable<OilSampleResponse>
         headerTitle="油样列表"
         actionRef={actionRef}

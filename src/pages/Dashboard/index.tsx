@@ -3,6 +3,7 @@ import { Card, Col, Row, Statistic } from 'antd'
 import CountUp from 'react-countup'
 import ReactECharts from 'echarts-for-react'
 import { PageContainer } from '@ant-design/pro-components'
+import { makeBreadcrumb } from '../../utils/breadcrumb'
 
 const Dashboard: React.FC = () => {
   // Fix for "Element type is invalid" error with react-countup in some Vite environments
@@ -61,7 +62,7 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <PageContainer>
+    <PageContainer breadcrumb={makeBreadcrumb([{ href: '/dashboard', title: '仪表盘' }])}>
       <Row gutter={16} className="mb-6">
         <Col span={6}>
           <Card bordered={false}>

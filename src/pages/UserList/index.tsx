@@ -9,6 +9,7 @@ import {
 } from '@ant-design/pro-components'
 import { Button, Popconfirm, App } from 'antd'
 import { useRef, useState, useCallback } from 'react'
+import { makeBreadcrumb } from '../../utils/breadcrumb'
 import {
   getUserPage,
   useCreateUser,
@@ -187,7 +188,12 @@ export default function UserList() {
   ]
 
   return (
-    <PageContainer>
+    <PageContainer
+      breadcrumb={makeBreadcrumb([
+        { href: '/settings', title: '系统设置' },
+        { href: '/system/users', title: '用户管理' },
+      ])}
+    >
       <ProTable<UserResponse>
         headerTitle="用户列表"
         actionRef={actionRef}
